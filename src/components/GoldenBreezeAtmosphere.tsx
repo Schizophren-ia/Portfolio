@@ -1,215 +1,360 @@
-import React, { useId } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 interface GoldenBreezeAtmosphereProps {
   isHovered: boolean;
 }
 
-// 14 perimeter metallic particles positioned strictly along the outer perimeter (Stone Ground, Hive Delight, Olivia)
-const BREEZE_PARTICLES = [
-  // Top edge perimeter
-  { top: '3%', left: '16%', size: 2, color: '#F1C34C', delay: '0.2s', duration: '6.5s', driftX: '10px', driftY: '-6px' },
-  { top: '4%', left: '48%', size: 1.5, color: '#D39730', delay: '1.8s', duration: '7.8s', driftX: '14px', driftY: '-4px' },
-  { top: '2%', left: '78%', size: 2.2, color: '#F1C34C', delay: '3.1s', duration: '6.0s', driftX: '8px', driftY: '-8px' },
-  { top: '6%', left: '92%', size: 1.5, color: '#986626', delay: '0.9s', duration: '8.2s', driftX: '12px', driftY: '-5px' },
-
-  // Right edge perimeter
-  { top: '22%', left: '97%', size: 2, color: '#F1C34C', delay: '2.4s', duration: '6.2s', driftX: '6px', driftY: '-12px' },
-  { top: '48%', left: '98%', size: 1.8, color: '#D39730', delay: '0.5s', duration: '7.0s', driftX: '8px', driftY: '-14px' },
-  { top: '74%', left: '96%', size: 2.2, color: '#F1C34C', delay: '3.6s', duration: '5.8s', driftX: '5px', driftY: '-10px' },
-
-  // Bottom edge perimeter
-  { top: '96%', left: '84%', size: 2.4, color: '#F1C34C', delay: '1.2s', duration: '6.7s', driftX: '-10px', driftY: '6px' },
-  { top: '97%', left: '52%', size: 1.6, color: '#D39730', delay: '2.9s', duration: '7.5s', driftX: '-12px', driftY: '4px' },
-  { top: '95%', left: '22%', size: 2, color: '#986626', delay: '0.7s', duration: '6.3s', driftX: '-8px', driftY: '7px' },
-  { top: '93%', left: '8%', size: 1.5, color: '#F1C34C', delay: '3.8s', duration: '8.0s', driftX: '-6px', driftY: '5px' },
-
-  // Left edge perimeter
-  { top: '76%', left: '3%', size: 1.8, color: '#D39730', delay: '1.5s', duration: '7.2s', driftX: '-5px', driftY: '-10px' },
-  { top: '44%', left: '2%', size: 2.2, color: '#F1C34C', delay: '2.2s', duration: '6.4s', driftX: '-6px', driftY: '-14px' },
-  { top: '18%', left: '4%', size: 1.5, color: '#986626', delay: '0.3s', duration: '7.9s', driftX: '-4px', driftY: '-8px' },
-];
-
-// Occasional optical cross sparkles placed near the frame corners (anamorphic lens glint)
-const DELICATE_SPARKLES = [
-  { top: '5%', left: '9%', delay: '0.5s', duration: '6.4s' },   // Near Top-Left viewfinder corner
-  { top: '4%', left: '91%', delay: '2.8s', duration: '7.2s' },  // Near Top-Right viewfinder corner
-  { top: '94%', left: '89%', delay: '4.6s', duration: '6.8s' }, // Near Bottom-Right viewfinder corner
-  { top: '93%', left: '11%', delay: '1.9s', duration: '7.6s' }, // Near Bottom-Left viewfinder corner
-];
+interface Particle {
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  size: number;
+  color: string;
+  alpha: number;
+  baseAlpha: number;
+  life: number;
+  maxLife: number;
+  wobbleSpeed: number;
+  wobbleAmp: number;
+  shimmerTimer: number;
+  shimmerInterval: number;
+}
 
 export const GoldenBreezeAtmosphere: React.FC<GoldenBreezeAtmosphereProps> = ({ isHovered }) => {
-  const uniqueId = useId();
-  const grad1 = `breeze-grad1-${uniqueId}`;
-  const grad2 = `breeze-grad2-${uniqueId}`;
-  const grad3 = `breeze-grad3-${uniqueId}`;
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const isHoveredRef = useRef<boolean>(isHovered);
+
+  // Sync ref with prop
+  useEffect(() => {
+    isHoveredRef.current = isHovered;
+  }, [isHovered]);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    let animationFrameId: number;
+    let width = 0;
+    let height = 0;
+    let time = 0;
+    let currentIntensity = isHoveredRef.current ? 0.9 : 0.4;
+
+    const resize = () => {
+      const rect = canvas.getBoundingClientRect();
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      width = rect.width;
+      height = rect.height;
+      canvas.width = Math.floor(width * dpr);
+      canvas.height = Math.floor(height * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
+
+    resize();
+    window.addEventListener('resize', resize);
+
+    // Palette: Stone Ground #D39730, Hive Delight #F1C34C, Olivia #986626
+    const PALETTE = [
+      { color: '#D39730', weight: 0.5 }, // Stone Ground (main)
+      { color: '#F1C34C', weight: 0.35 }, // Hive Delight (highlights)
+      { color: '#986626', weight: 0.15 }, // Olivia (depth)
+    ];
+
+    const pickColor = () => {
+      const rand = Math.random();
+      let acc = 0;
+      for (const item of PALETTE) {
+        acc += item.weight;
+        if (rand <= acc) return item.color;
+      }
+      return '#D39730';
+    };
+
+    // Initialize 30 particles drifting along lower-left -> upper-right diagonal vector field
+    const PARTICLE_COUNT = 32;
+    const particles: Particle[] = [];
+
+    const createParticle = (spawnAnywhere = false): Particle => {
+      // Spawn near lower-left quadrant or slightly offscreen
+      let startX = Math.random() * (width * 0.7) - width * 0.15;
+      let startY = height * 0.5 + Math.random() * (height * 0.65);
+
+      if (spawnAnywhere) {
+        startX = Math.random() * (width * 1.2) - width * 0.1;
+        startY = Math.random() * (height * 1.2) - height * 0.1;
+      }
+
+      // Base vector: ~32 to ~42 degrees diagonal upward drift
+      const angle = (32 + Math.random() * 12) * (Math.PI / 180);
+      const speed = 0.45 + Math.random() * 0.55;
+
+      const maxLife = 240 + Math.random() * 200;
+
+      return {
+        x: startX,
+        y: startY,
+        vx: Math.cos(angle) * speed,
+        vy: -Math.sin(angle) * speed,
+        size: 0.9 + Math.random() * 1.3, // 0.9px - 2.2px fine dust
+        color: pickColor(),
+        alpha: 0,
+        baseAlpha: 0.25 + Math.random() * 0.55,
+        life: spawnAnywhere ? Math.random() * maxLife : 0,
+        maxLife,
+        wobbleSpeed: 0.015 + Math.random() * 0.02,
+        wobbleAmp: 0.35 + Math.random() * 0.45,
+        shimmerTimer: Math.random() * 180,
+        shimmerInterval: 180 + Math.random() * 220, // occasional lens glint
+      };
+    };
+
+    for (let i = 0; i < PARTICLE_COUNT; i++) {
+      particles.push(createParticle(true));
+    }
+
+    // 3 Independent organic airflow streams (wisps)
+    // Moving along diagonal wave paths across the negative space
+    const drawAirflowStreams = (t: number, intensity: number) => {
+      // Stream configurations (angles, wave phase offsets, vertical baselines)
+      const streams = [
+        {
+          // Main gentle lower-left to upper-right stream
+          startX: -width * 0.1,
+          startY: height * 0.88,
+          endX: width * 1.15,
+          endY: height * 0.08,
+          amp: height * 0.08,
+          freq: 0.003,
+          timeSpeed: 0.35,
+          strokeWidth: 1.1,
+          baseOpacity: 0.28,
+        },
+        {
+          // Secondary trailing airy whisper
+          startX: -width * 0.18,
+          startY: height * 0.65,
+          endX: width * 1.12,
+          endY: -height * 0.06,
+          amp: height * 0.06,
+          freq: 0.004,
+          timeSpeed: 0.28,
+          strokeWidth: 0.85,
+          baseOpacity: 0.22,
+        },
+        {
+          // Lower ambient draft sweeping across bottom-left
+          startX: -width * 0.05,
+          startY: height * 1.08,
+          endX: width * 0.95,
+          endY: height * 0.28,
+          amp: height * 0.07,
+          freq: 0.0035,
+          timeSpeed: 0.4,
+          strokeWidth: 0.95,
+          baseOpacity: 0.24,
+        },
+      ];
+
+      streams.forEach((stream, sIdx) => {
+        const streamAlpha = stream.baseOpacity * intensity;
+        if (streamAlpha <= 0.01) return;
+
+        ctx.save();
+        ctx.beginPath();
+
+        const steps = 40;
+        const dx = (stream.endX - stream.startX) / steps;
+        const dy = (stream.endY - stream.startY) / steps;
+
+        for (let i = 0; i <= steps; i++) {
+          const px = stream.startX + dx * i;
+          const py = stream.startY + dy * i;
+
+          // Organic S-curve wave offset perpendicular to flow direction
+          const wave =
+            Math.sin(i * 0.18 + t * stream.timeSpeed + sIdx * 1.6) * stream.amp +
+            Math.cos(i * 0.09 - t * (stream.timeSpeed * 0.6)) * (stream.amp * 0.4);
+
+          // Normal vector perpendicular to diagonal (approx -dy, dx)
+          const normX = -0.55 * (wave / stream.amp);
+          const normY = 0.83 * (wave / stream.amp);
+
+          const finalX = px + normX * wave;
+          const finalY = py + normY * wave;
+
+          if (i === 0) {
+            ctx.moveTo(finalX, finalY);
+          } else {
+            ctx.lineTo(finalX, finalY);
+          }
+        }
+
+        // Gradient along the stream: transparent -> Olivia -> Stone Ground -> Hive Delight -> transparent
+        const grad = ctx.createLinearGradient(
+          stream.startX,
+          stream.startY,
+          stream.endX,
+          stream.endY
+        );
+        grad.addColorStop(0, 'rgba(152, 102, 38, 0)');
+        grad.addColorStop(0.2, `rgba(152, 102, 38, ${streamAlpha * 0.6})`);
+        grad.addColorStop(0.5, `rgba(211, 151, 48, ${streamAlpha * 0.9})`);
+        grad.addColorStop(0.75, `rgba(241, 195, 76, ${streamAlpha})`);
+        grad.addColorStop(1, 'rgba(211, 151, 48, 0)');
+
+        ctx.strokeStyle = grad;
+        ctx.lineWidth = stream.strokeWidth;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        ctx.stroke();
+        ctx.restore();
+      });
+    };
+
+    // Draw fine metallic particles drifting organically with air currents
+    const updateAndDrawParticles = (_t: number, intensity: number) => {
+      // Center face exclusion zone: (normalized center approx 0.38 - 0.62 x, 0.22 - 0.55 y)
+      // Any particle entering this center zone is smoothly faded out so the face is 100% clear.
+      const faceCenterX = width * 0.5;
+      const faceCenterY = height * 0.38;
+      const faceRadiusX = width * 0.22;
+      const faceRadiusY = height * 0.22;
+
+      for (let i = 0; i < particles.length; i++) {
+        const p = particles[i];
+        p.life++;
+
+        if (p.life >= p.maxLife || p.x > width * 1.2 || p.y < -height * 0.2) {
+          particles[i] = createParticle(false);
+          continue;
+        }
+
+        // Advance position with diagonal vector + organic gentle breeze wobble
+        const wobble = Math.sin(p.life * p.wobbleSpeed + i) * p.wobbleAmp;
+        const speedMult = isHoveredRef.current ? 1.2 : 1.0;
+        p.x += (p.vx + wobble * 0.3) * speedMult;
+        p.y += (p.vy - wobble * 0.2) * speedMult;
+
+        // Smooth life fade in/out
+        const lifeRatio = p.life / p.maxLife;
+        let fade = 1;
+        if (lifeRatio < 0.15) {
+          fade = lifeRatio / 0.15;
+        } else if (lifeRatio > 0.8) {
+          fade = (1 - lifeRatio) / 0.2;
+        }
+
+        // Face clearance attenuation
+        const dx = (p.x - faceCenterX) / faceRadiusX;
+        const dy = (p.y - faceCenterY) / faceRadiusY;
+        const faceDistSq = dx * dx + dy * dy;
+        let faceClearance = 1;
+        if (faceDistSq < 1.0) {
+          // Inside face zone: completely fade out to 0
+          faceClearance = Math.max(0, (faceDistSq - 0.4) / 0.6);
+        }
+
+        const renderAlpha = p.baseAlpha * fade * intensity * faceClearance;
+        if (renderAlpha <= 0.01) continue;
+
+        // Render circular metallic gold particle
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fillStyle = p.color;
+        ctx.globalAlpha = renderAlpha;
+        ctx.shadowColor = p.color;
+        ctx.shadowBlur = p.size * 2.5;
+        ctx.fill();
+
+        // Occasional delicate optical shimmer glint (tiny 4-point cross)
+        p.shimmerTimer++;
+        if (p.shimmerTimer >= p.shimmerInterval) {
+          const shimmerAge = p.shimmerTimer - p.shimmerInterval;
+          const shimmerDuration = 35; // ~0.5 second flash
+          if (shimmerAge < shimmerDuration) {
+            const shimmerFade = Math.sin((shimmerAge / shimmerDuration) * Math.PI);
+            const glintAlpha = shimmerFade * intensity * 0.85 * faceClearance;
+
+            if (glintAlpha > 0.05) {
+              const armLen = 3.5 + p.size;
+              ctx.strokeStyle = '#F1C34C';
+              ctx.lineWidth = 0.75;
+              ctx.globalAlpha = glintAlpha;
+
+              // Horizontal glint
+              ctx.beginPath();
+              ctx.moveTo(p.x - armLen, p.y);
+              ctx.lineTo(p.x + armLen, p.y);
+              ctx.stroke();
+
+              // Vertical glint
+              ctx.beginPath();
+              ctx.moveTo(p.x, p.y - armLen);
+              ctx.lineTo(p.x, p.y + armLen);
+              ctx.stroke();
+
+              // Micro white core
+              ctx.fillStyle = '#FFFFFF';
+              ctx.beginPath();
+              ctx.arc(p.x, p.y, 0.75, 0, Math.PI * 2);
+              ctx.fill();
+            }
+          } else {
+            p.shimmerTimer = 0;
+            p.shimmerInterval = 180 + Math.random() * 260;
+          }
+        }
+
+        ctx.restore();
+      }
+    };
+
+    // Main animation loop
+    const render = () => {
+      // Smoothly interpolate current intensity (idle ~0.4 -> hover ~0.9)
+      const targetIntensity = isHoveredRef.current ? 0.9 : 0.42;
+      currentIntensity += (targetIntensity - currentIntensity) * 0.05;
+
+      ctx.clearRect(0, 0, width, height);
+
+      time += 0.02;
+
+      // 1. Draw 3 organic diagonal airflow streamlines (free-flowing Bezier waves)
+      drawAirflowStreams(time, currentIntensity);
+
+      // 2. Draw metallic gold dust particles drifting with the wind currents
+      updateAndDrawParticles(time, currentIntensity);
+
+      if (!prefersReducedMotion) {
+        animationFrameId = requestAnimationFrame(render);
+      }
+    };
+
+    if (prefersReducedMotion) {
+      // Static single subtle render for reduced-motion accessibility
+      currentIntensity = 0.35;
+      drawAirflowStreams(1.2, 0.35);
+      updateAndDrawParticles(1.2, 0.35);
+    } else {
+      render();
+    }
+
+    return () => {
+      cancelAnimationFrame(animationFrameId);
+      window.removeEventListener('resize', resize);
+    };
+  }, []);
 
   return (
-    <div
+    <canvas
+      ref={canvasRef}
       aria-hidden="true"
-      className={`absolute -inset-4 sm:-inset-6 pointer-events-none select-none z-10 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-        isHovered ? 'opacity-90 scale-[1.01]' : 'opacity-40 scale-100'
-      }`}
-    >
-      {/* 1. Subtle perimeter ambient vignette - center remains 100% untouched & clear */}
-      <div className="absolute inset-2 sm:inset-3 rounded-md bg-[radial-gradient(ellipse_at_center,transparent_70%,rgba(152,102,38,0.12)_88%,rgba(241,195,76,0.25)_100%)] opacity-70 group-hover:opacity-100 transition-opacity duration-700" />
-
-      {/* 2. Soft flowing wind streamlines (SVG Curved Motion strictly along the outer borders) */}
-      <svg
-        className="absolute inset-0 w-full h-full overflow-visible"
-        viewBox="0 0 400 500"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <defs>
-          {/* Gradient 1: Hive Delight -> Stone Ground -> Olivia (Warm Golden Wind) */}
-          <linearGradient id={grad1} x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#986626" stopOpacity="0" />
-            <stop offset="25%" stopColor="#D39730" stopOpacity="0.75" />
-            <stop offset="60%" stopColor="#F1C34C" stopOpacity="0.95" />
-            <stop offset="85%" stopColor="#D39730" stopOpacity="0.7" />
-            <stop offset="100%" stopColor="#986626" stopOpacity="0" />
-          </linearGradient>
-
-          {/* Gradient 2: Stone Ground -> Hive Delight -> Transparent */}
-          <linearGradient id={grad2} x1="100%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="#F1C34C" stopOpacity="0" />
-            <stop offset="35%" stopColor="#F1C34C" stopOpacity="0.85" />
-            <stop offset="70%" stopColor="#D39730" stopOpacity="0.65" />
-            <stop offset="100%" stopColor="#986626" stopOpacity="0" />
-          </linearGradient>
-
-          {/* Gradient 3: Olivia Bronze Shimmer */}
-          <linearGradient id={grad3} x1="0%" y1="50%" x2="100%" y2="50%">
-            <stop offset="0%" stopColor="#D39730" stopOpacity="0" />
-            <stop offset="50%" stopColor="#F1C34C" stopOpacity="0.75" />
-            <stop offset="100%" stopColor="#986626" stopOpacity="0" />
-          </linearGradient>
-
-          {/* Golden Breeze Glow Filter */}
-          <filter id={`breeze-glow-${uniqueId}`} x="-20%" y="-20%" width="140%" height="140%">
-            <feGaussianBlur stdDeviation="1.5" result="blur" />
-            <feComposite in="SourceGraphic" in2="blur" operator="over" />
-          </filter>
-        </defs>
-
-        {/* Group with slight glow */}
-        <g filter={`url(#breeze-glow-${uniqueId})`}>
-          {/* Top-Right sweep streamline */}
-          <path
-            d="M 270,12 C 325,16 385,34 388,88 C 390,138 382,185 392,235"
-            stroke={`url(#${grad1})`}
-            strokeWidth="1.2"
-            strokeLinecap="round"
-            className="breeze-line-1"
-          />
-
-          {/* Top-Left gentle breeze streamline */}
-          <path
-            d="M 130,10 C 72,15 16,38 14,92 C 12,142 22,185 14,230"
-            stroke={`url(#${grad2})`}
-            strokeWidth="1.1"
-            strokeLinecap="round"
-            className="breeze-line-2"
-          />
-
-          {/* Bottom-Left upward sweep streamline */}
-          <path
-            d="M 12,310 C 16,370 20,440 65,475 C 110,505 180,488 230,490"
-            stroke={`url(#${grad1})`}
-            strokeWidth="1.3"
-            strokeLinecap="round"
-            className="breeze-line-3"
-          />
-
-          {/* Bottom-Right upward sweep streamline */}
-          <path
-            d="M 388,290 C 384,360 380,435 340,472 C 300,505 240,492 190,492"
-            stroke={`url(#${grad2})`}
-            strokeWidth="1.2"
-            strokeLinecap="round"
-            className="breeze-line-4"
-          />
-
-          {/* Top subtle crest breeze (whisper wind over the camera header) */}
-          <path
-            d="M 60,18 C 140,5 260,5 340,18"
-            stroke={`url(#${grad3})`}
-            strokeWidth="0.9"
-            strokeLinecap="round"
-            className="breeze-line-1"
-          />
-
-          {/* Bottom base subtle breeze */}
-          <path
-            d="M 80,488 C 160,498 240,498 320,486"
-            stroke={`url(#${grad3})`}
-            strokeWidth="0.9"
-            strokeLinecap="round"
-            className="breeze-line-2"
-          />
-
-          {/* Secondary delicate whisps along top-right & bottom-left */}
-          <path
-            d="M 310,24 C 350,30 380,55 382,105"
-            stroke={`url(#${grad1})`}
-            strokeWidth="0.8"
-            strokeLinecap="round"
-            className="breeze-line-3"
-          />
-          <path
-            d="M 22,420 C 35,460 70,482 120,485"
-            stroke={`url(#${grad2})`}
-            strokeWidth="0.8"
-            strokeLinecap="round"
-            className="breeze-line-4"
-          />
-        </g>
-      </svg>
-
-      {/* 3. Tiny Metallic Golden Particles drifting gracefully around the perimeter */}
-      <div className="absolute inset-0 overflow-visible">
-        {BREEZE_PARTICLES.map((p, idx) => (
-          <span
-            key={idx}
-            className="breeze-particle absolute rounded-full"
-            style={{
-              top: p.top,
-              left: p.left,
-              width: `${p.size}px`,
-              height: `${p.size}px`,
-              backgroundColor: p.color,
-              boxShadow: `0 0 6px ${p.color}`,
-              animationDelay: p.delay,
-              animationDuration: isHovered ? `${parseFloat(p.duration) * 0.85}s` : p.duration,
-              ['--drift-x' as string]: p.driftX,
-              ['--drift-y' as string]: p.driftY,
-            }}
-          />
-        ))}
-      </div>
-
-      {/* 4. Occasional Delicate Sparkles (Anamorphic lens glints near frame corners) */}
-      <div className="absolute inset-0 overflow-visible">
-        {DELICATE_SPARKLES.map((s, idx) => (
-          <div
-            key={idx}
-            className="breeze-sparkle absolute"
-            style={{
-              top: s.top,
-              left: s.left,
-              animationDelay: s.delay,
-              animationDuration: s.duration,
-            }}
-          >
-            {/* Horizontal anamorphic light streak */}
-            <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-[1px] bg-gradient-to-r from-transparent via-hive-delight to-transparent shadow-[0_0_4px_rgba(241,195,76,0.8)]" />
-            {/* Vertical cross beam */}
-            <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-4 w-[1px] bg-gradient-to-b from-transparent via-hive-delight to-transparent shadow-[0_0_4px_rgba(241,195,76,0.8)]" />
-            {/* Ultra-fine white-gold core glint */}
-            <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1 h-1 rounded-full bg-white shadow-[0_0_5px_rgba(241,195,76,1)]" />
-          </div>
-        ))}
-      </div>
-    </div>
+      className="absolute -inset-10 sm:-inset-16 pointer-events-none select-none z-10 w-[calc(100%+5rem)] sm:w-[calc(100%+8rem)] h-[calc(100%+5rem)] sm:h-[calc(100%+8rem)] overflow-visible"
+    />
   );
 };

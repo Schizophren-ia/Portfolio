@@ -111,40 +111,38 @@ export const HeroSection: React.FC = () => {
         <div className="absolute inset-0 bg-radial-gradient from-transparent via-noble-black/40 to-noble-black" />
       </div>
 
-      {/* Central Hero Content with 4-Corner Camera Viewfinder Frame */}
+      {/* 4 Extended Camera Frame Corners expanded out to screen margins */}
       <div
         ref={viewfinderRef}
-        className="relative z-20 max-w-5xl w-full mx-auto px-6 sm:px-12 md:px-16 py-10 sm:py-14 md:py-16 text-center flex flex-col items-center select-none"
+        className="absolute inset-3 sm:inset-6 md:inset-8 lg:inset-10 pointer-events-none z-20 select-none"
+        aria-hidden="true"
       >
-        {/* 4 Extended Camera Frame Corners ('nới dài góc khung để chứa đủ hero section') */}
         {/* Top-Left Corner */}
-        <div className="absolute top-0 left-0 w-12 sm:w-20 md:w-28 h-12 sm:h-20 md:h-28 border-t-2 border-l-2 border-stone-ground/75" />
+        <div className="absolute top-0 left-0 w-10 sm:w-16 md:w-24 h-10 sm:h-16 md:h-24 border-t-2 border-l-2 border-stone-ground/75" />
         {/* Top-Right Corner */}
-        <div className="absolute top-0 right-0 w-12 sm:w-20 md:w-28 h-12 sm:h-20 md:h-28 border-t-2 border-r-2 border-stone-ground/75" />
+        <div className="absolute top-0 right-0 w-10 sm:w-16 md:w-24 h-10 sm:h-16 md:h-24 border-t-2 border-r-2 border-stone-ground/75" />
         {/* Bottom-Left Corner */}
-        <div className="absolute bottom-0 left-0 w-12 sm:w-20 md:w-28 h-12 sm:h-20 md:h-28 border-b-2 border-l-2 border-stone-ground/75" />
+        <div className="absolute bottom-0 left-0 w-10 sm:w-16 md:w-24 h-10 sm:h-16 md:h-24 border-b-2 border-l-2 border-stone-ground/75" />
         {/* Bottom-Right Corner */}
-        <div className="absolute bottom-0 right-0 w-12 sm:w-20 md:w-28 h-12 sm:h-20 md:h-28 border-b-2 border-r-2 border-stone-ground/75" />
+        <div className="absolute bottom-0 right-0 w-10 sm:w-16 md:w-24 h-10 sm:h-16 md:h-24 border-b-2 border-r-2 border-stone-ground/75" />
 
         {/* Center Crosshair Marker */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none opacity-20" aria-hidden="true">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-20">
           <div className="w-6 h-[1px] bg-hive-delight" />
           <div className="w-[1px] h-6 bg-hive-delight -mt-3 ml-3" />
         </div>
+      </div>
 
-        {/* 1. Typography: LÊ ĐẶNG ĐÀI TRANG */}
+      {/* Central Hero Content */}
+      <div className="relative z-20 max-w-7xl w-full mx-auto px-4 sm:px-8 py-8 text-center flex flex-col items-center select-none">
+        {/* 1. Typography: LÊ ĐẶNG ĐÀI TRANG on 1 single line, unified golden Hive Delight */}
         <h1
           ref={headlineRef}
-          className="font-playfair font-black text-4xl sm:text-6xl md:text-8xl lg:text-9xl uppercase tracking-tight text-solo leading-[0.95]"
+          className="font-playfair font-black text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl uppercase tracking-tight text-hive-delight text-glow leading-none select-none whitespace-nowrap"
         >
           <div className="overflow-hidden py-1">
             <span className="hero-reveal-line inline-block">
-              {filmmakerContent.profile.firstName}
-            </span>
-          </div>
-          <div className="overflow-hidden py-1">
-            <span className="hero-reveal-line inline-block text-hive-delight text-glow">
-              {filmmakerContent.profile.lastName}
+              {filmmakerContent.profile.fullName}
             </span>
           </div>
         </h1>

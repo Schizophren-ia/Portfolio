@@ -195,18 +195,18 @@ export const AboutSection: React.FC = () => {
 
         {/* Two-Column Layout: Portrait Left, Text & Dossier Right */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-          {/* Left Column: Cinematic Viewfinder Portrait */}
+          {/* Left Column: Cinematic Viewfinder Portrait & Producer Profile */}
           <div className="lg:col-span-5 flex justify-center lg:justify-start">
             <div
               ref={imageFrameRef}
-              className="relative w-full max-w-sm sm:max-w-md"
+              className="relative w-full max-w-sm sm:max-w-md flex flex-col"
               onMouseEnter={() => {
                 setIsPortraitHovered(true);
                 handlePortraitInteraction();
               }}
               onMouseLeave={() => setIsPortraitHovered(false)}
             >
-              {/* Dedicated Golden Shimmering Breeze Atmospheric Effect */}
+              {/* Dedicated Organic Golden Breeze Atmospheric Effect (Canvas 2D Diagonal Airflow) */}
               <GoldenBreezeAtmosphere isHovered={isPortraitHovered} />
 
               {/* Interactive Camera Viewfinder Frame */}
@@ -217,7 +217,7 @@ export const AboutSection: React.FC = () => {
                   handlePortraitInteraction();
                 }}
                 onTouchEnd={() => setIsPortraitHovered(false)}
-                className="group relative aspect-[4/5] max-h-[480px] overflow-hidden rounded-sm bg-noble-black border border-deep-bronze/90 shadow-2xl transition-all duration-700 cursor-pointer select-none"
+                className="group relative aspect-[4/5] max-h-[390px] sm:max-h-[410px] overflow-hidden rounded-sm bg-noble-black border border-deep-bronze/90 shadow-2xl transition-all duration-700 cursor-pointer select-none"
               >
                 {/* 1. Full-Color Natural Portrait Image - Smooth 1.03x micro-zoom (800ms cubic-bezier) */}
                 <img
@@ -271,20 +271,44 @@ export const AboutSection: React.FC = () => {
                   </div>
                 </div>
               </div>
+
+              {/* Dedicated Producer PROFILE Card (Structured to balance with Slide 2 Dossier) */}
+              <div className="w-full mt-4 p-4 rounded-sm bg-deep-bronze/30 border border-deep-bronze/70 hover:border-hive-delight/40 transition-colors">
+                <div className="flex items-center gap-2 mb-2.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-hive-delight" />
+                  <span className="text-[11px] font-montserrat uppercase tracking-wider text-hive-delight font-bold">
+                    PROFILE:
+                  </span>
+                </div>
+                <ul className="space-y-1.5 text-xs text-solo/90 font-montserrat">
+                  <li className="flex items-center gap-2">
+                    <span className="text-stone-ground">•</span>
+                    <span className="font-mono text-wainscot-green uppercase text-[11px]">Name:</span>
+                    <span className="text-solo font-medium">Le Dang Dai Trang</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span className="text-stone-ground">•</span>
+                    <span className="font-mono text-wainscot-green uppercase text-[11px]">Birthday:</span>
+                    <span className="text-solo font-medium">15.10.1991</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span className="text-stone-ground">•</span>
+                    <span className="font-mono text-wainscot-green uppercase text-[11px]">Occupation:</span>
+                    <span className="text-solo font-medium">Producer</span>
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
 
           {/* Right Column: Heading, Slide Switcher Controls, and Sliding Track */}
           <div className="lg:col-span-7 flex flex-col justify-start">
-            {/* Header: Title + Subtitle and Sleek Arrow Navigation */}
+            {/* Header: Title and Sleek Arrow Navigation */}
             <div className="flex items-center justify-between gap-4 pb-4 border-b border-deep-bronze/50">
               <div className="shrink-0 min-w-0">
                 <h2 className="font-playfair font-black text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-solo leading-none tracking-tight uppercase whitespace-nowrap">
                   ABOUT <span className="text-hive-delight">ME</span>
                 </h2>
-                <p className="mt-2 font-montserrat text-xs tracking-widest uppercase text-wainscot-green whitespace-nowrap">
-                  {filmmakerContent.profile.location} · {filmmakerContent.profile.role}
-                </p>
               </div>
 
               {/* Minimal Sleek Arrows & Slide Counter (No bulky tabs) */}

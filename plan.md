@@ -26,8 +26,8 @@ Mọi thay đổi từ thời điểm này sẽ tuân thủ nghiêm ngặt theo 
 | Khu vực | Trạng thái hiện tại | Ghi chú kỹ thuật |
 | :--- | :--- | :--- |
 | **Preloader** | Hoàn thành | Đếm số 000% -> 100%, tách cửa 2 cánh điện ảnh |
-| **Hero Section** | Hoàn thành | Khung ngắm camera 4 góc `┌ ┐ └ ┘`, Typography: *LÊ ĐẶNG ĐÀI TRANG*, *PRODUCER*, *HCMC*, video background |
-| **About Me** | Hoàn thành | Bố cục 2 slide trượt ngang tinh giản cao cấp: <br>• **Tiêu đề ABOUT ME**: Khóa cố định trên 1 dòng đơn (`whitespace-nowrap`), triệt tiêu hoàn toàn lỗi chập nháy xuống dòng.<br>• **Điều hướng tinh gọn**: Cụm mũi tên nhỏ 2 bên (`←` và `→`) cùng bộ đếm `01 / 02`.<br>• **Nội dung thuần túy**: Slide 01 giữ trọn văn bản tâm huyết với scroll scrub brightening; Slide 02 hiển thị 4 thẻ Stats & 5 khối Dossier.<br>• **Ảnh chân dung sắc nét**: Giữ 100% độ sắc nét gốc tự nhiên, zoom 1.03x êm dịu, khung ngắm camera 4 góc `┌ ┐ └ ┘` kèm REC HUD.<br>• **Hiệu ứng Khí Quyển Gió Vàng Ánh Kim (Golden Shimmering Breeze)**: Luồng gió cong khí động học ôm sát viền ngoài, 14 hạt bụi kim loại vàng và các điểm lóe sáng quang học (lens glint) tinh tế ở 4 góc, hoàn toàn không che mặt. |
+| **Hero Section** | Hoàn thành | Typography: *LÊ ĐẶNG ĐÀI TRANG* trên 1 dòng duy nhất, thống nhất màu vàng Hive Delight (#F1C34C) ánh sáng dịu điện ảnh. 4 góc khung camera `┌ ┐ └ ┘` nới rộng ra sát mép màn hình (`inset-3 sm:inset-6 md:inset-8 lg:inset-10`), xóa bỏ hoàn toàn cảm giác chật chội. |
+| **About Me** | Hoàn thành | Bố cục 2 slide trượt ngang tinh giản cao cấp: <br>• **Tiêu đề ABOUT ME**: Tối giản tuyệt đối, đã gỡ bỏ dòng phụ location/role.<br>• **Khối PROFILE cân xứng**: Đặt ngay dưới ảnh chân dung với thông tin Name, Birthday, Occupation, căn chỉnh chiều cao khớp hoàn hảo với Slide 2 (Dossier & Stats).<br>• **Khí quyển Gió Vàng Tự Nhiên (Organic Canvas 2D Golden Breeze)**: Thay thế hoàn toàn viền chữ nhật cũ; dòng gió cong tự do quét chéo từ góc dưới-trái lên trên-phải, 32 hạt bụi vàng kim loại vi mô và tia sáng quang học thưa thớt, không che mặt. |
 | **Filmmaking Section** | Hoàn thành | • **GSAP ScrollTrigger Pinned Horizontal Scroll with Scrubbed Parallax Layers** đa tầng (Ambient Typography, Film Track, Inner Image Counter-Parallax, Floating Badges, Golden Cine Scrubber).<br>• Tích hợp link trailer YouTube chính thức cho cả 5 tác phẩm.<br>• **Bảng Thông Tin Phim (Modal Credits) tinh gọn**: Đã cấu hình chỉ hiển thị đúng 3 mục cốt lõi: **Thể loại**, **Đạo diễn**, **Diễn viên**; loại bỏ hoàn toàn các trường máy móc camera hay định dạng cũ. |
 | **Experiences / Timeline** | Hoàn thành | Dòng thời gian kinh nghiệm và thành tựu |
 | **Contact Section** | Hoàn thành | Thông tin liên hệ, form và mạng xã hội |
@@ -35,6 +35,23 @@ Mọi thay đổi từ thời điểm này sẽ tuân thủ nghiêm ngặt theo 
 ---
 
 ## 3. Nhật Ký Thay Đổi (Changelog)
+
+### [2026-10-10 - Cập nhật 7]
+- **Nâng Cấp Toàn Diện: Khí Quyển Gió Vàng Tự Nhiên (Organic Free-Flowing Breeze), Profile Thẻ Dưới Chân Dung & Tối Ưu Hero Section**:
+  1. **Tái thiết kế hoàn toàn hiệu ứng Golden Breeze (Organic Canvas 2D Flow)**:
+     - **Gỡ bỏ triệt để viền chữ nhật (No Glowing Border)**: Xóa toàn bộ các đường path SVG chạy theo cạnh ảnh, quỹ đạo hạt hình chữ nhật và hiệu ứng bo viền.
+     - **Dòng khí tự nhiên quét chéo (Diagonal Vector Field)**: 3 dải luồng khí động học Bezier độc lập uốn lượn mềm mại dạng sóng S, quét tự do từ góc dưới-trái (lower-left) lên góc trên-phải (upper-right) xuyên qua không gian âm xung quanh ảnh.
+     - **Bụi kim loại vàng điện ảnh**: 32 hạt bụi vàng siêu nhỏ (0.9px - 2.2px) trôi êm ái theo dòng khí, phối màu Stone Ground (`#D39730`), Hive Delight (`#F1C34C`) và Olivia (`#986626`).
+     - **Lóe sáng quang học thưa thớt**: Các hạt thỉnh thoảng phản xạ tia sáng chữ thập siêu mảnh (micro lens glint) như hạt bụi kim loại bắt sáng.
+     - **Tách biệt hoàn toàn khung camera**: Khung ngắm camera 4 góc ┌ ┐ └ ┘ và luồng gió là 2 thực thể thị giác độc lập; vùng khuôn mặt luôn được bảo vệ trong suốt 100%.
+  2. **Thêm khối PROFILE dưới ảnh chân dung & Cân bằng đối xứng 2 cột**:
+     - Bổ sung khối hồ sơ tinh gọn dưới ảnh: `Name: Le Dang Dai Trang`, `Birthday: 15.10.1991`, `Occupation: Producer`.
+     - Điều chỉnh chiều cao cột trái (~540px) chạm đáy ngang bằng hoàn hảo với cột phải khi xem Slide 2 (Dossier & Stats ~540px), xóa bỏ hoàn toàn hiện tượng lệch lồi lõm.
+  3. **Tối giản tiêu đề ABOUT ME**:
+     - Bỏ dòng chữ phụ `"Ho Chi Minh City, Vietnam · Film Producer"` dưới `ABOUT ME` để tránh trùng lặp thông tin với khối PROFILE.
+  4. **Tối ưu Hero Section (Widescreen Cinema Viewfinder & Single-Line Name)**:
+     - Typography `LÊ ĐẶNG ĐÀI TRANG` đặt trọn vẹn trên 1 dòng đơn duy nhất (`whitespace-nowrap`), thống nhất chung 1 màu vàng Hive Delight (`#F1C34C`) kèm `text-glow`.
+     - 4 góc khung máy quay điện ảnh `┌ ┐ └ ┘` nới rộng ra sát mép màn hình (`inset-3 sm:inset-6 md:inset-8 lg:inset-10`), tạo cảm giác màn ảnh rộng thoáng đãng, phóng khoáng, triệt tiêu hoàn toàn cảm giác chật chội gò bó.
 
 ### [2026-10-10 - Cập nhật 6]
 - **Tích Hợp Hiệu Ứng Khí Quyển Gió Vàng Ánh Kim (Subtle Golden Shimmering Breeze)** quanh khung chân dung:
