@@ -36,6 +36,16 @@ Mọi thay đổi từ thời điểm này sẽ tuân thủ nghiêm ngặt theo 
 
 ## 3. Nhật Ký Thay Đổi (Changelog)
 
+### [2026-10-10 - Cập nhật 4]
+- **Đẩy Toàn Bộ Mã Nguồn Dự Án Lên GitHub Repository**:
+  - **Kho lưu trữ chính thức**: [https://github.com/Schizophren-ia/Portfolio](https://github.com/Schizophren-ia/Portfolio)
+  - **Khởi tạo & Đồng bộ Git**:
+    - Khởi tạo Git repository trên nhánh `main`.
+    - Cập nhật `.gitignore` loại trừ hoàn toàn các file ảnh chụp test tạm thời, file cache, script automation kiểm thử nhằm đảm bảo repo sạch sẽ, gọn nhẹ, chuyên nghiệp.
+    - Cập nhật tài liệu [README.md](file:///d:/test/README.md) đầy đủ thông tin về Portfolio Nhà sản xuất điện ảnh **Lê Đặng Đài Trang**, 5 tác phẩm điện ảnh, công nghệ GSAP Parallax và hướng dẫn deploy.
+    - Tạo root commit: `feat: Cinematic Portfolio Website - Film Producer Le Dang Dai Trang` (47 files sạch, 6484 dòng code).
+    - Đẩy thành công toàn bộ mã nguồn lên GitHub nhánh `main`.
+
 ### [2026-10-09 - Cập nhật 3]
 - **Tối ưu Section About Me (Giao diện tinh giản & Fix lỗi layout)**:
   - **Loại bỏ ô Statement thô vướng**: Gỡ bỏ thanh tabs lớn `01. STATEMENT / 02. DOSSIER & STATS` cùng các nút chuyển slide cồng kềnh ở chân nội dung, trả lại không gian tối giản, thanh lịch chuẩn portfolio điện ảnh.
