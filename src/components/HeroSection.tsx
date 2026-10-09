@@ -111,27 +111,30 @@ export const HeroSection: React.FC = () => {
         <div className="absolute inset-0 bg-radial-gradient from-transparent via-noble-black/40 to-noble-black" />
       </div>
 
-      {/* Cinematic Viewfinder Viewport: Sits cleanly below navigation bar and centers all hero content at dead center */}
+      {/* 4 Extended Camera Frame Corners - Positioned at viewport margins exactly as drawn by user */}
       <div
         ref={viewfinderRef}
-        className="relative z-20 w-full max-w-[94vw] 2xl:max-w-7xl mx-auto my-auto mt-24 sm:mt-28 md:mt-30 mb-8 sm:mb-10 px-4 sm:px-10 md:px-14 py-8 sm:py-12 md:py-14 flex flex-col items-center justify-center text-center select-none"
+        className="absolute inset-4 sm:inset-6 md:inset-8 lg:inset-10 pointer-events-none z-20 select-none"
+        aria-hidden="true"
       >
-        {/* 4 Extended Camera Frame Corners (Anchored cleanly within viewport bounds, safely below navbar) */}
         {/* Top-Left Corner */}
-        <div className="absolute top-0 left-0 w-10 sm:w-16 md:w-24 h-10 sm:h-16 md:h-24 border-t-2 border-l-2 border-stone-ground/75 pointer-events-none" />
+        <div className="absolute top-0 left-0 w-12 sm:w-20 md:w-28 h-12 sm:h-20 md:h-28 border-t-2 border-l-2 border-stone-ground/80" />
         {/* Top-Right Corner */}
-        <div className="absolute top-0 right-0 w-10 sm:w-16 md:w-24 h-10 sm:h-16 md:h-24 border-t-2 border-r-2 border-stone-ground/75 pointer-events-none" />
+        <div className="absolute top-0 right-0 w-12 sm:w-20 md:w-28 h-12 sm:h-20 md:h-28 border-t-2 border-r-2 border-stone-ground/80" />
         {/* Bottom-Left Corner */}
-        <div className="absolute bottom-0 left-0 w-10 sm:w-16 md:w-24 h-10 sm:h-16 md:h-24 border-b-2 border-l-2 border-stone-ground/75 pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-12 sm:w-20 md:w-28 h-12 sm:h-20 md:h-28 border-b-2 border-l-2 border-stone-ground/80" />
         {/* Bottom-Right Corner */}
-        <div className="absolute bottom-0 right-0 w-10 sm:w-16 md:w-24 h-10 sm:h-16 md:h-24 border-b-2 border-r-2 border-stone-ground/75 pointer-events-none" />
+        <div className="absolute bottom-0 right-0 w-12 sm:w-20 md:w-28 h-12 sm:h-20 md:h-28 border-b-2 border-r-2 border-stone-ground/80" />
 
         {/* Center Crosshair Marker */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-20 pointer-events-none" aria-hidden="true">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-20">
           <div className="w-6 h-[1px] bg-hive-delight" />
           <div className="w-[1px] h-6 bg-hive-delight -mt-3 ml-3" />
         </div>
+      </div>
 
+      {/* Central Hero Content: Positioned dead center in the middle of the screen with luxurious breathing room */}
+      <div className="relative z-20 max-w-7xl w-full mx-auto px-4 sm:px-8 py-10 sm:py-14 flex flex-col items-center justify-center text-center select-none my-auto">
         {/* 1. Typography: LÊ ĐẶNG ĐÀI TRANG on 1 single line, unified golden Hive Delight */}
         <h1
           ref={headlineRef}

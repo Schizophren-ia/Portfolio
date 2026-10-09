@@ -76,6 +76,39 @@ export const AboutSection: React.FC = () => {
     return () => clearTimeout(timer);
   }, [activeSlide]);
 
+  // Re-trigger animated count-up numbers whenever activeSlide switches to 1 (Slide 2: Dossier & Stats)
+  useEffect(() => {
+    if (activeSlide === 1 && statsContainerRef.current) {
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const statItems = statsContainerRef.current.querySelectorAll('.stat-item');
+      statItems.forEach((item, index) => {
+        const numEl = item.querySelector('.stat-number');
+        const targetValue = parseInt(numEl?.getAttribute('data-value') || '0', 10);
+        if (numEl && !isNaN(targetValue)) {
+          if (prefersReducedMotion) {
+            numEl.textContent = targetValue.toString();
+          } else {
+            const countObj = { val: 0 };
+            numEl.textContent = '0';
+            gsap.fromTo(
+              countObj,
+              { val: 0 },
+              {
+                val: targetValue,
+                duration: 1.8,
+                delay: 0.15 + index * 0.1,
+                ease: 'power2.out',
+                onUpdate: () => {
+                  numEl.textContent = Math.floor(countObj.val).toString();
+                },
+              }
+            );
+          }
+        }
+      });
+    }
+  }, [activeSlide]);
+
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 

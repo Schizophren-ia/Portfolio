@@ -26,8 +26,8 @@ Mọi thay đổi từ thời điểm này sẽ tuân thủ nghiêm ngặt theo 
 | Khu vực | Trạng thái hiện tại | Ghi chú kỹ thuật |
 | :--- | :--- | :--- |
 | **Preloader** | Hoàn thành | Đếm số 000% -> 100%, tách cửa 2 cánh điện ảnh |
-| **Hero Section** | Hoàn thành | Typography: *LÊ ĐẶNG ĐÀI TRANG* trên 1 dòng duy nhất, thống nhất màu vàng Hive Delight (#F1C34C). Khung ngắm 4 góc hạ an toàn bên dưới thanh tác vụ (Navbar), nội dung căn chỉnh chính xác 100% ở chính giữa khung ngắm (dead center). |
-| **About Me** | Hoàn thành | Bố cục 2 slide trượt ngang tinh giản cao cấp: <br>• **Khung ảnh chân dung**: Chuẩn tỷ lệ đứng dọc điện ảnh `aspect-[4/5] max-h-[480px]`, giữ trọn vẹn dáng dài cao ráo, hoàn toàn không bị ép thành hình vuông.<br>• **Khối PROFILE không khung**: Loại bỏ hoàn toàn viền hộp, phông chữ phóng to vừa phải, dễ đọc và sang trọng.<br>• **Khí quyển Dải Lụa Sóng Vàng & Bụi Kim Loại (Volumetric Golden Ribbons & Dust Mist)**: Tái hiện theo ảnh tham chiếu; dải sóng lụa vàng uốn lượn đa tầng kết hợp làn sương 105 hạt bụi kim loại vàng lơ lửng, quét chéo tự nhiên quanh không gian âm của ảnh. |
+| **Hero Section** | Hoàn thành | Typography: *LÊ ĐẶNG ĐÀI TRANG* trên 1 dòng duy nhất, thống nhất màu vàng Hive Delight (#F1C34C). Khung ngắm 4 góc ┌ ┐ └ ┘ mở rộng ra sát mép màn hình theo đúng bản vẽ (inset mép ngoài), nội dung căn chỉnh chính xác 100% ở chính giữa màn hình (dead center), không gian khoáng đạt, không bị chật hẹp hay vướng thanh tác vụ. |
+| **About Me** | Hoàn thành | Bố cục 2 slide trượt ngang tinh giản cao cấp: <br>• **Khung ảnh chân dung**: Chuẩn tỷ lệ đứng dọc điện ảnh `aspect-[4/5] max-h-[480px]`, giữ trọn vẹn dáng dài cao ráo, hoàn toàn không bị ép thành hình vuông.<br>• **Khối PROFILE không khung**: Loại bỏ hoàn toàn viền hộp, phông chữ phóng to vừa phải, dễ đọc và sang trọng.<br>• **Khí quyển Dải Lụa Sóng Vàng & Bụi Kim Loại (Volumetric Golden Ribbons & Dust Mist)**: Tự do uốn lượn; tích hợp chuyển động sóng khí và bụi lấp lánh tăng tốc nhẹ nhàng mỗi khi di chuột (`onMouseEnter`) và tự giảm tốc êm ái khi rời chuột.<br>• **Hiệu ứng chạy số Slide 2 (Count-up Animation)**: Tự động chạy số sống động từ 0 đến mục tiêu (5+ phim, 7 quốc gia, 10+ năm, sinh năm 1991) mượt mà mỗi khi mở Slide 2. |
 | **Filmmaking Section** | Hoàn thành | • **GSAP ScrollTrigger Pinned Horizontal Scroll with Scrubbed Parallax Layers** đa tầng (Ambient Typography, Film Track, Inner Image Counter-Parallax, Floating Badges, Golden Cine Scrubber).<br>• Tích hợp link trailer YouTube chính thức cho cả 5 tác phẩm.<br>• **Bảng Thông Tin Phim (Modal Credits) tinh gọn**: Đã cấu hình chỉ hiển thị đúng 3 mục cốt lõi: **Thể loại**, **Đạo diễn**, **Diễn viên**; loại bỏ hoàn toàn các trường máy móc camera hay định dạng cũ. |
 | **Experiences / Timeline** | Hoàn thành | Dòng thời gian kinh nghiệm và thành tựu |
 | **Contact Section** | Hoàn thành | Thông tin liên hệ, form và mạng xã hội |
@@ -35,6 +35,21 @@ Mọi thay đổi từ thời điểm này sẽ tuân thủ nghiêm ngặt theo 
 ---
 
 ## 3. Nhật Ký Thay Đổi (Changelog)
+
+### [2026-10-10 - Cập nhật 10]
+- **Tối Ưu 3 Điểm Trọng Yếu Theo Góp Ý: Khôi Phục Chạy Số Slide 2, Chuyển Động Gió Vàng Khi Hover & Khung 4 Góc Hero Sát Mép Ngoài**:
+  1. **Khôi phục hiệu ứng đếm số chạy sống động ở Slide 2 (Intro Section Stats Count-Up)**:
+     - Khắc phục triệt để hiện tượng số đứng yên do trigger ban đầu khi slide còn ẩn.
+     - Tích hợp `useEffect` lắng nghe trực tiếp sự kiện kích hoạt Slide 2 (`activeSlide === 1`), kích hoạt lại hiệu ứng đếm số GSAP từ 0 lên giá trị thực tế: `5+` Dự án điện ảnh, `7` Quốc gia, `10+` Năm kinh nghiệm, `1991` Năm sinh.
+     - Thời gian chạy số 1.8s mượt mà theo hàm gia tốc điện ảnh `power2.out`, chạy lệch nhịp nhẹ (staggered) giữa các chỉ số giúp mang lại trải nghiệm thị giác sống động và cuốn hút.
+  2. **Chuyển động nhẹ nhàng cho Dải Lụa Khí Vàng & Hạt Bụi Kim Loại khi di chuột (Interactive Breeze Motion on Hover)**:
+     - Giữ nguyên thiết kế luồng sóng lụa vàng và sương bụi kim loại cao cấp, không dùng viền chữ nhật.
+     - Bổ sung cơ chế tăng tốc mượt mà bằng kỹ thuật Lerp (Linear Interpolation) khi di chuột vào ảnh (`isHovered`): tốc độ luồng sóng tăng êm dịu từ `0.009` lên `0.038`, cường độ bừng sáng từ `0.28` lên `0.95`.
+     - Các hạt bụi vàng và tia sáng chữ thập chuyển động trôi nhanh hơn một nhịp, sau đó từ từ giảm tốc êm ái khi rời chuột, tạo cảm giác làn gió ấm hữu cơ phản hồi tự nhiên với thao tác của người xem.
+  3. **Khung 4 góc Hero Section nới rộng ra sát mép màn hình theo đúng nét vẽ tay (Wide Cinema Viewfinder Margins)**:
+     - Tách biệt độc lập 4 góc khung ngắm `┌ ┐ └ ┘` ra lớp phủ viền màn hình (`absolute inset-4 sm:inset-6 md:inset-8 lg:inset-10 z-20 pointer-events-none`), ôm sát mép ngoài viewport giống chính xác với các nét vẽ tay màu trắng của bạn.
+     - Khối nội dung Typography *LÊ ĐẶNG ĐÀI TRANG*, nhãn định vị và cụm nút tương tác được đặt trọn vẹn ở chính giữa khung hình (`my-auto text-center items-center justify-center`), mở ra trường nhìn bao la, khoáng đạt, triệt tiêu hoàn toàn cảm giác chật chội và không chạm vào thanh tác vụ.
+  4. **Giữ nguyên 100% tất cả các chi tiết và tính năng còn lại của website**.
 
 ### [2026-10-10 - Cập nhật 9]
 - **Tối Ưu Vị Trí Khung 4 Góc Hero Section & Đặt Nội Dung Chính Xác Ở Chính Giữa Khung**:

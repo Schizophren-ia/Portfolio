@@ -42,7 +42,8 @@ export const GoldenBreezeAtmosphere: React.FC<GoldenBreezeAtmosphereProps> = ({ 
     let width = 0;
     let height = 0;
     let time = 0;
-    let currentIntensity = isHoveredRef.current ? 0.95 : 0.45;
+    let currentIntensity = isHoveredRef.current ? 0.95 : 0.28;
+    let currentSpeed = isHoveredRef.current ? 0.038 : 0.009;
 
     const resize = () => {
       const rect = canvas.getBoundingClientRect();
@@ -224,8 +225,8 @@ export const GoldenBreezeAtmosphere: React.FC<GoldenBreezeAtmosphereProps> = ({ 
           continue;
         }
 
-        // Particle moves forward diagonally along the airflow
-        const speedMult = isHoveredRef.current ? 1.25 : 1.0;
+        // Particle moves forward diagonally along the airflow - gently accelerates on hover
+        const speedMult = currentSpeed / 0.022; // ~0.4x in idle, ~1.7x on hover
         p.x += p.vx * speedMult;
 
         // Y position smoothly tracks the undulating wave ribbon plus its individual offset
@@ -300,12 +301,15 @@ export const GoldenBreezeAtmosphere: React.FC<GoldenBreezeAtmosphereProps> = ({ 
 
     // Animation render loop
     const render = () => {
-      const targetIntensity = isHoveredRef.current ? 0.95 : 0.45;
-      currentIntensity += (targetIntensity - currentIntensity) * 0.05;
+      const targetIntensity = isHoveredRef.current ? 0.95 : 0.28;
+      const targetSpeed = isHoveredRef.current ? 0.038 : 0.009;
+
+      currentIntensity += (targetIntensity - currentIntensity) * 0.06;
+      currentSpeed += (targetSpeed - currentSpeed) * 0.06;
 
       ctx.clearRect(0, 0, width, height);
 
-      time += 0.025;
+      time += currentSpeed;
 
       // 1. Draw volumetric silky golden ribbons
       drawSilkyAirRibbons(time, currentIntensity);
@@ -319,9 +323,9 @@ export const GoldenBreezeAtmosphere: React.FC<GoldenBreezeAtmosphereProps> = ({ 
     };
 
     if (prefersReducedMotion) {
-      currentIntensity = 0.38;
-      drawSilkyAirRibbons(1.5, 0.38);
-      updateAndDrawParticles(1.5, 0.38);
+      currentIntensity = 0.35;
+      drawSilkyAirRibbons(1.5, 0.35);
+      updateAndDrawParticles(1.5, 0.35);
     } else {
       render();
     }
