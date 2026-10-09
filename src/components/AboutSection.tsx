@@ -2,8 +2,24 @@ import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { filmmakerContent } from '../data/content';
+import { ambientSound } from '../utils/ambientAudio';
 
 gsap.registerPlugin(ScrollTrigger);
+
+const CINE_PARTICLES = [
+  { top: '12%', left: '18%', delay: '0s', duration: '6s', size: '2px' },
+  { top: '25%', left: '78%', delay: '1.2s', duration: '7s', size: '2.5px' },
+  { top: '40%', left: '15%', delay: '2.4s', duration: '5.5s', size: '1.5px' },
+  { top: '55%', left: '85%', delay: '0.8s', duration: '6.5s', size: '2px' },
+  { top: '68%', left: '22%', delay: '3.1s', duration: '7.5s', size: '2.5px' },
+  { top: '82%', left: '72%', delay: '1.7s', duration: '6s', size: '2px' },
+  { top: '18%', left: '60%', delay: '2.8s', duration: '8s', size: '1.5px' },
+  { top: '35%', left: '40%', delay: '0.4s', duration: '6.2s', size: '2px' },
+  { top: '75%', left: '45%', delay: '3.6s', duration: '7.2s', size: '1.5px' },
+  { top: '90%', left: '28%', delay: '1.9s', duration: '6.8s', size: '2px' },
+  { top: '48%', left: '68%', delay: '2.1s', duration: '5.8s', size: '2px' },
+  { top: '88%', left: '82%', delay: '0.6s', duration: '7s', size: '2.5px' },
+];
 
 export const AboutSection: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
@@ -17,6 +33,16 @@ export const AboutSection: React.FC = () => {
   const slide0Ref = useRef<HTMLDivElement>(null);
   const slide1Ref = useRef<HTMLDivElement>(null);
   const [containerHeight, setContainerHeight] = useState<number | undefined>(undefined);
+
+  const lastSoundTimeRef = useRef<number>(0);
+
+  const handlePortraitInteraction = () => {
+    const now = Date.now();
+    if (now - lastSoundTimeRef.current > 1200) {
+      ambientSound.playShutterSound(0.05);
+      lastSoundTimeRef.current = now;
+    }
+  };
 
   // Split bio text into individual word spans for scroll scrub brightening
   const bioWords: string[] = filmmakerContent.bio.paragraphs.join(' ').split(' ');
@@ -167,18 +193,67 @@ export const AboutSection: React.FC = () => {
 
         {/* Two-Column Layout: Portrait Left, Text & Dossier Right */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-          {/* Left Column: Clean Portrait */}
+          {/* Left Column: Cinematic Viewfinder Portrait */}
           <div className="lg:col-span-5 flex justify-center lg:justify-start">
             <div ref={imageFrameRef} className="relative w-full max-w-sm sm:max-w-md">
-              {/* Portrait Image Container - Natural sharpness, proper framing, avoid excessive zoom */}
-              <div className="relative aspect-[4/5] max-h-[480px] overflow-hidden rounded-sm bg-noble-black border border-deep-bronze/80 shadow-2xl">
+              {/* Interactive Camera Viewfinder Frame */}
+              <div
+                onMouseEnter={handlePortraitInteraction}
+                onClick={handlePortraitInteraction}
+                onTouchStart={handlePortraitInteraction}
+                className="group relative aspect-[4/5] max-h-[480px] overflow-hidden rounded-sm bg-noble-black border border-deep-bronze/90 shadow-2xl transition-all duration-700 cursor-pointer select-none"
+              >
+                {/* 1. Full-Color Natural Portrait Image - Smooth 1.03x micro-zoom (800ms cubic-bezier) */}
                 <img
                   ref={imageRef}
                   src={filmmakerContent.profile.portraitImage}
                   alt={`${filmmakerContent.profile.fullName} Portrait`}
                   loading="lazy"
-                  className="w-full h-full object-cover object-[center_15%] grayscale contrast-105 hover:grayscale-0 transition-all duration-700 ease-out will-change-transform"
+                  className="w-full h-full object-cover object-[center_15%] contrast-[1.02] saturate-[1.02] transition-transform duration-[800ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.03] will-change-transform motion-reduce:transform-none"
                 />
+
+                {/* 2. Soft Vignette & Subtle Cinematic Gradient */}
+                <div className="absolute inset-0 bg-gradient-to-t from-noble-black/70 via-transparent to-noble-black/20 pointer-events-none opacity-60 group-hover:opacity-40 transition-opacity duration-700" />
+
+                {/* 3. Floating Golden Cinema Dust Particles (Subtle Density) */}
+                <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-30 group-hover:opacity-65 transition-opacity duration-700">
+                  {CINE_PARTICLES.map((p, idx) => (
+                    <span
+                      key={idx}
+                      className="cine-particle absolute rounded-full bg-hive-delight/80 shadow-[0_0_6px_rgba(241,195,76,0.6)]"
+                      style={{
+                        top: p.top,
+                        left: p.left,
+                        width: p.size,
+                        height: p.size,
+                        animationDuration: p.duration,
+                        animationDelay: p.delay,
+                      }}
+                    />
+                  ))}
+                </div>
+
+                {/* 4. Elegant 4-Corner Camera Viewfinder Reticle with subtle focus micro-offset */}
+                <div className="absolute inset-3 pointer-events-none transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:inset-3.5">
+                  {/* Top-Left Corner ┌ */}
+                  <div className="absolute top-0 left-0 w-3.5 h-3.5 border-t border-l border-hive-delight/50 group-hover:border-hive-delight transition-colors duration-500" />
+                  {/* Top-Right Corner ┐ */}
+                  <div className="absolute top-0 right-0 w-3.5 h-3.5 border-t border-r border-hive-delight/50 group-hover:border-hive-delight transition-colors duration-500" />
+                  {/* Bottom-Left Corner └ */}
+                  <div className="absolute bottom-0 left-0 w-3.5 h-3.5 border-b border-l border-hive-delight/50 group-hover:border-hive-delight transition-colors duration-500" />
+                  {/* Bottom-Right Corner ┘ */}
+                  <div className="absolute bottom-0 right-0 w-3.5 h-3.5 border-b border-r border-hive-delight/50 group-hover:border-hive-delight transition-colors duration-500" />
+
+                  {/* Optical HUD Indicators */}
+                  <div className="absolute top-1 right-1 flex items-center gap-1.5 px-1.5 py-0.5 rounded-sm bg-noble-black/70 backdrop-blur-xs border border-deep-bronze/60 text-[9px] font-mono tracking-wider text-solo/80 group-hover:border-hive-delight/40 transition-colors">
+                    <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
+                    <span className="text-solo/90">REC</span>
+                  </div>
+
+                  <div className="absolute bottom-1 left-1 px-1.5 py-0.5 rounded-sm bg-noble-black/70 backdrop-blur-xs border border-deep-bronze/60 text-[9px] font-mono tracking-wider text-wainscot-green group-hover:text-hive-delight/90 transition-colors">
+                    35MM · F/1.4 PRIME
+                  </div>
+                </div>
               </div>
             </div>
           </div>

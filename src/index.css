@@ -111,3 +111,30 @@
 .text-glow {
   text-shadow: 0 0 35px rgba(241, 195, 76, 0.35);
 }
+
+/* Subtle Cinematic Dust & Optical HUD Animations */
+@keyframes cineDustFloat {
+  0% {
+    transform: translateY(0px) translateX(0px);
+    opacity: 0.2;
+  }
+  50% {
+    transform: translateY(-10px) translateX(4px);
+    opacity: 0.55;
+  }
+  100% {
+    transform: translateY(0px) translateX(0px);
+    opacity: 0.2;
+  }
+}
+
+.cine-particle {
+  animation: cineDustFloat ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cine-particle {
+    animation: none !important;
+  }
+}
