@@ -89,7 +89,7 @@ export const HeroSection: React.FC = () => {
     <section
       id="hero"
       ref={heroWrapperRef}
-      className="relative w-full min-h-screen bg-noble-black overflow-hidden flex items-center justify-center pt-24 pb-14 sm:py-28 px-4 sm:px-6"
+      className="relative w-full min-h-screen bg-noble-black overflow-hidden flex items-center justify-center px-4 sm:px-6 md:px-8"
       aria-label="Cinematic Hero Presentation"
     >
       {/* Full-Bleed Looping Muted Video Background with Poster Fallback */}
@@ -111,30 +111,27 @@ export const HeroSection: React.FC = () => {
         <div className="absolute inset-0 bg-radial-gradient from-transparent via-noble-black/40 to-noble-black" />
       </div>
 
-      {/* 4 Extended Camera Frame Corners expanded out to screen margins */}
+      {/* Cinematic Viewfinder Viewport: Sits cleanly below navigation bar and centers all hero content at dead center */}
       <div
         ref={viewfinderRef}
-        className="absolute inset-3 sm:inset-6 md:inset-8 lg:inset-10 pointer-events-none z-20 select-none"
-        aria-hidden="true"
+        className="relative z-20 w-full max-w-[94vw] 2xl:max-w-7xl mx-auto my-auto mt-24 sm:mt-28 md:mt-30 mb-8 sm:mb-10 px-4 sm:px-10 md:px-14 py-8 sm:py-12 md:py-14 flex flex-col items-center justify-center text-center select-none"
       >
+        {/* 4 Extended Camera Frame Corners (Anchored cleanly within viewport bounds, safely below navbar) */}
         {/* Top-Left Corner */}
-        <div className="absolute top-0 left-0 w-10 sm:w-16 md:w-24 h-10 sm:h-16 md:h-24 border-t-2 border-l-2 border-stone-ground/75" />
+        <div className="absolute top-0 left-0 w-10 sm:w-16 md:w-24 h-10 sm:h-16 md:h-24 border-t-2 border-l-2 border-stone-ground/75 pointer-events-none" />
         {/* Top-Right Corner */}
-        <div className="absolute top-0 right-0 w-10 sm:w-16 md:w-24 h-10 sm:h-16 md:h-24 border-t-2 border-r-2 border-stone-ground/75" />
+        <div className="absolute top-0 right-0 w-10 sm:w-16 md:w-24 h-10 sm:h-16 md:h-24 border-t-2 border-r-2 border-stone-ground/75 pointer-events-none" />
         {/* Bottom-Left Corner */}
-        <div className="absolute bottom-0 left-0 w-10 sm:w-16 md:w-24 h-10 sm:h-16 md:h-24 border-b-2 border-l-2 border-stone-ground/75" />
+        <div className="absolute bottom-0 left-0 w-10 sm:w-16 md:w-24 h-10 sm:h-16 md:h-24 border-b-2 border-l-2 border-stone-ground/75 pointer-events-none" />
         {/* Bottom-Right Corner */}
-        <div className="absolute bottom-0 right-0 w-10 sm:w-16 md:w-24 h-10 sm:h-16 md:h-24 border-b-2 border-r-2 border-stone-ground/75" />
+        <div className="absolute bottom-0 right-0 w-10 sm:w-16 md:w-24 h-10 sm:h-16 md:h-24 border-b-2 border-r-2 border-stone-ground/75 pointer-events-none" />
 
         {/* Center Crosshair Marker */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-20">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-20 pointer-events-none" aria-hidden="true">
           <div className="w-6 h-[1px] bg-hive-delight" />
           <div className="w-[1px] h-6 bg-hive-delight -mt-3 ml-3" />
         </div>
-      </div>
 
-      {/* Central Hero Content */}
-      <div className="relative z-20 max-w-7xl w-full mx-auto px-4 sm:px-8 py-8 text-center flex flex-col items-center select-none">
         {/* 1. Typography: LÊ ĐẶNG ĐÀI TRANG on 1 single line, unified golden Hive Delight */}
         <h1
           ref={headlineRef}
@@ -150,7 +147,7 @@ export const HeroSection: React.FC = () => {
         {/* 2. PRODUCER */}
         <p
           ref={subtitleRef}
-          className="mt-5 font-montserrat font-bold text-sm sm:text-base md:text-lg tracking-[0.3em] uppercase text-hive-delight"
+          className="mt-4 sm:mt-5 font-montserrat font-bold text-sm sm:text-base md:text-lg tracking-[0.3em] uppercase text-hive-delight"
         >
           {filmmakerContent.profile.role}
         </p>
@@ -166,7 +163,7 @@ export const HeroSection: React.FC = () => {
         {/* 4. Story Pillars: Story about me · Story about film · Story about dream */}
         <div
           ref={taglineRef}
-          className="mt-6 flex flex-wrap items-center justify-center gap-2.5 sm:gap-4 font-montserrat text-xs sm:text-sm text-solo/90 tracking-widest uppercase"
+          className="mt-5 sm:mt-6 flex flex-wrap items-center justify-center gap-2.5 sm:gap-4 font-montserrat text-xs sm:text-sm text-solo/90 tracking-widest uppercase"
         >
           {filmmakerContent.profile.storyPillars.map((story, idx) => (
             <React.Fragment key={story}>
@@ -183,7 +180,7 @@ export const HeroSection: React.FC = () => {
         {/* 5. Two CTAs: View my work & Get in touch */}
         <div
           ref={ctaGroupRef}
-          className="mt-8 sm:mt-10 flex flex-wrap items-center justify-center gap-4 sm:gap-6"
+          className="mt-7 sm:mt-9 flex flex-wrap items-center justify-center gap-4 sm:gap-6"
         >
           <a
             href="#filmmaking"
@@ -205,7 +202,7 @@ export const HeroSection: React.FC = () => {
         {/* Scroll To Begin Indicator - In-flow below buttons */}
         <div
           ref={scrollIndicatorRef}
-          className="mt-9 sm:mt-11 flex flex-col items-center gap-2 pointer-events-none select-none text-wainscot-green"
+          className="mt-8 sm:mt-10 flex flex-col items-center gap-2 pointer-events-none select-none text-wainscot-green"
         >
           <span className="font-montserrat text-[10px] tracking-cinema uppercase text-wainscot-green/80">
             SCROLL TO BEGIN

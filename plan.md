@@ -26,7 +26,7 @@ Mọi thay đổi từ thời điểm này sẽ tuân thủ nghiêm ngặt theo 
 | Khu vực | Trạng thái hiện tại | Ghi chú kỹ thuật |
 | :--- | :--- | :--- |
 | **Preloader** | Hoàn thành | Đếm số 000% -> 100%, tách cửa 2 cánh điện ảnh |
-| **Hero Section** | Hoàn thành | Typography: *LÊ ĐẶNG ĐÀI TRANG* trên 1 dòng duy nhất, thống nhất màu vàng Hive Delight (#F1C34C) ánh sáng dịu điện ảnh. 4 góc khung camera `┌ ┐ └ ┘` nới rộng ra sát mép màn hình (`inset-3 sm:inset-6 md:inset-8 lg:inset-10`), xóa bỏ hoàn toàn cảm giác chật chội. |
+| **Hero Section** | Hoàn thành | Typography: *LÊ ĐẶNG ĐÀI TRANG* trên 1 dòng duy nhất, thống nhất màu vàng Hive Delight (#F1C34C). Khung ngắm 4 góc hạ an toàn bên dưới thanh tác vụ (Navbar), nội dung căn chỉnh chính xác 100% ở chính giữa khung ngắm (dead center). |
 | **About Me** | Hoàn thành | Bố cục 2 slide trượt ngang tinh giản cao cấp: <br>• **Khung ảnh chân dung**: Chuẩn tỷ lệ đứng dọc điện ảnh `aspect-[4/5] max-h-[480px]`, giữ trọn vẹn dáng dài cao ráo, hoàn toàn không bị ép thành hình vuông.<br>• **Khối PROFILE không khung**: Loại bỏ hoàn toàn viền hộp, phông chữ phóng to vừa phải, dễ đọc và sang trọng.<br>• **Khí quyển Dải Lụa Sóng Vàng & Bụi Kim Loại (Volumetric Golden Ribbons & Dust Mist)**: Tái hiện theo ảnh tham chiếu; dải sóng lụa vàng uốn lượn đa tầng kết hợp làn sương 105 hạt bụi kim loại vàng lơ lửng, quét chéo tự nhiên quanh không gian âm của ảnh. |
 | **Filmmaking Section** | Hoàn thành | • **GSAP ScrollTrigger Pinned Horizontal Scroll with Scrubbed Parallax Layers** đa tầng (Ambient Typography, Film Track, Inner Image Counter-Parallax, Floating Badges, Golden Cine Scrubber).<br>• Tích hợp link trailer YouTube chính thức cho cả 5 tác phẩm.<br>• **Bảng Thông Tin Phim (Modal Credits) tinh gọn**: Đã cấu hình chỉ hiển thị đúng 3 mục cốt lõi: **Thể loại**, **Đạo diễn**, **Diễn viên**; loại bỏ hoàn toàn các trường máy móc camera hay định dạng cũ. |
 | **Experiences / Timeline** | Hoàn thành | Dòng thời gian kinh nghiệm và thành tựu |
@@ -35,6 +35,15 @@ Mọi thay đổi từ thời điểm này sẽ tuân thủ nghiêm ngặt theo 
 ---
 
 ## 3. Nhật Ký Thay Đổi (Changelog)
+
+### [2026-10-10 - Cập nhật 9]
+- **Tối Ưu Vị Trí Khung 4 Góc Hero Section & Đặt Nội Dung Chính Xác Ở Chính Giữa Khung**:
+  1. **Khung 4 góc không bị lấn lên thanh tác vụ (Below Navbar Clearance)**:
+     - Hạ cạnh trên của khung ngắm máy quay 4 góc xuống khoảng an toàn bên dưới thanh tác vụ (`mt-24 sm:mt-28 md:mt-30`), triệt tiêu hoàn toàn hiện tượng 2 góc trên `┌` và `┐` đè lên Logo hoặc nút `INQUIRE`.
+     - 4 góc ôm trọn không gian nhìn bên dưới thanh điều hướng, mở rộng thoáng đãng `max-w-[94vw] 2xl:max-w-7xl` với viền dưới cách đáy màn hình an toàn (`mb-8 sm:mb-10`).
+  2. **Căn chỉnh nội dung chính xác 100% ở chính giữa khung (Dead-Center Alignment)**:
+     - Tích hợp nội dung typography và 4 góc camera vào chung một hệ trục tọa độ (`flex flex-col items-center justify-center text-center`).
+     - Tên *LÊ ĐẶNG ĐÀI TRANG*, chức danh, nhãn câu chuyện, các nút hành động và tâm ngắm `+` (crosshair marker) được căn giữa tuyệt đối cả theo phương ngang lẫn phương dọc của khung ngắm, tạo sự cân bằng và uy nghiêm hoàn mỹ về mặt thị giác.
 
 ### [2026-10-10 - Cập nhật 8]
 - **Tái Hiện Dải Lụa Sóng Vàng (Volumetric Golden Ribbons), Bụi Kim Loại Đa Tầng Theo Ảnh Tham Chiếu & Khôi Phục Khung Ảnh Dài**:
