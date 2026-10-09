@@ -1,0 +1,113 @@
+@import "tailwindcss";
+
+@theme {
+  --color-noble-black: #1E2524;
+  --color-solo: #CCD4D0;
+  --color-wainscot-green: #9D9F87;
+  --color-hive-delight: #F1C34C;
+  --color-stone-ground: #D39730;
+  --color-olivia: #986626;
+  --color-deep-bronze: #504530;
+
+  --font-playfair: 'Playfair Display', Georgia, serif;
+  --font-montserrat: 'Montserrat', system-ui, -apple-system, sans-serif;
+  --font-editorial: 'Playfair Display', Georgia, serif;
+  --font-sans: 'Montserrat', system-ui, -apple-system, sans-serif;
+}
+
+@layer base {
+  :root {
+    --noble-black: #1E2524;
+    --solo: #CCD4D0;
+    --wainscot-green: #9D9F87;
+    --hive-delight: #F1C34C;
+    --stone-ground: #D39730;
+    --olivia: #986626;
+    --deep-bronze: #504530;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    background-color: #1E2524;
+    color: #CCD4D0;
+    font-family: 'Montserrat', system-ui, sans-serif;
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+  }
+
+  body {
+    background-color: #1E2524;
+    color: #CCD4D0;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    width: 100%;
+    overflow-x: hidden;
+    position: relative;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  #root {
+    width: 100%;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Custom Cinema Scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #1E2524;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #504530;
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #D39730;
+  }
+}
+
+/* Subtle Film Grain Texture Overlay */
+.film-grain {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 999;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* Tracking / Letter-spacing helpers */
+.tracking-cinema {
+  letter-spacing: 0.25em;
+}
+
+.tracking-ultra {
+  letter-spacing: 0.35em;
+}
+
+/* Gold glow shadows */
+.shadow-gold-glow {
+  box-shadow: 0 0 25px rgba(241, 195, 76, 0.25);
+}
+
+.shadow-gold-glow-lg {
+  box-shadow: 0 0 45px rgba(241, 195, 76, 0.4);
+}
+
+.shadow-bronze-surface {
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(204, 212, 208, 0.08);
+}
+
+.text-glow {
+  text-shadow: 0 0 35px rgba(241, 195, 76, 0.35);
+}
