@@ -217,7 +217,7 @@ export const AboutSection: React.FC = () => {
                   handlePortraitInteraction();
                 }}
                 onTouchEnd={() => setIsPortraitHovered(false)}
-                className="group relative aspect-[4/5] max-h-[390px] sm:max-h-[410px] overflow-hidden rounded-sm bg-noble-black border border-deep-bronze/90 shadow-2xl transition-all duration-700 cursor-pointer select-none"
+                className="group relative aspect-[4/5] max-h-[480px] overflow-hidden rounded-sm bg-noble-black border border-deep-bronze/90 shadow-2xl transition-all duration-700 cursor-pointer select-none"
               >
                 {/* 1. Full-Color Natural Portrait Image - Smooth 1.03x micro-zoom (800ms cubic-bezier) */}
                 <img
@@ -272,29 +272,29 @@ export const AboutSection: React.FC = () => {
                 </div>
               </div>
 
-              {/* Dedicated Producer PROFILE Card (Structured to balance with Slide 2 Dossier) */}
-              <div className="w-full mt-4 p-4 rounded-sm bg-deep-bronze/30 border border-deep-bronze/70 hover:border-hive-delight/40 transition-colors">
-                <div className="flex items-center gap-2 mb-2.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-hive-delight" />
-                  <span className="text-[11px] font-montserrat uppercase tracking-wider text-hive-delight font-bold">
+              {/* Dedicated Producer PROFILE Information (Borderless, Clean & Prominent Typography) */}
+              <div className="w-full mt-5 pt-3">
+                <div className="flex items-center gap-2.5 mb-3">
+                  <span className="w-2 h-2 rounded-full bg-hive-delight shadow-[0_0_8px_rgba(241,195,76,0.8)]" />
+                  <span className="text-xs sm:text-sm font-montserrat uppercase tracking-widest text-hive-delight font-bold">
                     PROFILE:
                   </span>
                 </div>
-                <ul className="space-y-1.5 text-xs text-solo/90 font-montserrat">
-                  <li className="flex items-center gap-2">
-                    <span className="text-stone-ground">•</span>
-                    <span className="font-mono text-wainscot-green uppercase text-[11px]">Name:</span>
-                    <span className="text-solo font-medium">Le Dang Dai Trang</span>
+                <ul className="space-y-2.5 text-sm sm:text-base font-montserrat">
+                  <li className="flex items-baseline gap-2.5">
+                    <span className="text-stone-ground text-xs">•</span>
+                    <span className="font-mono text-xs sm:text-sm text-wainscot-green uppercase tracking-wider font-semibold w-28 shrink-0">Name:</span>
+                    <span className="text-solo font-medium tracking-wide">Le Dang Dai Trang</span>
                   </li>
-                  <li className="flex items-center gap-2">
-                    <span className="text-stone-ground">•</span>
-                    <span className="font-mono text-wainscot-green uppercase text-[11px]">Birthday:</span>
-                    <span className="text-solo font-medium">15.10.1991</span>
+                  <li className="flex items-baseline gap-2.5">
+                    <span className="text-stone-ground text-xs">•</span>
+                    <span className="font-mono text-xs sm:text-sm text-wainscot-green uppercase tracking-wider font-semibold w-28 shrink-0">Birthday:</span>
+                    <span className="text-solo font-medium tracking-wide">15.10.1991</span>
                   </li>
-                  <li className="flex items-center gap-2">
-                    <span className="text-stone-ground">•</span>
-                    <span className="font-mono text-wainscot-green uppercase text-[11px]">Occupation:</span>
-                    <span className="text-solo font-medium">Producer</span>
+                  <li className="flex items-baseline gap-2.5">
+                    <span className="text-stone-ground text-xs">•</span>
+                    <span className="font-mono text-xs sm:text-sm text-wainscot-green uppercase tracking-wider font-semibold w-28 shrink-0">Occupation:</span>
+                    <span className="text-solo font-medium tracking-wide">Producer</span>
                   </li>
                 </ul>
               </div>

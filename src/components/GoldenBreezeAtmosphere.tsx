@@ -4,19 +4,19 @@ interface GoldenBreezeAtmosphereProps {
   isHovered: boolean;
 }
 
-interface Particle {
+interface DustParticle {
   x: number;
   y: number;
   vx: number;
   vy: number;
   size: number;
   color: string;
-  alpha: number;
   baseAlpha: number;
+  streamIndex: number;
+  offsetY: number;
   life: number;
   maxLife: number;
-  wobbleSpeed: number;
-  wobbleAmp: number;
+  isGlitter: boolean;
   shimmerTimer: number;
   shimmerInterval: number;
 }
@@ -25,7 +25,7 @@ export const GoldenBreezeAtmosphere: React.FC<GoldenBreezeAtmosphereProps> = ({ 
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const isHoveredRef = useRef<boolean>(isHovered);
 
-  // Sync ref with prop
+  // Sync ref with prop for smooth continuous animation without re-renders
   useEffect(() => {
     isHoveredRef.current = isHovered;
   }, [isHovered]);
@@ -42,7 +42,7 @@ export const GoldenBreezeAtmosphere: React.FC<GoldenBreezeAtmosphereProps> = ({ 
     let width = 0;
     let height = 0;
     let time = 0;
-    let currentIntensity = isHoveredRef.current ? 0.9 : 0.4;
+    let currentIntensity = isHoveredRef.current ? 0.95 : 0.45;
 
     const resize = () => {
       const rect = canvas.getBoundingClientRect();
@@ -57,11 +57,14 @@ export const GoldenBreezeAtmosphere: React.FC<GoldenBreezeAtmosphereProps> = ({ 
     resize();
     window.addEventListener('resize', resize);
 
-    // Palette: Stone Ground #D39730, Hive Delight #F1C34C, Olivia #986626
+    // Color palette matching the reference image:
+    // Hive Delight #F1C34C (bright metallic champagne highlights)
+    // Stone Ground #D39730 (warm rich golden amber)
+    // Olivia #986626 (deep warm bronze depth)
     const PALETTE = [
-      { color: '#D39730', weight: 0.5 }, // Stone Ground (main)
-      { color: '#F1C34C', weight: 0.35 }, // Hive Delight (highlights)
-      { color: '#986626', weight: 0.15 }, // Olivia (depth)
+      { color: '#F1C34C', weight: 0.45 },
+      { color: '#D39730', weight: 0.4 },
+      { color: '#986626', weight: 0.15 },
     ];
 
     const pickColor = () => {
@@ -71,44 +74,74 @@ export const GoldenBreezeAtmosphere: React.FC<GoldenBreezeAtmosphereProps> = ({ 
         acc += item.weight;
         if (rand <= acc) return item.color;
       }
-      return '#D39730';
+      return '#F1C34C';
     };
 
-    // Initialize 30 particles drifting along lower-left -> upper-right diagonal vector field
-    const PARTICLE_COUNT = 32;
-    const particles: Particle[] = [];
+    // Calculate wave height at any X coordinate for a specific stream ribbon
+    const getWaveY = (xRatio: number, t: number, sIdx: number) => {
+      const baselines = [0.82, 0.68, 0.52]; // lower-left to upper-right drift baselines
+      const targets = [0.15, 0.08, -0.05];
+      const baseRatio = baselines[sIdx] + xRatio * (targets[sIdx] - baselines[sIdx]);
 
-    const createParticle = (spawnAnywhere = false): Particle => {
-      // Spawn near lower-left quadrant or slightly offscreen
-      let startX = Math.random() * (width * 0.7) - width * 0.15;
-      let startY = height * 0.5 + Math.random() * (height * 0.65);
+      // Undulating harmonic sine & cosine waves like the reference image
+      const wave1 = Math.sin(xRatio * 3.8 + t * 0.45 + sIdx * 1.8) * 0.085;
+      const wave2 = Math.cos(xRatio * 7.2 - t * 0.3 + sIdx * 2.4) * 0.045;
+      const wave3 = Math.sin(xRatio * 11.5 + t * 0.6) * 0.02;
 
-      if (spawnAnywhere) {
-        startX = Math.random() * (width * 1.2) - width * 0.1;
-        startY = Math.random() * (height * 1.2) - height * 0.1;
-      }
+      return height * (baseRatio + wave1 + wave2 + wave3);
+    };
 
-      // Base vector: ~32 to ~42 degrees diagonal upward drift
-      const angle = (32 + Math.random() * 12) * (Math.PI / 180);
-      const speed = 0.45 + Math.random() * 0.55;
+    // Face clearance attenuation (protects portrait face in central zone)
+    const getFaceClearance = (px: number, py: number) => {
+      const faceCenterX = width * 0.5;
+      const faceCenterY = height * 0.38;
+      const faceRadiusX = width * 0.24;
+      const faceRadiusY = height * 0.24;
 
-      const maxLife = 240 + Math.random() * 200;
+      const dx = (px - faceCenterX) / faceRadiusX;
+      const dy = (py - faceCenterY) / faceRadiusY;
+      const distSq = dx * dx + dy * dy;
+
+      if (distSq < 0.35) return 0;
+      if (distSq < 1.0) return (distSq - 0.35) / 0.65;
+      return 1;
+    };
+
+    // Initialize 90 fine dust particles + 22 glittering bokeh specks
+    const PARTICLE_COUNT = 105;
+    const particles: DustParticle[] = [];
+
+    const createParticle = (spawnAnywhere = false): DustParticle => {
+      const isGlitter = Math.random() < 0.22; // ~22% larger glittering golden specks
+      const streamIndex = Math.floor(Math.random() * 3);
+
+      let x = spawnAnywhere ? Math.random() * width * 1.2 - width * 0.1 : -Math.random() * (width * 0.15);
+      const xRatio = Math.max(0, Math.min(1, x / width));
+      const ribbonY = getWaveY(xRatio, time, streamIndex);
+
+      // Clustered around the ribbon airflow stream with Gaussian-like spread
+      const spread = isGlitter ? 45 : 24;
+      const offsetY = (Math.random() + Math.random() - 1) * spread;
+      const y = ribbonY + offsetY;
+
+      const speed = 0.55 + Math.random() * 0.65;
+      const maxLife = 260 + Math.random() * 220;
 
       return {
-        x: startX,
-        y: startY,
-        vx: Math.cos(angle) * speed,
-        vy: -Math.sin(angle) * speed,
-        size: 0.9 + Math.random() * 1.3, // 0.9px - 2.2px fine dust
+        x,
+        y,
+        vx: speed,
+        vy: -speed * 0.42, // diagonal upward-right drift
+        size: isGlitter ? 1.8 + Math.random() * 1.4 : 0.6 + Math.random() * 0.8, // fine metallic dust
         color: pickColor(),
-        alpha: 0,
-        baseAlpha: 0.25 + Math.random() * 0.55,
+        baseAlpha: isGlitter ? 0.75 + Math.random() * 0.25 : 0.35 + Math.random() * 0.45,
+        streamIndex,
+        offsetY,
         life: spawnAnywhere ? Math.random() * maxLife : 0,
         maxLife,
-        wobbleSpeed: 0.015 + Math.random() * 0.02,
-        wobbleAmp: 0.35 + Math.random() * 0.45,
-        shimmerTimer: Math.random() * 180,
-        shimmerInterval: 180 + Math.random() * 220, // occasional lens glint
+        isGlitter,
+        shimmerTimer: Math.random() * 120,
+        shimmerInterval: 140 + Math.random() * 180,
       };
     };
 
@@ -116,130 +149,92 @@ export const GoldenBreezeAtmosphere: React.FC<GoldenBreezeAtmosphereProps> = ({ 
       particles.push(createParticle(true));
     }
 
-    // 3 Independent organic airflow streams (wisps)
-    // Moving along diagonal wave paths across the negative space
-    const drawAirflowStreams = (t: number, intensity: number) => {
-      // Stream configurations (angles, wave phase offsets, vertical baselines)
-      const streams = [
-        {
-          // Main gentle lower-left to upper-right stream
-          startX: -width * 0.1,
-          startY: height * 0.88,
-          endX: width * 1.15,
-          endY: height * 0.08,
-          amp: height * 0.08,
-          freq: 0.003,
-          timeSpeed: 0.35,
-          strokeWidth: 1.1,
-          baseOpacity: 0.28,
-        },
-        {
-          // Secondary trailing airy whisper
-          startX: -width * 0.18,
-          startY: height * 0.65,
-          endX: width * 1.12,
-          endY: -height * 0.06,
-          amp: height * 0.06,
-          freq: 0.004,
-          timeSpeed: 0.28,
-          strokeWidth: 0.85,
-          baseOpacity: 0.22,
-        },
-        {
-          // Lower ambient draft sweeping across bottom-left
-          startX: -width * 0.05,
-          startY: height * 1.08,
-          endX: width * 0.95,
-          endY: height * 0.28,
-          amp: height * 0.07,
-          freq: 0.0035,
-          timeSpeed: 0.4,
-          strokeWidth: 0.95,
-          baseOpacity: 0.24,
-        },
+    // 1. Draw silky undulating volumetric airflow ribbons (like the reference image)
+    const drawSilkyAirRibbons = (t: number, intensity: number) => {
+      const streamConfigs = [
+        { sIdx: 0, width: 7, baseAlpha: 0.32, color: '#F1C34C' },
+        { sIdx: 1, width: 5, baseAlpha: 0.26, color: '#D39730' },
+        { sIdx: 2, width: 4, baseAlpha: 0.22, color: '#986626' },
       ];
 
-      streams.forEach((stream, sIdx) => {
-        const streamAlpha = stream.baseOpacity * intensity;
-        if (streamAlpha <= 0.01) return;
+      streamConfigs.forEach(({ sIdx, width: rWidth, baseAlpha, color }) => {
+        const ribbonAlpha = baseAlpha * intensity;
+        if (ribbonAlpha <= 0.01) return;
 
-        ctx.save();
-        ctx.beginPath();
-
-        const steps = 40;
-        const dx = (stream.endX - stream.startX) / steps;
-        const dy = (stream.endY - stream.startY) / steps;
+        const steps = 60;
+        const pts: { x: number; y: number }[] = [];
 
         for (let i = 0; i <= steps; i++) {
-          const px = stream.startX + dx * i;
-          const py = stream.startY + dy * i;
-
-          // Organic S-curve wave offset perpendicular to flow direction
-          const wave =
-            Math.sin(i * 0.18 + t * stream.timeSpeed + sIdx * 1.6) * stream.amp +
-            Math.cos(i * 0.09 - t * (stream.timeSpeed * 0.6)) * (stream.amp * 0.4);
-
-          // Normal vector perpendicular to diagonal (approx -dy, dx)
-          const normX = -0.55 * (wave / stream.amp);
-          const normY = 0.83 * (wave / stream.amp);
-
-          const finalX = px + normX * wave;
-          const finalY = py + normY * wave;
-
-          if (i === 0) {
-            ctx.moveTo(finalX, finalY);
-          } else {
-            ctx.lineTo(finalX, finalY);
-          }
+          const xRatio = i / steps;
+          const px = -width * 0.12 + xRatio * (width * 1.24);
+          const py = getWaveY(xRatio, t, sIdx);
+          pts.push({ x: px, y: py });
         }
 
-        // Gradient along the stream: transparent -> Olivia -> Stone Ground -> Hive Delight -> transparent
-        const grad = ctx.createLinearGradient(
-          stream.startX,
-          stream.startY,
-          stream.endX,
-          stream.endY
-        );
-        grad.addColorStop(0, 'rgba(152, 102, 38, 0)');
-        grad.addColorStop(0.2, `rgba(152, 102, 38, ${streamAlpha * 0.6})`);
-        grad.addColorStop(0.5, `rgba(211, 151, 48, ${streamAlpha * 0.9})`);
-        grad.addColorStop(0.75, `rgba(241, 195, 76, ${streamAlpha})`);
-        grad.addColorStop(1, 'rgba(211, 151, 48, 0)');
+        // Draw soft volumetric aura layer around the ribbon
+        ctx.save();
+        ctx.beginPath();
+        pts.forEach((p, i) => {
+          if (i === 0) ctx.moveTo(p.x, p.y);
+          else ctx.lineTo(p.x, p.y);
+        });
 
-        ctx.strokeStyle = grad;
-        ctx.lineWidth = stream.strokeWidth;
+        const gradAura = ctx.createLinearGradient(0, height, width, 0);
+        gradAura.addColorStop(0, 'rgba(152, 102, 38, 0)');
+        gradAura.addColorStop(0.3, `rgba(211, 151, 48, ${ribbonAlpha * 0.5})`);
+        gradAura.addColorStop(0.65, `rgba(241, 195, 76, ${ribbonAlpha * 0.7})`);
+        gradAura.addColorStop(1, 'rgba(211, 151, 48, 0)');
+
+        ctx.strokeStyle = gradAura;
+        ctx.lineWidth = rWidth * 2.2;
         ctx.lineCap = 'round';
-        ctx.lineJoin = 'round';
+        ctx.shadowColor = color;
+        ctx.shadowBlur = 12;
+        ctx.stroke();
+
+        // Draw high-luminosity silky core line along the wave crest
+        ctx.beginPath();
+        pts.forEach((p, i) => {
+          if (i === 0) ctx.moveTo(p.x, p.y);
+          else ctx.lineTo(p.x, p.y);
+        });
+
+        const gradCore = ctx.createLinearGradient(0, height, width, 0);
+        gradCore.addColorStop(0, 'rgba(211, 151, 48, 0)');
+        gradCore.addColorStop(0.35, `rgba(241, 195, 76, ${ribbonAlpha * 0.85})`);
+        gradCore.addColorStop(0.7, `rgba(255, 238, 175, ${ribbonAlpha * 0.95})`);
+        gradCore.addColorStop(1, 'rgba(241, 195, 76, 0)');
+
+        ctx.strokeStyle = gradCore;
+        ctx.lineWidth = 1.2;
+        ctx.shadowBlur = 6;
         ctx.stroke();
         ctx.restore();
       });
     };
 
-    // Draw fine metallic particles drifting organically with air currents
-    const updateAndDrawParticles = (_t: number, intensity: number) => {
-      // Center face exclusion zone: (normalized center approx 0.38 - 0.62 x, 0.22 - 0.55 y)
-      // Any particle entering this center zone is smoothly faded out so the face is 100% clear.
-      const faceCenterX = width * 0.5;
-      const faceCenterY = height * 0.38;
-      const faceRadiusX = width * 0.22;
-      const faceRadiusY = height * 0.22;
-
+    // 2. Draw fine metallic golden dust mist and shimmering particles
+    const updateAndDrawParticles = (t: number, intensity: number) => {
       for (let i = 0; i < particles.length; i++) {
         const p = particles[i];
         p.life++;
 
-        if (p.life >= p.maxLife || p.x > width * 1.2 || p.y < -height * 0.2) {
+        if (p.life >= p.maxLife || p.x > width * 1.15 || p.y < -height * 0.15) {
           particles[i] = createParticle(false);
           continue;
         }
 
-        // Advance position with diagonal vector + organic gentle breeze wobble
-        const wobble = Math.sin(p.life * p.wobbleSpeed + i) * p.wobbleAmp;
-        const speedMult = isHoveredRef.current ? 1.2 : 1.0;
-        p.x += (p.vx + wobble * 0.3) * speedMult;
-        p.y += (p.vy - wobble * 0.2) * speedMult;
+        // Particle moves forward diagonally along the airflow
+        const speedMult = isHoveredRef.current ? 1.25 : 1.0;
+        p.x += p.vx * speedMult;
 
-        // Smooth life fade in/out
+        // Y position smoothly tracks the undulating wave ribbon plus its individual offset
+        const xRatio = Math.max(0, Math.min(1, p.x / width));
+        const targetRibbonY = getWaveY(xRatio, t, p.streamIndex);
+        const microWave = Math.sin(p.life * 0.05 + i) * (p.isGlitter ? 4 : 2);
+        p.y = targetRibbonY + p.offsetY + microWave;
+
+        // Smooth fade-in at birth and fade-out at death
         const lifeRatio = p.life / p.maxLife;
         let fade = 1;
         if (lifeRatio < 0.15) {
@@ -248,65 +243,54 @@ export const GoldenBreezeAtmosphere: React.FC<GoldenBreezeAtmosphereProps> = ({ 
           fade = (1 - lifeRatio) / 0.2;
         }
 
-        // Face clearance attenuation
-        const dx = (p.x - faceCenterX) / faceRadiusX;
-        const dy = (p.y - faceCenterY) / faceRadiusY;
-        const faceDistSq = dx * dx + dy * dy;
-        let faceClearance = 1;
-        if (faceDistSq < 1.0) {
-          // Inside face zone: completely fade out to 0
-          faceClearance = Math.max(0, (faceDistSq - 0.4) / 0.6);
-        }
-
+        const faceClearance = getFaceClearance(p.x, p.y);
         const renderAlpha = p.baseAlpha * fade * intensity * faceClearance;
         if (renderAlpha <= 0.01) continue;
 
-        // Render circular metallic gold particle
         ctx.save();
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
         ctx.fillStyle = p.color;
         ctx.globalAlpha = renderAlpha;
-        ctx.shadowColor = p.color;
-        ctx.shadowBlur = p.size * 2.5;
+
+        if (p.isGlitter) {
+          ctx.shadowColor = p.color;
+          ctx.shadowBlur = p.size * 3.5;
+        }
         ctx.fill();
 
-        // Occasional delicate optical shimmer glint (tiny 4-point cross)
-        p.shimmerTimer++;
-        if (p.shimmerTimer >= p.shimmerInterval) {
-          const shimmerAge = p.shimmerTimer - p.shimmerInterval;
-          const shimmerDuration = 35; // ~0.5 second flash
-          if (shimmerAge < shimmerDuration) {
-            const shimmerFade = Math.sin((shimmerAge / shimmerDuration) * Math.PI);
-            const glintAlpha = shimmerFade * intensity * 0.85 * faceClearance;
+        // Shimmering specular glint on glitter particles
+        if (p.isGlitter) {
+          p.shimmerTimer++;
+          if (p.shimmerTimer >= p.shimmerInterval) {
+            const shimmerAge = p.shimmerTimer - p.shimmerInterval;
+            const shimmerDuration = 30; // brief metallic light glint
+            if (shimmerAge < shimmerDuration) {
+              const shimmerFade = Math.sin((shimmerAge / shimmerDuration) * Math.PI);
+              const glintAlpha = shimmerFade * intensity * faceClearance;
 
-            if (glintAlpha > 0.05) {
-              const armLen = 3.5 + p.size;
-              ctx.strokeStyle = '#F1C34C';
-              ctx.lineWidth = 0.75;
-              ctx.globalAlpha = glintAlpha;
+              if (glintAlpha > 0.08) {
+                const arm = 3.5 + p.size;
+                ctx.strokeStyle = '#FFFFFF';
+                ctx.lineWidth = 0.8;
+                ctx.globalAlpha = glintAlpha;
 
-              // Horizontal glint
-              ctx.beginPath();
-              ctx.moveTo(p.x - armLen, p.y);
-              ctx.lineTo(p.x + armLen, p.y);
-              ctx.stroke();
+                // Horizontal cross
+                ctx.beginPath();
+                ctx.moveTo(p.x - arm, p.y);
+                ctx.lineTo(p.x + arm, p.y);
+                ctx.stroke();
 
-              // Vertical glint
-              ctx.beginPath();
-              ctx.moveTo(p.x, p.y - armLen);
-              ctx.lineTo(p.x, p.y + armLen);
-              ctx.stroke();
-
-              // Micro white core
-              ctx.fillStyle = '#FFFFFF';
-              ctx.beginPath();
-              ctx.arc(p.x, p.y, 0.75, 0, Math.PI * 2);
-              ctx.fill();
+                // Vertical cross
+                ctx.beginPath();
+                ctx.moveTo(p.x, p.y - arm);
+                ctx.lineTo(p.x, p.y + arm);
+                ctx.stroke();
+              }
+            } else {
+              p.shimmerTimer = 0;
+              p.shimmerInterval = 140 + Math.random() * 200;
             }
-          } else {
-            p.shimmerTimer = 0;
-            p.shimmerInterval = 180 + Math.random() * 260;
           }
         }
 
@@ -314,20 +298,19 @@ export const GoldenBreezeAtmosphere: React.FC<GoldenBreezeAtmosphereProps> = ({ 
       }
     };
 
-    // Main animation loop
+    // Animation render loop
     const render = () => {
-      // Smoothly interpolate current intensity (idle ~0.4 -> hover ~0.9)
-      const targetIntensity = isHoveredRef.current ? 0.9 : 0.42;
+      const targetIntensity = isHoveredRef.current ? 0.95 : 0.45;
       currentIntensity += (targetIntensity - currentIntensity) * 0.05;
 
       ctx.clearRect(0, 0, width, height);
 
-      time += 0.02;
+      time += 0.025;
 
-      // 1. Draw 3 organic diagonal airflow streamlines (free-flowing Bezier waves)
-      drawAirflowStreams(time, currentIntensity);
+      // 1. Draw volumetric silky golden ribbons
+      drawSilkyAirRibbons(time, currentIntensity);
 
-      // 2. Draw metallic gold dust particles drifting with the wind currents
+      // 2. Draw metallic golden dust mist and glittering specks
       updateAndDrawParticles(time, currentIntensity);
 
       if (!prefersReducedMotion) {
@@ -336,10 +319,9 @@ export const GoldenBreezeAtmosphere: React.FC<GoldenBreezeAtmosphereProps> = ({ 
     };
 
     if (prefersReducedMotion) {
-      // Static single subtle render for reduced-motion accessibility
-      currentIntensity = 0.35;
-      drawAirflowStreams(1.2, 0.35);
-      updateAndDrawParticles(1.2, 0.35);
+      currentIntensity = 0.38;
+      drawSilkyAirRibbons(1.5, 0.38);
+      updateAndDrawParticles(1.5, 0.38);
     } else {
       render();
     }
