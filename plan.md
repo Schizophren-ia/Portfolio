@@ -27,14 +27,27 @@ Mọi thay đổi từ thời điểm này sẽ tuân thủ nghiêm ngặt theo 
 | :--- | :--- | :--- |
 | **Preloader** | Hoàn thành | Đếm số 000% -> 100%, tách cửa 2 cánh điện ảnh |
 | **Hero Section** | Hoàn thành | Typography: *LÊ ĐẶNG ĐÀI TRANG* trên 1 dòng duy nhất, thống nhất màu vàng Hive Delight (#F1C34C). Khung ngắm 4 góc ┌ ┐ └ ┘ mở rộng ra sát mép màn hình theo đúng bản vẽ (inset mép ngoài), nội dung căn chỉnh chính xác 100% ở chính giữa màn hình (dead center), không gian khoáng đạt, không bị chật hẹp hay vướng thanh tác vụ. |
-| **About Me** | Hoàn thành | Bố cục 2 slide trượt ngang tinh giản cao cấp: <br>• **Khung ảnh chân dung**: Chuẩn tỷ lệ đứng dọc điện ảnh `aspect-[4/5] max-h-[480px]`, giữ trọn vẹn dáng dài cao ráo, hoàn toàn không bị ép thành hình vuông.<br>• **Khối PROFILE không khung**: Loại bỏ hoàn toàn viền hộp, phông chữ phóng to vừa phải, dễ đọc và sang trọng.<br>• **Khí quyển Dải Lụa Sóng Vàng & Bụi Kim Loại (Volumetric Golden Ribbons & Dust Mist)**: Tự do uốn lượn; tích hợp chuyển động sóng khí và bụi lấp lánh tăng tốc nhẹ nhàng mỗi khi di chuột (`onMouseEnter`) và tự giảm tốc êm ái khi rời chuột.<br>• **Hiệu ứng chạy số Slide 2 (Count-up Animation)**: Tự động chạy số sống động từ 0 đến mục tiêu (5+ phim, 7 quốc gia, 10+ năm, sinh năm 1991) mượt mà mỗi khi mở Slide 2. |
+| **About Me** | Hoàn thành | Bố cục 2 slide trượt ngang tinh giản cao cấp: <br>• **Ảnh chân dung tự nhiên, sắc nét**: Giữ trọn tỷ lệ đứng dọc điện ảnh `aspect-[4/5] max-h-[480px]`, đã gỡ bỏ hoàn toàn dải khí vàng và các hạt bụi lấp lánh để giữ ảnh nguyên bản, trong trẻo và thanh lịch.<br>• **Khối PROFILE không khung**: Đầy đủ 3 trường thông tin, typography sang trọng.<br>• **Hiệu ứng đếm số Slide 2 (StatCounter)**: Sử dụng kiến trúc component độc lập, tự động chạy đếm số sống động từ 0 lên 5+, 7, 10+, 1991 ngay khi mở Slide 2 và tự reset để replay mỗi lần mở lại. |
 | **Filmmaking Section** | Hoàn thành | • **GSAP ScrollTrigger Pinned Horizontal Scroll with Scrubbed Parallax Layers** đa tầng (Ambient Typography, Film Track, Inner Image Counter-Parallax, Floating Badges, Golden Cine Scrubber).<br>• Tích hợp link trailer YouTube chính thức cho cả 5 tác phẩm.<br>• **Bảng Thông Tin Phim (Modal Credits) tinh gọn**: Đã cấu hình chỉ hiển thị đúng 3 mục cốt lõi: **Thể loại**, **Đạo diễn**, **Diễn viên**; loại bỏ hoàn toàn các trường máy móc camera hay định dạng cũ. |
-| **Experiences / Timeline** | Hoàn thành | Dòng thời gian kinh nghiệm và thành tựu |
+| **Experiences / Timeline** | Hoàn thành | Dòng thời gian hành trình Producer Journey (`ACT III — EXPERIENCES`). Đã gỡ bỏ hoàn toàn khối giải thưởng `ACCOLADES & FESTIVAL LAURELS / RECOGNITION IN EXCELLENCE` theo đúng yêu cầu, timeline kết thúc tinh gọn, chuyên nghiệp. |
 | **Contact Section** | Hoàn thành | Thông tin liên hệ, form và mạng xã hội |
 
 ---
 
 ## 3. Nhật Ký Thay Đổi (Changelog)
+
+### [2026-10-10 - Cập nhật 11]
+- **Bỏ Mục Giải Thưởng Accolades, Bỏ Ánh Vàng Lấp Lánh Ở Intro & Sửa Dứt Điểm Hiệu Ứng Số Chạy Slide 2**:
+  1. **Khôi phục hiệu ứng số chạy sống động ở Slide 2 (Intro Section / Dossier & Stats)**:
+     - Xóa bỏ triệt để ScrollTrigger cũ gắn ngầm trên `.stat-item` (vốn kích hoạt sớm khi Slide 2 còn ẩn).
+     - Xây dựng component chuyên biệt `StatCounter` quản lý chu kỳ sống bằng `React.memo` và GSAP Tween độc lập: mỗi khi người dùng bấm mở Slide 2 (`activeSlide === 1`), con số lập tức reset về 0 và chạy đếm mượt mà (`delay: 0.2s + stagger 0.12s`, `duration: 1.8s`, `ease: power2.out`) ngay khi slide trượt vào tầm nhìn.
+     - Khi chuyển về Slide 1, component tự động reset về 0 để mỗi lần bấm xem Slide 2 là một lần chạy lại hiệu ứng số sống động 100%.
+  2. **Gỡ bỏ mục ACCOLADES & FESTIVAL LAURELS — RECOGNITION IN EXCELLENCE (Section Experiences)**:
+     - Gỡ bỏ hoàn toàn tiêu đề và 5 thẻ giải thưởng/liên hoan phim theo đúng ảnh chụp yêu cầu.
+     - Dọn sạch ScrollTrigger liên quan và các import không dùng (`Award`), giúp dòng thời gian kết thúc gọn gàng, liền mạch tại mốc Đào tạo điện ảnh (Academic Foundation).
+  3. **Gỡ bỏ hiệu ứng ánh vàng lấp lánh ở Intro Section**:
+     - Gỡ bỏ dải sóng lụa khí vàng `GoldenBreezeAtmosphere` và 12 hạt bụi vàng lấp lánh `Cine Dust Particles` trên bề mặt ảnh chân dung.
+     - Đưa ảnh đại diện về trạng thái nhiếp ảnh điện ảnh thuần khiết, trong trẻo, chân thực và sắc nét 100%, giữ nguyên khung ngắm máy quay tinh tế và khối PROFILE bên dưới.
 
 ### [2026-10-10 - Cập nhật 10]
 - **Tối Ưu 3 Điểm Trọng Yếu Theo Góp Ý: Khôi Phục Chạy Số Slide 2, Chuyển Động Gió Vàng Khi Hover & Khung 4 Góc Hero Sát Mép Ngoài**:

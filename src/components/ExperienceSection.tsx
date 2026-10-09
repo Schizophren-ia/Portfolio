@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Award, MapPin } from 'lucide-react';
+import { MapPin } from 'lucide-react';
 import { filmmakerContent } from '../data/content';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -11,7 +11,6 @@ export const ExperienceSection: React.FC = () => {
   const timelinePathRef = useRef<HTMLDivElement>(null);
 
   const experiences = filmmakerContent.experiences;
-  const awards = filmmakerContent.awards;
 
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -73,25 +72,7 @@ export const ExperienceSection: React.FC = () => {
         }
       });
 
-      // 3. Awards laurels stagger reveal
-      if (!prefersReducedMotion) {
-        gsap.fromTo(
-          '.award-card',
-          { opacity: 0, y: 30 },
-          {
-            opacity: 1,
-            y: 0,
-            stagger: 0.1,
-            duration: 0.7,
-            ease: 'power2.out',
-            scrollTrigger: {
-              trigger: '#awards-subrow',
-              start: 'top 85%',
-              toggleActions: 'play none none none',
-            },
-          }
-        );
-      }
+
     }, sectionRef);
 
     return () => ctx.revert();
@@ -205,43 +186,7 @@ export const ExperienceSection: React.FC = () => {
           </div>
         </div>
 
-        {/* Festivals & Awards Laurel Sub-Row */}
-        <div id="awards-subrow" className="mt-28 pt-16 border-t border-deep-bronze/40">
-          <div className="text-center mb-10">
-            <span className="font-montserrat text-xs tracking-cinema uppercase text-wainscot-green">
-              ACCOLADES & FESTIVAL LAURELS
-            </span>
-            <h3 className="font-playfair font-black text-2xl sm:text-3xl text-solo uppercase tracking-tight mt-1">
-              RECOGNITION IN <span className="text-hive-delight">EXCELLENCE</span>
-            </h3>
-          </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {awards.map((award, i) => (
-              <div
-                key={i}
-                className="award-card bg-deep-bronze/20 border border-deep-bronze/60 p-5 rounded-sm hover:border-hive-delight/60 transition-colors flex items-start gap-4 shadow-bronze-surface"
-              >
-                {/* Laurel Emblem Icon */}
-                <div className="w-10 h-10 rounded-full bg-deep-bronze/50 border border-olivia/50 flex items-center justify-center shrink-0 text-hive-delight">
-                  <Award className="w-5 h-5 fill-hive-delight/15" />
-                </div>
-
-                <div>
-                  <div className="text-[11px] font-montserrat font-bold text-hive-delight uppercase tracking-wider">
-                    {award.name} · {award.year}
-                  </div>
-                  <div className="font-playfair font-bold text-base text-solo mt-0.5">
-                    {award.category}
-                  </div>
-                  <div className="text-[11px] font-montserrat text-wainscot-green italic mt-0.5">
-                    Film: "{award.project}"
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
       </div>
     </section>
   );

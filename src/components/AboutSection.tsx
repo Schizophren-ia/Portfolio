@@ -3,24 +3,57 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { filmmakerContent } from '../data/content';
 import { ambientSound } from '../utils/ambientAudio';
-import { GoldenBreezeAtmosphere } from './GoldenBreezeAtmosphere';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const CINE_PARTICLES = [
-  { top: '12%', left: '18%', delay: '0s', duration: '6s', size: '2px' },
-  { top: '25%', left: '78%', delay: '1.2s', duration: '7s', size: '2.5px' },
-  { top: '40%', left: '15%', delay: '2.4s', duration: '5.5s', size: '1.5px' },
-  { top: '55%', left: '85%', delay: '0.8s', duration: '6.5s', size: '2px' },
-  { top: '68%', left: '22%', delay: '3.1s', duration: '7.5s', size: '2.5px' },
-  { top: '82%', left: '72%', delay: '1.7s', duration: '6s', size: '2px' },
-  { top: '18%', left: '60%', delay: '2.8s', duration: '8s', size: '1.5px' },
-  { top: '35%', left: '40%', delay: '0.4s', duration: '6.2s', size: '2px' },
-  { top: '75%', left: '45%', delay: '3.6s', duration: '7.2s', size: '1.5px' },
-  { top: '90%', left: '28%', delay: '1.9s', duration: '6.8s', size: '2px' },
-  { top: '48%', left: '68%', delay: '2.1s', duration: '5.8s', size: '2px' },
-  { top: '88%', left: '82%', delay: '0.6s', duration: '7s', size: '2.5px' },
-];
+interface StatCounterProps {
+  targetValue: number;
+  active: boolean;
+  index: number;
+}
+
+const StatCounter: React.FC<StatCounterProps> = React.memo(({ targetValue, active, index }) => {
+  const [displayValue, setDisplayValue] = useState<number>(0);
+  const tweenRef = useRef<gsap.core.Tween | null>(null);
+
+  useEffect(() => {
+    if (!active) {
+      if (tweenRef.current) tweenRef.current.kill();
+      setDisplayValue(0);
+      return;
+    }
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) {
+      setDisplayValue(targetValue);
+      return;
+    }
+
+    // Reset to 0 when slide activates
+    setDisplayValue(0);
+    const counterObj = { val: 0 };
+
+    // Start count-up as slide 2 slides into view
+    tweenRef.current = gsap.to(counterObj, {
+      val: targetValue,
+      duration: 1.8,
+      delay: 0.2 + index * 0.12,
+      ease: 'power2.out',
+      onUpdate: () => {
+        setDisplayValue(Math.floor(counterObj.val));
+      },
+      onComplete: () => {
+        setDisplayValue(targetValue);
+      },
+    });
+
+    return () => {
+      if (tweenRef.current) tweenRef.current.kill();
+    };
+  }, [active, targetValue, index]);
+
+  return <span className="stat-number">{displayValue}</span>;
+});
 
 export const AboutSection: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
@@ -30,7 +63,6 @@ export const AboutSection: React.FC = () => {
   const statsContainerRef = useRef<HTMLDivElement>(null);
   const skillsContainerRef = useRef<HTMLDivElement>(null);
 
-  const [isPortraitHovered, setIsPortraitHovered] = useState<boolean>(false);
   const [activeSlide, setActiveSlide] = useState<number>(0);
   const slide0Ref = useRef<HTMLDivElement>(null);
   const slide1Ref = useRef<HTMLDivElement>(null);
@@ -76,38 +108,7 @@ export const AboutSection: React.FC = () => {
     return () => clearTimeout(timer);
   }, [activeSlide]);
 
-  // Re-trigger animated count-up numbers whenever activeSlide switches to 1 (Slide 2: Dossier & Stats)
-  useEffect(() => {
-    if (activeSlide === 1 && statsContainerRef.current) {
-      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      const statItems = statsContainerRef.current.querySelectorAll('.stat-item');
-      statItems.forEach((item, index) => {
-        const numEl = item.querySelector('.stat-number');
-        const targetValue = parseInt(numEl?.getAttribute('data-value') || '0', 10);
-        if (numEl && !isNaN(targetValue)) {
-          if (prefersReducedMotion) {
-            numEl.textContent = targetValue.toString();
-          } else {
-            const countObj = { val: 0 };
-            numEl.textContent = '0';
-            gsap.fromTo(
-              countObj,
-              { val: 0 },
-              {
-                val: targetValue,
-                duration: 1.8,
-                delay: 0.15 + index * 0.1,
-                ease: 'power2.out',
-                onUpdate: () => {
-                  numEl.textContent = Math.floor(countObj.val).toString();
-                },
-              }
-            );
-          }
-        }
-      });
-    }
-  }, [activeSlide]);
+
 
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -159,31 +160,7 @@ export const AboutSection: React.FC = () => {
         );
       }
 
-      // 3. Stats animated count-up numbers in Hive Delight
-      if (statsContainerRef.current) {
-        const statItems = statsContainerRef.current.querySelectorAll('.stat-item');
-        statItems.forEach((item) => {
-          const numEl = item.querySelector('.stat-number');
-          const targetValue = parseInt(numEl?.getAttribute('data-value') || '0', 10);
 
-          if (numEl && !isNaN(targetValue)) {
-            const countObj = { val: 0 };
-            gsap.to(countObj, {
-              val: targetValue,
-              duration: 2,
-              ease: 'power2.out',
-              scrollTrigger: {
-                trigger: item,
-                start: 'top 85%',
-                toggleActions: 'play none none none',
-              },
-              onUpdate: () => {
-                numEl.textContent = Math.floor(countObj.val).toString();
-              },
-            });
-          }
-        });
-      }
 
       // 4. Skills & tools pills staggered fade-in
       if (skillsContainerRef.current) {
@@ -233,23 +210,12 @@ export const AboutSection: React.FC = () => {
             <div
               ref={imageFrameRef}
               className="relative w-full max-w-sm sm:max-w-md flex flex-col"
-              onMouseEnter={() => {
-                setIsPortraitHovered(true);
-                handlePortraitInteraction();
-              }}
-              onMouseLeave={() => setIsPortraitHovered(false)}
+              onMouseEnter={handlePortraitInteraction}
             >
-              {/* Dedicated Organic Golden Breeze Atmospheric Effect (Canvas 2D Diagonal Airflow) */}
-              <GoldenBreezeAtmosphere isHovered={isPortraitHovered} />
-
               {/* Interactive Camera Viewfinder Frame */}
               <div
                 onClick={handlePortraitInteraction}
-                onTouchStart={() => {
-                  setIsPortraitHovered(true);
-                  handlePortraitInteraction();
-                }}
-                onTouchEnd={() => setIsPortraitHovered(false)}
+                onTouchStart={handlePortraitInteraction}
                 className="group relative aspect-[4/5] max-h-[480px] overflow-hidden rounded-sm bg-noble-black border border-deep-bronze/90 shadow-2xl transition-all duration-700 cursor-pointer select-none"
               >
                 {/* 1. Full-Color Natural Portrait Image - Smooth 1.03x micro-zoom (800ms cubic-bezier) */}
@@ -264,25 +230,7 @@ export const AboutSection: React.FC = () => {
                 {/* 2. Soft Vignette & Subtle Cinematic Gradient */}
                 <div className="absolute inset-0 bg-gradient-to-t from-noble-black/70 via-transparent to-noble-black/20 pointer-events-none opacity-60 group-hover:opacity-40 transition-opacity duration-700" />
 
-                {/* 3. Floating Golden Cinema Dust Particles (Subtle Density) */}
-                <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-30 group-hover:opacity-65 transition-opacity duration-700">
-                  {CINE_PARTICLES.map((p, idx) => (
-                    <span
-                      key={idx}
-                      className="cine-particle absolute rounded-full bg-hive-delight/80 shadow-[0_0_6px_rgba(241,195,76,0.6)]"
-                      style={{
-                        top: p.top,
-                        left: p.left,
-                        width: p.size,
-                        height: p.size,
-                        animationDuration: p.duration,
-                        animationDelay: p.delay,
-                      }}
-                    />
-                  ))}
-                </div>
-
-                {/* 4. Elegant 4-Corner Camera Viewfinder Reticle with subtle focus micro-offset */}
+                {/* 3. Elegant 4-Corner Camera Viewfinder Reticle with subtle focus micro-offset */}
                 <div className="absolute inset-3 pointer-events-none transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:inset-3.5">
                   {/* Top-Left Corner ┌ */}
                   <div className="absolute top-0 left-0 w-3.5 h-3.5 border-t border-l border-hive-delight/50 group-hover:border-hive-delight transition-colors duration-500" />
@@ -451,9 +399,11 @@ export const AboutSection: React.FC = () => {
                     {filmmakerContent.stats.map((stat, i: number) => (
                       <div key={i} className="stat-item flex flex-col">
                         <div className="flex items-baseline font-playfair font-black text-3xl sm:text-4xl text-hive-delight">
-                          <span className="stat-number" data-value={stat.value}>
-                            {stat.value}
-                          </span>
+                          <StatCounter
+                            targetValue={stat.value}
+                            active={activeSlide === 1}
+                            index={i}
+                          />
                           <span className="text-stone-ground ml-0.5">{stat.suffix}</span>
                         </div>
                         <span className="mt-1 font-montserrat text-xs font-semibold text-solo uppercase tracking-wider">
