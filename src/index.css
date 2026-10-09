@@ -133,8 +133,89 @@
   will-change: transform, opacity;
 }
 
+/* Golden Breeze Atmospheric Keyframes */
+@keyframes breezeFlow {
+  0% {
+    stroke-dashoffset: 400;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+.breeze-line-1 {
+  stroke-dasharray: 120 180;
+  animation: breezeFlow 10s linear infinite;
+}
+
+.breeze-line-2 {
+  stroke-dasharray: 100 200;
+  animation: breezeFlow 13s linear infinite reverse;
+}
+
+.breeze-line-3 {
+  stroke-dasharray: 140 160;
+  animation: breezeFlow 11s linear infinite;
+}
+
+.breeze-line-4 {
+  stroke-dasharray: 90 210;
+  animation: breezeFlow 14s linear infinite reverse;
+}
+
+@keyframes breezeParticleDrift {
+  0% {
+    transform: translate(0, 0);
+    opacity: 0.25;
+  }
+  50% {
+    transform: translate(var(--drift-x, 8px), var(--drift-y, -6px));
+    opacity: 0.85;
+  }
+  100% {
+    transform: translate(0, 0);
+    opacity: 0.25;
+  }
+}
+
+.breeze-particle {
+  animation: breezeParticleDrift ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+@keyframes delicateSparkle {
+  0%, 100% {
+    opacity: 0;
+    transform: scale(0.2) rotate(0deg);
+  }
+  38% {
+    opacity: 0;
+    transform: scale(0.2) rotate(0deg);
+  }
+  48% {
+    opacity: 0.95;
+    transform: scale(1) rotate(45deg);
+  }
+  58% {
+    opacity: 0;
+    transform: scale(0.3) rotate(90deg);
+  }
+}
+
+.breeze-sparkle {
+  animation: delicateSparkle ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .cine-particle {
+  .cine-particle,
+  .breeze-particle,
+  .breeze-sparkle,
+  .breeze-line-1,
+  .breeze-line-2,
+  .breeze-line-3,
+  .breeze-line-4 {
     animation: none !important;
   }
 }
+

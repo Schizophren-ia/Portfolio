@@ -27,7 +27,7 @@ Mọi thay đổi từ thời điểm này sẽ tuân thủ nghiêm ngặt theo 
 | :--- | :--- | :--- |
 | **Preloader** | Hoàn thành | Đếm số 000% -> 100%, tách cửa 2 cánh điện ảnh |
 | **Hero Section** | Hoàn thành | Khung ngắm camera 4 góc `┌ ┐ └ ┘`, Typography: *LÊ ĐẶNG ĐÀI TRANG*, *PRODUCER*, *HCMC*, video background |
-| **About Me** | Hoàn thành | Bố cục 2 slide trượt ngang tinh giản cao cấp: <br>• **Tiêu đề ABOUT ME**: Khóa cố định trên 1 dòng đơn (`whitespace-nowrap`), triệt tiêu hoàn toàn lỗi chập nháy xuống dòng.<br>• **Điều hướng tinh gọn**: Đã loại bỏ ô tab Statement và các nút bấm thô cồng kềnh; sử dụng cụm mũi tên nhỏ 2 bên (`←` và `→`) cùng bộ đếm `01 / 02` ở tiêu đề và nút chuyển trực quan hai bên cạnh nội dung.<br>• **Nội dung thuần túy**: Slide 01 giữ trọn vẹn văn bản tâm huyết (*"Since I was young..."*) với hiệu ứng scroll scrub brightening; Slide 02 hiển thị 4 thẻ Stats & 5 khối Dossier.<br>• **Ảnh chân dung sắc nét**: Căn chỉnh tỷ lệ tự nhiên (`object-[center_15%]`, bỏ phóng đại `scale: 1.15`), giữ trọn 100% độ sắc nét gốc và cân bằng hoàn hảo chiều cao giữa 2 cột, không còn cảm giác lồi lõm. |
+| **About Me** | Hoàn thành | Bố cục 2 slide trượt ngang tinh giản cao cấp: <br>• **Tiêu đề ABOUT ME**: Khóa cố định trên 1 dòng đơn (`whitespace-nowrap`), triệt tiêu hoàn toàn lỗi chập nháy xuống dòng.<br>• **Điều hướng tinh gọn**: Cụm mũi tên nhỏ 2 bên (`←` và `→`) cùng bộ đếm `01 / 02`.<br>• **Nội dung thuần túy**: Slide 01 giữ trọn văn bản tâm huyết với scroll scrub brightening; Slide 02 hiển thị 4 thẻ Stats & 5 khối Dossier.<br>• **Ảnh chân dung sắc nét**: Giữ 100% độ sắc nét gốc tự nhiên, zoom 1.03x êm dịu, khung ngắm camera 4 góc `┌ ┐ └ ┘` kèm REC HUD.<br>• **Hiệu ứng Khí Quyển Gió Vàng Ánh Kim (Golden Shimmering Breeze)**: Luồng gió cong khí động học ôm sát viền ngoài, 14 hạt bụi kim loại vàng và các điểm lóe sáng quang học (lens glint) tinh tế ở 4 góc, hoàn toàn không che mặt. |
 | **Filmmaking Section** | Hoàn thành | • **GSAP ScrollTrigger Pinned Horizontal Scroll with Scrubbed Parallax Layers** đa tầng (Ambient Typography, Film Track, Inner Image Counter-Parallax, Floating Badges, Golden Cine Scrubber).<br>• Tích hợp link trailer YouTube chính thức cho cả 5 tác phẩm.<br>• **Bảng Thông Tin Phim (Modal Credits) tinh gọn**: Đã cấu hình chỉ hiển thị đúng 3 mục cốt lõi: **Thể loại**, **Đạo diễn**, **Diễn viên**; loại bỏ hoàn toàn các trường máy móc camera hay định dạng cũ. |
 | **Experiences / Timeline** | Hoàn thành | Dòng thời gian kinh nghiệm và thành tựu |
 | **Contact Section** | Hoàn thành | Thông tin liên hệ, form và mạng xã hội |
@@ -35,6 +35,32 @@ Mọi thay đổi từ thời điểm này sẽ tuân thủ nghiêm ngặt theo 
 ---
 
 ## 3. Nhật Ký Thay Đổi (Changelog)
+
+### [2026-10-10 - Cập nhật 6]
+- **Tích Hợp Hiệu Ứng Khí Quyển Gió Vàng Ánh Kim (Subtle Golden Shimmering Breeze)** quanh khung chân dung:
+  - **Dòng chảy gió uốn lượn (Curved Wind Streamlines)**:
+    - Xây dựng thành phần chuyên biệt `GoldenBreezeAtmosphere.tsx` sử dụng đồ họa vector SVG với các đường cong Bezier khí động học mềm mại ôm sát viền ngoài khung ngắm máy quay.
+    - Animation chu kỳ dài liên tục `breezeFlow` (10s - 14s) xuôi và ngược chiều tạo cảm giác luồng gió tự nhiên, thanh thoát và thoáng đãng (airy & refined).
+  - **Phối màu chuẩn bảng màu điện ảnh (Palette-Based Tones)**:
+    - Stone Ground `#D39730`
+    - Hive Delight `#F1C34C`
+    - Olivia `#986626`
+    - Phối màu chuyển sắc mượt mà (linear gradients) từ trong suốt sang ánh vàng ấm và tan vào không gian điện ảnh.
+  - **Hạt bụi kim loại vi mô (Perimeter Metallic Particles)**:
+    - 14 hạt bụi vàng kim loại siêu nhỏ (1.5px - 2.4px) phân bổ dọc theo 4 cạnh viền ngoài khung hình.
+    - Chuyển động lệch pha (staggered delay & drift vectors) mô phỏng những hạt bụi vàng bay lơ lửng theo làn gió ấm.
+  - **Điểm lóe sáng quang học tinh tế (Delicate Sparkles / Lens Glints)**:
+    - Bố trí 4 điểm lóe sáng quang học dạng dấu chữ thập siêu mảnh 4 tia tại 4 góc khung ngắm camera.
+    - Chu kỳ xuất hiện thưa thớt (mỗi 6 - 8 giây chỉ chớp nhẹ một lần), mô phỏng ống kính máy quay điện ảnh bắt tia sáng vàng le lói chứ không hề dày đặc hay ma thuật kiểu hoạt hình (not magical or glitter-heavy).
+  - **Khuôn mặt & ảnh chân dung nguyên vẹn tuyệt đối**:
+    - Khu vực trung tâm chiếm 70% khung hình hoàn toàn rỗng và trong suốt (`transparent`).
+    - Khuôn mặt, ánh mắt, nụ cười và trang phục của nhà sản xuất Lê Đặng Đài Trang giữ nguyên 100% độ tương phản, màu sắc tự nhiên và sắc nét, không bị bất kỳ lớp sương hay filter nào che khuất.
+  - **Trạng thái tương tác (Idle vs. Hover)**:
+    - Trạng thái nghỉ (Idle): Luồng gió và bụi kim loại chuyển động nhẹ nhàng, ẩn hiện với độ mờ tinh tế (`opacity: 0.40`).
+    - Trạng thái di chuột / chạm (Hover / Touch): Toàn bộ luồng gió và hạt bụi bừng sáng mượt mà (`opacity: 0.90`), kết hợp nhịp nhàng với micro-zoom `1.03x` của khung ảnh và âm thanh lấy nét màn trập êm dịu.
+  - **Khả năng tiếp cận & Tương thích**:
+    - Hỗ trợ đầy đủ `@media (prefers-reduced-motion: reduce)` dừng animation mượt mà.
+    - Thao tác cảm ứng nhạy bén trên màn hình cảm ứng di động (`onTouchStart` / `onTouchEnd`).
 
 ### [2026-10-10 - Cập nhật 5]
 - **Tối ưu Ảnh Đại Diện: Bỏ Bộ Lọc Đen Trắng & Nâng Cấp Hiệu Ứng Điện Ảnh Cao Cấp (Subtle & Premium)**:

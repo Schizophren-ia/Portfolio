@@ -3,6 +3,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { filmmakerContent } from '../data/content';
 import { ambientSound } from '../utils/ambientAudio';
+import { GoldenBreezeAtmosphere } from './GoldenBreezeAtmosphere';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -29,6 +30,7 @@ export const AboutSection: React.FC = () => {
   const statsContainerRef = useRef<HTMLDivElement>(null);
   const skillsContainerRef = useRef<HTMLDivElement>(null);
 
+  const [isPortraitHovered, setIsPortraitHovered] = useState<boolean>(false);
   const [activeSlide, setActiveSlide] = useState<number>(0);
   const slide0Ref = useRef<HTMLDivElement>(null);
   const slide1Ref = useRef<HTMLDivElement>(null);
@@ -195,12 +197,26 @@ export const AboutSection: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
           {/* Left Column: Cinematic Viewfinder Portrait */}
           <div className="lg:col-span-5 flex justify-center lg:justify-start">
-            <div ref={imageFrameRef} className="relative w-full max-w-sm sm:max-w-md">
+            <div
+              ref={imageFrameRef}
+              className="relative w-full max-w-sm sm:max-w-md"
+              onMouseEnter={() => {
+                setIsPortraitHovered(true);
+                handlePortraitInteraction();
+              }}
+              onMouseLeave={() => setIsPortraitHovered(false)}
+            >
+              {/* Dedicated Golden Shimmering Breeze Atmospheric Effect */}
+              <GoldenBreezeAtmosphere isHovered={isPortraitHovered} />
+
               {/* Interactive Camera Viewfinder Frame */}
               <div
-                onMouseEnter={handlePortraitInteraction}
                 onClick={handlePortraitInteraction}
-                onTouchStart={handlePortraitInteraction}
+                onTouchStart={() => {
+                  setIsPortraitHovered(true);
+                  handlePortraitInteraction();
+                }}
+                onTouchEnd={() => setIsPortraitHovered(false)}
                 className="group relative aspect-[4/5] max-h-[480px] overflow-hidden rounded-sm bg-noble-black border border-deep-bronze/90 shadow-2xl transition-all duration-700 cursor-pointer select-none"
               >
                 {/* 1. Full-Color Natural Portrait Image - Smooth 1.03x micro-zoom (800ms cubic-bezier) */}
