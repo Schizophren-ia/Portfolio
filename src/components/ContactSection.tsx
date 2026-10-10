@@ -7,7 +7,6 @@ export const ContactSection: React.FC = () => {
   const [formState, setFormState] = useState({
     name: '',
     email: '',
-    projectType: 'Narrative Feature / Short',
     message: '',
   });
   const [formSubmitted, setFormSubmitted] = useState(false);
@@ -25,9 +24,9 @@ export const ContactSection: React.FC = () => {
     e.preventDefault();
     if (!formState.name || !formState.email || !formState.message) return;
 
-    const mailtoSubject = encodeURIComponent(`[Film Collaboration] ${formState.name} — ${formState.projectType}`);
+    const mailtoSubject = encodeURIComponent(`[Film Collaboration] ${formState.name}`);
     const mailtoBody = encodeURIComponent(
-      `Hello Lê Đặng Đài Trang,\n\n${formState.message}\n\nFrom: ${formState.name} (${formState.email})\nProject Type: ${formState.projectType}`
+      `Hello Lê Đặng Đài Trang,\n\n${formState.message}\n\nFrom: ${formState.name} (${formState.email})`
     );
     window.location.href = `mailto:${profile.email}?subject=${mailtoSubject}&body=${mailtoBody}`;
     setFormSubmitted(true);
@@ -204,23 +203,6 @@ export const ContactSection: React.FC = () => {
                     className="w-full px-4 py-3 rounded-sm border border-deep-bronze bg-noble-black text-solo text-sm focus:outline-none focus:border-hive-delight focus:ring-1 focus:ring-hive-delight transition-colors placeholder:text-wainscot-green/50"
                   />
                 </div>
-              </div>
-
-              <div>
-                <label className="block font-montserrat text-[10px] tracking-widest text-wainscot-green uppercase mb-2">
-                  PROJECT SCOPE & TYPE
-                </label>
-                <select
-                  value={formState.projectType}
-                  onChange={(e) => setFormState({ ...formState, projectType: e.target.value })}
-                  className="w-full px-4 py-3 rounded-sm border border-deep-bronze bg-noble-black text-solo text-sm focus:outline-none focus:border-hive-delight focus:ring-1 focus:ring-hive-delight transition-colors"
-                >
-                  <option value="Feature Film Production">Feature Film Production (Phim Điện ảnh)</option>
-                  <option value="Short Film / Indie Project">Short Film / Indie Project</option>
-                  <option value="Commercial / Branded Video">Commercial & Branded Film</option>
-                  <option value="Drone & Flycam Operations">Drone (Flycam) & Filming</option>
-                  <option value="Script Writing & 3D Maya Concept">Scriptwriting & 3D Maya Concept</option>
-                </select>
               </div>
 
               <div>

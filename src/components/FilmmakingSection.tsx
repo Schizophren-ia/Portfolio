@@ -88,18 +88,7 @@ export const FilmmakingSection: React.FC = () => {
         );
       }
 
-      // Layer 4: Floating Badges Parallax Shift (1.3x speed)
-      const floatingBadges = track.querySelectorAll<HTMLElement>('.film-floating-badge');
-      if (floatingBadges.length > 0) {
-        horizontalTl.to(
-          floatingBadges,
-          {
-            x: 45,
-            ease: 'none',
-          },
-          0
-        );
-      }
+      // Layer 4: Stable Corner Badges - Firmly anchored at card margins without lateral drift
 
       // Layer 5: Scrubbed Cinema Reel Progress Line
       if (progressLine) {
@@ -257,7 +246,7 @@ export const FilmmakingSection: React.FC = () => {
 
                   {/* Laurel Tag */}
                   {film.laurel && (
-                    <div className="film-floating-badge absolute top-3 right-3 max-w-[220px] truncate px-2.5 py-1 rounded bg-noble-black/85 backdrop-blur-md border border-olivia/40 text-[10px] font-montserrat text-solo/90 shadow-lg">
+                    <div className="film-floating-badge absolute top-3 right-3 max-w-[340px] px-2.5 py-1 rounded bg-noble-black/90 backdrop-blur-md border border-olivia/40 text-[10px] font-montserrat text-solo/90 shadow-lg whitespace-nowrap">
                       ★ {film.laurel}
                     </div>
                   )}

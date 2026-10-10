@@ -306,7 +306,7 @@ export const filmmakerContent: FilmmakerContent = {
   socials: [
     { name: "Email", url: "mailto:ledangdaitrang@gmail.com", handle: "ledangdaitrang@gmail.com" },
     { name: "Phone", url: "tel:0935958358", handle: "0935 958 358" },
-    { name: "Facebook", url: "https://facebook.com", handle: "Lê Đặng Đài Trang" },
+    { name: "Facebook", url: "https://www.facebook.com/ledangdaitrang", handle: "Lê Đặng Đài Trang" },
     { name: "Instagram", url: "https://instagram.com", handle: "@ledangdaitrang" }
   ],
 

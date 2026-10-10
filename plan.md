@@ -28,13 +28,28 @@ Mọi thay đổi từ thời điểm này sẽ tuân thủ nghiêm ngặt theo 
 | **Preloader** | Hoàn thành | Đếm số 000% -> 100% vàng Hive Delight, loại bỏ hoàn toàn các dòng chữ kỹ thuật thừa gây chèn lấn (Frame rate, Color, Aspect, Subtitle). Hai cánh cửa letterbox điện ảnh đen tuyền tách mở mượt mà khi vào web. |
 | **Hero Section** | Hoàn thành | Typography: *LÊ ĐẶNG ĐÀI TRANG* trên 1 dòng duy nhất (#F1C34C). Nội dung (tên, chức danh, nhãn, nút CTA) căn giữa toán học 100% (dead center) tuyệt đối. Khung ngắm 4 góc ┌ ┐ └ ┘ nới rộng sát mép trái/phải nhưng hạ an toàn xuống dưới thanh tác vụ (`top-20` đến `top-28`), loại bỏ hoàn toàn việc đè lấn navbar hay Logo/INQUIRE. Cụm 'SCROLL TO BEGIN' neo độc lập đáy viewport. |
 | **About Me** | Hoàn thành | Bố cục 2 slide trượt ngang tinh giản cao cấp: <br>• **Ảnh chân dung tự nhiên, sắc nét**: Giữ trọn tỷ lệ đứng dọc điện ảnh `aspect-[4/5] max-h-[480px]`, đã gỡ bỏ hoàn toàn dải khí vàng và các hạt bụi lấp lánh để giữ ảnh nguyên bản, trong trẻo và thanh lịch.<br>• **Khối PROFILE không khung**: Đầy đủ 3 trường thông tin, typography sang trọng.<br>• **Hiệu ứng đếm số Slide 2 (3.5s)**: Đã nâng cấp thời gian chạy lên đúng 3.5s với độ trễ siêu nhạy 0.1s. Cập nhật trực tiếp qua DOM ref loại bỏ hoàn toàn giật lag; tích hợp animation cuộn số động liên tục (rolling digits ticker) cho cả số nhỏ (5, 7, 10) và cuộn mượt mà 0 -> 1991, đảm bảo người xem nhìn thấy rõ ràng 100% từng nấc số đếm sống động suốt 3.5 giây mỗi lần bấm sang Slide 2. |
-| **Filmmaking Section** | Hoàn thành | • **GSAP ScrollTrigger Pinned Horizontal Scroll with Scrubbed Parallax Layers** đa tầng.<br>• Thay thế 100% bằng 5 ảnh poster phim chính thức được cung cấp: *Nhắm mắt thấy mùa hè*, *Trời sáng rồi ta ngủ đi thôi*, *Sài Gòn trong cơn mưa*, *Trái tim quái vật*, *Giao lộ 8675* (đã cắt bỏ dải đen letterbox thừa, chuẩn tỷ lệ 16:9 full-frame siêu nét, lưu trực tiếp nội bộ trong `public/images/`).<br>• Hiển thị nguyên vẹn 100% bố cục poster, không bị crop cạnh chữ.<br>• Mũi tên chéo (↗) ở góc thẻ phim click trực tiếp mở ngay link trailer YouTube trên tab mới (`target='_blank'`).<br>• **Bảng Thông Tin Phim (Modal Credits) tinh gọn**: Đúng 3 mục cốt lõi: **Thể loại**, **Đạo diễn**, **Diễn viên**. |
+| **Filmmaking Section** | Hoàn thành | • **GSAP ScrollTrigger Pinned Horizontal Scroll with Scrubbed Parallax Layers** đa tầng.<br>• Thay thế 100% bằng 5 ảnh poster phim chính thức chuẩn 16:9 full-frame nội bộ.<br>• **Sửa triệt để căn lề thẻ nổi**: Gỡ bỏ chuyển động dịch chuyển `x: 45` giúp thẻ số thứ tự (01/05 -> 05/05) neo chuẩn xác sát góc trái (`top-3 left-3`), không bị thụt lề; thẻ danh hiệu (laurel) neo chuẩn xác góc phải (`top-3 right-3`) mở rộng hiển thị 100% văn bản, hoàn toàn không bị khuất chữ.<br>• Mũi tên chéo (↗) click mở ngay trailer YouTube trên tab mới.<br>• **Modal Credits tinh gọn 3 mục**: Thể loại, Đạo diễn, Diễn viên. |
 | **Experiences / Timeline** | Hoàn thành | Dòng thời gian hành trình Producer Journey (`ACT III — EXPERIENCES`). Đã gỡ bỏ hoàn toàn khối giải thưởng `ACCOLADES & FESTIVAL LAURELS / RECOGNITION IN EXCELLENCE` theo đúng yêu cầu, timeline kết thúc tinh gọn, chuyên nghiệp. |
-| **Contact Section** | Hoàn thành | Thông tin liên hệ, form và mạng xã hội |
+| **Contact Section** | Hoàn thành | • Gỡ bỏ hoàn toàn trường chọn dropdown `PROJECT SCOPE & TYPE`, form liên hệ tinh giản với 3 trường trọng tâm: Tên, Email, Ghi chú/Tóm tắt dự án.<br>• Nút Facebook liên kết chính xác tới trang cá nhân chính thức của Nhà sản xuất Lê Đặng Đài Trang: [https://www.facebook.com/ledangdaitrang](https://www.facebook.com/ledangdaitrang). |
 
 ---
 
 ## 3. Nhật Ký Thay Đổi (Changelog)
+
+### [2026-10-10 - Cập nhật 15]
+- **Sửa Lỗi Khuất Thẻ Danh Hiệu, Căn Chuẩn Lề Thẻ Số Thứ Tự (Filmmaking), Bỏ Mục Scope & Gắn Link Facebook Chính Thức (Contact)**:
+  1. **Khắc phục lỗi khuất chữ và thụt lề ở Filmmaking Section**:
+     - Gỡ bỏ chuyển động trượt ngang `x: 45` của GSAP lên `.film-floating-badge`.
+     - **Thẻ số thứ tự (01/05, 05/05)**: Neo chuẩn xác tuyệt đối tại góc trên bên trái (`top-3 left-3`), không còn bị thụt lùi vào trong lòng ảnh, thẳng hàng và đối xứng hoàn hảo với lề phải.
+     - **Thẻ danh hiệu (Laurel)**: Neo chuẩn xác ở góc trên bên phải (`top-3 right-3`), mở rộng kích thước hiển thị `max-w-[340px]` và loại bỏ việc cắt cụt chữ (`truncate`), đảm bảo dòng chữ danh hiệu (ví dụ: `★ High-Profile Vietnamese Theatrical Thriller Release`) hiển thị trọn vẹn 100%, không bị khuất hay tràn ra ngoài mép khung hình.
+  2. **Gỡ bỏ mục PROJECT SCOPE & TYPE ở Contact Section**:
+     - Xóa hoàn toàn trường chọn dropdown `PROJECT SCOPE & TYPE` khỏi form liên hệ [ContactSection.tsx](file:///d:/test/src/components/ContactSection.tsx).
+     - Form liên hệ trở nên tinh gọn, thanh lịch chuẩn portfolio điện ảnh với 3 trường thông tin: `YOUR NAME *`, `EMAIL ADDRESS *`, `SYNOPSIS / COLLABORATION NOTES *` cùng nút `SEND MESSAGE`.
+  3. **Gắn link Facebook chính thức của Nhà sản xuất Lê Đặng Đài Trang**:
+     - Cập nhật đường link trong [src/data/content.ts](file:///d:/test/src/data/content.ts) ở mục `socials`:
+       `{ name: "Facebook", url: "https://www.facebook.com/ledangdaitrang", handle: "Lê Đặng Đài Trang" }`.
+     - Nút Facebook trong Contact khi click sẽ mở trực tiếp trang cá nhân Facebook chính thức trên tab mới (`target="_blank"`).
+  4. **Bảo toàn 100% tất cả các section, ảnh phim chất lượng cao và hiệu ứng số chạy 3.5s**.
 
 ### [2026-10-10 - Cập nhật 14]
 - **Tích Hợp 5 Ảnh Bìa Phim Chính Thức (Filmmaking Section) & Nâng Cấp Hiệu Ứng Số Chạy Slide 2 Lên 3.5s (About Me)**:
