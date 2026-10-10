@@ -236,7 +236,7 @@ export const FilmmakingSection: React.FC = () => {
                       src={film.thumbnail}
                       alt={film.title}
                       loading="lazy"
-                      className="film-card-image w-full h-full object-cover grayscale contrast-110 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-out will-change-transform"
+                      className="film-card-image w-full h-full object-cover contrast-[1.03] group-hover:scale-105 transition-all duration-700 ease-out will-change-transform"
                     />
                   </div>
 
@@ -285,11 +285,25 @@ export const FilmmakingSection: React.FC = () => {
                     <span className="text-solo/75 font-light">{film.genre}</span>
                   </div>
 
-                  <div className="flex items-center justify-between">
+                  <div className="flex items-center justify-between gap-4">
                     <h3 className="font-playfair font-black text-2xl text-solo group-hover:text-hive-delight transition-colors uppercase tracking-tight">
                       {film.title}
                     </h3>
-                    <ArrowUpRight className="w-5 h-5 text-wainscot-green group-hover:text-hive-delight group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
+                    {film.youtubeUrl ? (
+                      <a
+                        href={film.youtubeUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                        className="p-1 -mr-1 rounded-full text-wainscot-green hover:text-hive-delight hover:bg-deep-bronze/60 transition-all duration-300 group/arrow"
+                        title="Xem trailer chính thức trên YouTube ↗"
+                        aria-label={`Xem trailer ${film.title} trên YouTube`}
+                      >
+                        <ArrowUpRight className="w-5 h-5 group-hover/arrow:text-hive-delight group-hover/arrow:translate-x-0.5 group-hover/arrow:-translate-y-0.5 transition-all duration-300" />
+                      </a>
+                    ) : (
+                      <ArrowUpRight className="w-5 h-5 text-wainscot-green group-hover:text-hive-delight group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
+                    )}
                   </div>
 
                   <p className="font-montserrat text-xs text-wainscot-green/85 line-clamp-2 leading-relaxed pt-0.5">
@@ -368,13 +382,26 @@ export const FilmmakingSection: React.FC = () => {
                 <div className="text-[10px] font-montserrat uppercase text-wainscot-green tracking-wider">
                   {film.year} · {film.role} · {film.genre}
                 </div>
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between gap-3">
                   <h3 className="font-playfair font-black text-xl text-solo uppercase tracking-tight">
                     {film.title}
                   </h3>
-                  <span className="text-xs text-hive-delight font-montserrat uppercase font-semibold">
-                    XEM →
-                  </span>
+                  {film.youtubeUrl ? (
+                    <a
+                      href={film.youtubeUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
+                      className="inline-flex items-center gap-1 text-xs text-hive-delight font-montserrat uppercase font-semibold hover:underline shrink-0"
+                      title="Xem trailer trên YouTube ↗"
+                    >
+                      <span>TRAILER ↗</span>
+                    </a>
+                  ) : (
+                    <span className="text-xs text-hive-delight font-montserrat uppercase font-semibold">
+                      XEM →
+                    </span>
+                  )}
                 </div>
                 <p className="font-montserrat text-xs text-wainscot-green/85 line-clamp-2 leading-relaxed">
                   {film.logline}

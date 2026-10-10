@@ -26,15 +26,36 @@ Mọi thay đổi từ thời điểm này sẽ tuân thủ nghiêm ngặt theo 
 | Khu vực | Trạng thái hiện tại | Ghi chú kỹ thuật |
 | :--- | :--- | :--- |
 | **Preloader** | Hoàn thành | Đếm số 000% -> 100% vàng Hive Delight, loại bỏ hoàn toàn các dòng chữ kỹ thuật thừa gây chèn lấn (Frame rate, Color, Aspect, Subtitle). Hai cánh cửa letterbox điện ảnh đen tuyền tách mở mượt mà khi vào web. |
-| **Hero Section** | Hoàn thành | Typography: *LÊ ĐẶNG ĐÀI TRANG* trên 1 dòng duy nhất, thống nhất màu vàng Hive Delight (#F1C34C). Khung ngắm 4 góc ┌ ┐ └ ┘ mở rộng ra sát mép màn hình theo đúng bản vẽ (inset mép ngoài), nội dung căn chỉnh chính xác 100% ở chính giữa màn hình (dead center), không gian khoáng đạt, không bị chật hẹp hay vướng thanh tác vụ. |
+| **Hero Section** | Hoàn thành | Typography: *LÊ ĐẶNG ĐÀI TRANG* trên 1 dòng duy nhất (#F1C34C). Nội dung (tên, chức danh, nhãn, nút CTA) căn giữa toán học 100% (dead center) tuyệt đối. Khung ngắm 4 góc ┌ ┐ └ ┘ nới rộng sát mép trái/phải nhưng hạ an toàn xuống dưới thanh tác vụ (`top-20` đến `top-28`), loại bỏ hoàn toàn việc đè lấn navbar hay Logo/INQUIRE. Cụm 'SCROLL TO BEGIN' neo độc lập đáy viewport. |
 | **About Me** | Hoàn thành | Bố cục 2 slide trượt ngang tinh giản cao cấp: <br>• **Ảnh chân dung tự nhiên, sắc nét**: Giữ trọn tỷ lệ đứng dọc điện ảnh `aspect-[4/5] max-h-[480px]`, đã gỡ bỏ hoàn toàn dải khí vàng và các hạt bụi lấp lánh để giữ ảnh nguyên bản, trong trẻo và thanh lịch.<br>• **Khối PROFILE không khung**: Đầy đủ 3 trường thông tin, typography sang trọng.<br>• **Hiệu ứng đếm số Slide 2 (StatCounter - Lựa chọn 1)**: Đã kéo dài thời gian chạy lên 2.8s, đặt delay 0.65s (chờ Slide 2 trượt vào ổn định rồi mới bắt đầu đếm từ 0 lên 5+, 7, 10+, 1991), so le 0.15s, người xem nhìn thấy rõ ràng 100% từng nấc số đếm sống động. |
-| **Filmmaking Section** | Hoàn thành | • **GSAP ScrollTrigger Pinned Horizontal Scroll with Scrubbed Parallax Layers** đa tầng (Ambient Typography, Film Track, Inner Image Counter-Parallax, Floating Badges, Golden Cine Scrubber).<br>• Tích hợp link trailer YouTube chính thức cho cả 5 tác phẩm.<br>• **Bảng Thông Tin Phim (Modal Credits) tinh gọn**: Đã cấu hình chỉ hiển thị đúng 3 mục cốt lõi: **Thể loại**, **Đạo diễn**, **Diễn viên**; loại bỏ hoàn toàn các trường máy móc camera hay định dạng cũ. |
+| **Filmmaking Section** | Hoàn thành | • **GSAP ScrollTrigger Pinned Horizontal Scroll with Scrubbed Parallax Layers** đa tầng.<br>• Cập nhật 100% ảnh thumbnail 5 phim theo đúng ảnh đại diện gốc trailer YouTube (`maxresdefault.jpg`), màu sắc điện ảnh nguyên bản sắc nét.<br>• Mũi tên chéo (↗) ở góc thẻ phim click trực tiếp mở ngay link trailer YouTube trên tab mới (`target='_blank'`).<br>• **Bảng Thông Tin Phim (Modal Credits) tinh gọn**: Đúng 3 mục cốt lõi: **Thể loại**, **Đạo diễn**, **Diễn viên**. |
 | **Experiences / Timeline** | Hoàn thành | Dòng thời gian hành trình Producer Journey (`ACT III — EXPERIENCES`). Đã gỡ bỏ hoàn toàn khối giải thưởng `ACCOLADES & FESTIVAL LAURELS / RECOGNITION IN EXCELLENCE` theo đúng yêu cầu, timeline kết thúc tinh gọn, chuyên nghiệp. |
 | **Contact Section** | Hoàn thành | Thông tin liên hệ, form và mạng xã hội |
 
 ---
 
 ## 3. Nhật Ký Thay Đổi (Changelog)
+
+### [2026-10-10 - Cập nhật 13]
+- **Cân Bằng Đối Xứng Tuyệt Đối Hero Section, Hạ Khung 4 Góc Tránh Navbar, Cập Nhật Thumbnail Trailer Gốc & Click Mũi Tên Chéo Mở Trailer (Filmmaking)**:
+  1. **Căn giữa hoàn mỹ nội dung Hero Section (Dead-Center Alignment)**:
+     - Tách rời cụm "SCROLL TO BEGIN" ra khỏi flex container trung tâm và neo độc lập ở `absolute bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2`.
+     - Toàn bộ nội dung chính (tiêu đề `LÊ ĐẶNG ĐÀI TRANG`, chức danh, nhãn định vị, các nút CTA) nằm chính xác 100% tại tâm điểm khung nhìn (trùng khớp với tâm ngắm `+`), tạo sự cân đối thị giác hoàn hảo cả theo phương ngang lẫn phương dọc.
+  2. **Hạ khung ngắm 4 góc Hero Section tránh hoàn toàn thanh tác vụ**:
+     - Điều chỉnh tọa độ đỉnh của khung ngắm máy quay thành `top-20 sm:top-24 md:top-28`, đáy `bottom-6 sm:bottom-8` và mở rộng hai bên `left-4 sm:left-6 md:left-8 lg:left-10 right-4 sm:right-6 md:right-8 lg:right-10`.
+     - Triệt tiêu 100% hiện tượng 2 góc trên `┌` và `┐` đè lên Logo hoặc nút `INQUIRE` của thanh tác vụ, đồng thời duy trì không gian mở rộng thoáng đãng sát mép màn hình đúng như nét vẽ tay phác thảo.
+  3. **Cập nhật Thumbnail 5 tác phẩm điện ảnh chuẩn xác theo trailer YouTube chính thức**:
+     - Thay thế toàn bộ ảnh thumbnail của 5 bộ phim sang ảnh đại diện gốc độ phân giải cao `maxresdefault.jpg` từ các đường link trailer chính thức được cung cấp:
+       - *Nhắm mắt thấy mùa hè*: `https://img.youtube.com/vi/tlNtE3IW6bE/maxresdefault.jpg`
+       - *Trời sáng rồi ta ngủ đi thôi*: `https://img.youtube.com/vi/pKE389nMnk8/maxresdefault.jpg`
+       - *Sài Gòn trong cơn mưa*: `https://img.youtube.com/vi/Eyju5ODfd-g/maxresdefault.jpg`
+       - *Trái tim quái vật*: `https://img.youtube.com/vi/qgVg0xh_ogQ/maxresdefault.jpg`
+       - *Giao lộ 8675*: `https://img.youtube.com/vi/wrOLqdg54Bo/maxresdefault.jpg`
+     - Bỏ bộ lọc `grayscale`, hiển thị hình ảnh với màu sắc điện ảnh nguyên bản, sống động và sắc nét tự nhiên.
+  4. **Kích hoạt Mũi tên chéo (↗) mở trực tiếp link trailer YouTube**:
+     - Biến biểu tượng mũi tên chéo `ArrowUpRight` trên mỗi thẻ phim (cả bản Desktop lẫn Mobile) thành liên kết trực tiếp `<a>` mở đường link trailer YouTube trên tab mới (`target="_blank"` và `rel="noopener noreferrer"`).
+     - Thêm `e.stopPropagation()` để khi click vào mũi tên sẽ chuyển ngay tới trailer mà không gây xung đột với thao tác click mở bảng chi tiết phim (Modal Credits).
+  5. **Giữ nguyên 100% tất cả các section, logic đếm số Slide 2 About Me (2.8s) và các thành phần khác**.
 
 ### [2026-10-10 - Cập nhật 12]
 - **Tinh Gọn Màn Hình Mở Đầu (Preloader) & Kéo Dài Thời Gian Số Chạy Slide 2 Lên 2.8s (Lựa Chọn 1)**:

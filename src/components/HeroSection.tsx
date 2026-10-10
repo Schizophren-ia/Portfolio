@@ -111,10 +111,10 @@ export const HeroSection: React.FC = () => {
         <div className="absolute inset-0 bg-radial-gradient from-transparent via-noble-black/40 to-noble-black" />
       </div>
 
-      {/* 4 Extended Camera Frame Corners - Positioned at viewport margins exactly as drawn by user */}
+      {/* 4 Extended Camera Frame Corners - Positioned safely below navbar and near viewport edges */}
       <div
         ref={viewfinderRef}
-        className="absolute inset-4 sm:inset-6 md:inset-8 lg:inset-10 pointer-events-none z-20 select-none"
+        className="absolute top-20 sm:top-24 md:top-28 bottom-6 sm:bottom-8 left-4 sm:left-6 md:left-8 lg:left-10 right-4 sm:right-6 md:right-8 lg:right-10 pointer-events-none z-20 select-none"
         aria-hidden="true"
       >
         {/* Top-Left Corner */}
@@ -134,7 +134,7 @@ export const HeroSection: React.FC = () => {
       </div>
 
       {/* Central Hero Content: Positioned dead center in the middle of the screen with luxurious breathing room */}
-      <div className="relative z-20 max-w-7xl w-full mx-auto px-4 sm:px-8 py-10 sm:py-14 flex flex-col items-center justify-center text-center select-none my-auto">
+      <div className="relative z-20 max-w-7xl w-full mx-auto px-4 sm:px-8 py-8 sm:py-12 flex flex-col items-center justify-center text-center select-none my-auto">
         {/* 1. Typography: LÊ ĐẶNG ĐÀI TRANG on 1 single line, unified golden Hive Delight */}
         <h1
           ref={headlineRef}
@@ -201,17 +201,17 @@ export const HeroSection: React.FC = () => {
             GET IN TOUCH
           </a>
         </div>
+      </div>
 
-        {/* Scroll To Begin Indicator - In-flow below buttons */}
-        <div
-          ref={scrollIndicatorRef}
-          className="mt-8 sm:mt-10 flex flex-col items-center gap-2 pointer-events-none select-none text-wainscot-green"
-        >
-          <span className="font-montserrat text-[10px] tracking-cinema uppercase text-wainscot-green/80">
-            SCROLL TO BEGIN
-          </span>
-          <div className="w-[1.5px] h-6 bg-gradient-to-b from-hive-delight via-stone-ground to-transparent animate-pulse" />
-        </div>
+      {/* Scroll To Begin Indicator - Anchored cleanly at viewport bottom */}
+      <div
+        ref={scrollIndicatorRef}
+        className="absolute bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-1.5 pointer-events-none select-none text-wainscot-green"
+      >
+        <span className="font-montserrat text-[9px] sm:text-[10px] tracking-cinema uppercase text-wainscot-green/80">
+          SCROLL TO BEGIN
+        </span>
+        <div className="w-[1.5px] h-5 sm:h-6 bg-gradient-to-b from-hive-delight via-stone-ground to-transparent animate-pulse" />
       </div>
     </section>
   );
