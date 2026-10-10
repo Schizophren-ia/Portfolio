@@ -1,3 +1,6 @@
+const BASE_URL = import.meta.env.BASE_URL || '/';
+const getAssetUrl = (path: string) => `${BASE_URL.replace(/\/$/, '')}/${path.replace(/^\//, '')}`;
+
 export interface FilmProject {
   id: string;
   index: string;
@@ -174,7 +177,7 @@ export const PORTFOLIO_DATA = {
         "Shot on location in the picturesque photography town of Higashikawa in Hokkaido, Japan, 'Nhắm Mắt Thấy Mùa Hè' follows Ha, a young Vietnamese woman who travels to Japan in search of her estranged father. There she crosses paths with Akira, an introspective Japanese photographer. Together, they embark on a delicate emotional journey where language boundaries dissolve in the quiet beauty of sunflower fields and unspoken longing.",
       director: "Cao Thúy Nhi",
       castAndCrew: "Phương Anh Đào, Takafumi Akutsu, Soul Story",
-      posterImage: "/images/nham-mat-thay-mua-he.jpg",
+      posterImage: getAssetUrl("/images/nham-mat-thay-mua-he.jpg"),
       videoUrl: "https://www.youtube.com/watch?v=1FGBzS6q2-M",
       youtubeId: "1FGBzS6q2-M",
       producerNote:
@@ -202,7 +205,7 @@ export const PORTFOLIO_DATA = {
         "Set entirely across one single, transformative night in Saigon, the film follows Vinh, a struggling indie songwriter contemplating giving up music, and Anh, a spirited girl carrying secret emotional scars. Drifting through quiet streets on an old yellow scooter with an acoustic guitar strapped over shoulders, their midnight conversations blossom into an intimate love letter to youth and Saigon's hidden soul.",
       director: "Chung Chí Công",
       castAndCrew: "Hà Quốc Hoàng, Trần Lê Thúy Vy, Phạm Hải Âu",
-      posterImage: "/images/troi-sang-roi.jpg",
+      posterImage: getAssetUrl("/images/troi-sang-roi.jpg"),
       videoUrl: "https://www.youtube.com/watch?v=F0fR1Q11X28",
       youtubeId: "F0fR1Q11X28",
       producerNote:
@@ -230,7 +233,7 @@ export const PORTFOLIO_DATA = {
         "Vu, an introverted singer-songwriter from Hanoi, meets May, an ambitious and practical Saigon woman, under a sudden downpour at a street shelter. As the monsoon seasons roll across the city, their relationship flourishes alongside the struggles of building a livelihood in a fast-paced metropolis. The film paints an evocative, rain-soaked portrait of youth balancing dreams with practical compromises.",
       director: "Lê Minh Hoàng",
       castAndCrew: "Avin Lu, Hồ Thu Anh, Vũ Hoài Nam",
-      posterImage: "/images/saigon-trong-con-mua.jpg",
+      posterImage: getAssetUrl("/images/saigon-trong-con-mua.jpg"),
       videoUrl: "https://www.youtube.com/watch?v=7uV8-wU77vI",
       youtubeId: "7uV8-wU77vI",
       producerNote:
@@ -258,7 +261,7 @@ export const PORTFOLIO_DATA = {
         "When an infamous young resident is found brutally murdered inside an old, dimly lit tenement block in Saigon, single mother Khanh becomes the prime suspect. As an investigation unfolds in the shadowy maze of rusted corridors and flickering staircases, the chilling true nature of everyone in the building is laid bare.",
       director: "Tạ Nguyên Hiệp",
       castAndCrew: "Hoàng Thùy Linh, B Trần, Hứa Vĩ Văn, Quang Huy (WePro)",
-      posterImage: "/images/trai-tim-quai-vat.jpg",
+      posterImage: getAssetUrl("/images/trai-tim-quai-vat.jpg"),
       videoUrl: "https://www.youtube.com/watch?v=kYJ0hT9w_1M",
       youtubeId: "kYJ0hT9w_1M",
       producerNote:
@@ -286,7 +289,7 @@ export const PORTFOLIO_DATA = {
         "Featuring three distinct yet spiritually connected tales of young characters standing at crucial crossroads in their lives. From an undefeated MMA fighter traveling to the cradle of traditional Vietnamese martial arts in Binh Dinh, to an unexpected friendship formed along sweeping coastal highways, 'Giao Lộ 8675' celebrates cultural heritage, courage, and self-discovery.",
       director: "Tân DS",
       castAndCrew: "Isaac, Rocker Nguyễn, Lợi Trần, Emma Lê, La Thành",
-      posterImage: "/images/giao-lo-8675.jpg",
+      posterImage: getAssetUrl("/images/giao-lo-8675.jpg"),
       videoUrl: "https://www.youtube.com/watch?v=QZ8k0jH7l34",
       youtubeId: "QZ8k0jH7l34",
       producerNote:

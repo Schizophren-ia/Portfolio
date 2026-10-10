@@ -1,6 +1,9 @@
 import type { FilmmakerContent } from './types';
 export type { FilmItem, FilmmakerContent } from './types';
 
+const BASE_URL = import.meta.env.BASE_URL || '/';
+const getAssetUrl = (path: string) => `${BASE_URL.replace(/\/$/, '')}/${path.replace(/^\//, '')}`;
+
 export const filmmakerContent: FilmmakerContent = {
   profile: {
     firstName: "LÊ ĐẶNG",
@@ -15,7 +18,7 @@ export const filmmakerContent: FilmmakerContent = {
     phone: "0935 958 358",
     heroVideo: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
     heroPoster: "https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=2000&q=85",
-    portraitImage: "/images/profile-portrait.jpg",
+    portraitImage: getAssetUrl("/images/profile-portrait.jpg"),
     storyPillars: [
       "Story about me",
       "Story about film",
@@ -142,7 +145,7 @@ export const filmmakerContent: FilmmakerContent = {
       cast: "Phương Anh Đào, Takafumi Akutsu",
       duration: "98 Min",
       aspectRatio: "2.39:1 CinemaScope",
-      thumbnail: "/images/nham-mat-thay-mua-he.jpg",
+      thumbnail: getAssetUrl("/images/nham-mat-thay-mua-he.jpg"),
       youtubeUrl: "https://www.youtube.com/watch?v=tlNtE3IW6bE",
       videoUrl: "https://www.youtube.com/embed/tlNtE3IW6bE?autoplay=1&mute=0",
       logline: "A young Vietnamese woman travels to the snowy, blooming landscapes of Higashikawa, Hokkaido, searching for her estranged father and discovering heartfelt love.",
@@ -167,7 +170,7 @@ export const filmmakerContent: FilmmakerContent = {
       cast: "Hà Quốc Hoàng, Trần Lê Thúy Vy",
       duration: "102 Min",
       aspectRatio: "1.85:1 Flat",
-      thumbnail: "/images/troi-sang-roi.jpg",
+      thumbnail: getAssetUrl("/images/troi-sang-roi.jpg"),
       youtubeUrl: "https://www.youtube.com/watch?v=pKE389nMnk8",
       videoUrl: "https://www.youtube.com/embed/pKE389nMnk8?autoplay=1&mute=0",
       logline: "Two wandering souls drift together through an intoxicating night in Saigon, serenading each other with acoustic songs, memories, and vulnerable confessions.",
@@ -192,7 +195,7 @@ export const filmmakerContent: FilmmakerContent = {
       cast: "Avin Lu, Hồ Thu Anh",
       duration: "105 Min",
       aspectRatio: "2.39:1 CinemaScope",
-      thumbnail: "/images/saigon-trong-con-mua.jpg",
+      thumbnail: getAssetUrl("/images/saigon-trong-con-mua.jpg"),
       youtubeUrl: "https://www.youtube.com/watch?v=Eyju5ODfd-g",
       videoUrl: "https://www.youtube.com/embed/Eyju5ODfd-g?autoplay=1&mute=0",
       logline: "Two ambitious dreamers strive to stay true to their art and to each other under Saigon's relentless, poetic monsoon downpours.",
@@ -217,7 +220,7 @@ export const filmmakerContent: FilmmakerContent = {
       cast: "Hoàng Thùy Linh, B Trần, Hứa Vĩ Văn, Quang Trung",
       duration: "88 Min",
       aspectRatio: "2.39:1 CinemaScope",
-      thumbnail: "/images/trai-tim-quai-vat.jpg",
+      thumbnail: getAssetUrl("/images/trai-tim-quai-vat.jpg"),
       youtubeUrl: "https://www.youtube.com/watch?v=qgVg0xh_ogQ",
       videoUrl: "https://www.youtube.com/embed/qgVg0xh_ogQ?autoplay=1&mute=0",
       logline: "A gruesome murder in an old, crowded tenement plunges a single mother into a treacherous maze of deception, police interrogation, and urban monsters.",
@@ -242,7 +245,7 @@ export const filmmakerContent: FilmmakerContent = {
       cast: "Isaac, Rocker Nguyễn, Lợi Trần, Emma Lê, La Thành",
       duration: "105 Min",
       aspectRatio: "2.39:1 CinemaScope",
-      thumbnail: "/images/giao-lo-8675.jpg",
+      thumbnail: getAssetUrl("/images/giao-lo-8675.jpg"),
       youtubeUrl: "https://www.youtube.com/watch?v=wrOLqdg54Bo",
       videoUrl: "https://www.youtube.com/embed/wrOLqdg54Bo?autoplay=1&mute=0",
       logline: "Three interwoven journeys across scenic landscapes challenge a martial artist, a traveler, and a musician to confront crossroads defining their true destiny.",

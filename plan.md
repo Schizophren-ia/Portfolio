@@ -252,6 +252,14 @@ Mọi thay đổi từ thời điểm này sẽ tuân thủ nghiêm ngặt theo 
     - Mỗi khi có mã nguồn mới được push lên nhánh `main`, hệ thống sẽ tự động cài đặt gói thư viện, biên dịch dự án Vite sang thư mục `dist/` và phát hành lên GitHub Pages.
   - **Kiểm thử biên dịch**: Build production thành công trong 5.35s với đầy đủ bundles tối ưu hóa.
 
+### [2026-10-10 - Cập nhật 7]
+- **Khắc Phục Lỗi Hiển Thị Ảnh Trên GitHub Pages (Assets Base Subpath Resolution)**:
+  - **Nguyên nhân**: Khi chạy trên GitHub Pages tại địa chỉ `https://schizophren-ia.github.io/Portfolio/`, các đường dẫn ảnh tĩnh trước đó là `/images/...` bị trình duyệt hiểu lầm là dẫn về gốc domain `schizophren-ia.github.io/images/...` (dẫn tới mã lỗi HTTP 404 Not Found), khiến ảnh chân dung About Me và poster các phim không hiển thị.
+  - **Khắc phục**:
+    - Tích hợp tiện ích `getAssetUrl` sử dụng `import.meta.env.BASE_URL` trong [content.ts](file:///d:/test/src/data/content.ts) và [portfolioData.ts](file:///d:/test/src/data/portfolioData.ts).
+    - Toàn bộ đường dẫn ảnh chân dung (`profile-portrait.jpg`) cùng 5 poster phim chính thức (`nham-mat-thay-mua-he.jpg`, `troi-sang-roi.jpg`, `saigon-trong-con-mua.jpg`, `trai-tim-quai-vat.jpg`, `giao-lo-8675.jpg`) được tự động gắn tiền tố `/Portfolio/images/...` chuẩn xác trên môi trường production.
+    - Đồng thời vẫn tương thích hoàn hảo 100% khi chạy kiểm thử local (`localhost:5173`).
+
 ---
 
 ## 4. Kế Hoạch & Ý Tưởng Tiếp Theo (Roadmap)
