@@ -244,6 +244,14 @@ Mọi thay đổi từ thời điểm này sẽ tuân thủ nghiêm ngặt theo 
     - *Giao lộ 8675*: Đạo diễn Tân DS / Diễn viên: Isaac, Rocker Nguyễn, Lợi Trần, Emma Lê, La Thành
   - Bổ sung hàm ánh xạ fallback an toàn đảm bảo luôn hiển thị chuẩn xác 100% kể cả trong môi trường cache.
 
+### [2026-10-10 - Cập nhật 6]
+- **Thiết Lập Tự Động Triển Khai GitHub Pages (GitHub Actions Workflow & Vite Base)**:
+  - **Cấu hình `vite.config.ts`**: Đặt `base: process.env.NODE_ENV === 'production' ? '/Portfolio/' : '/'` để các đường dẫn CSS, JS, favicon và assets được định tuyến chính xác trên tên miền phụ repository `https://schizophren-ia.github.io/Portfolio/`.
+  - **Tạo Quy Trình Tự Động Triển Khai `.github/workflows/deploy.yml`**:
+    - Sử dụng GitHub Actions chính thức (`actions/configure-pages@v5`, `actions/upload-pages-artifact@v3`, `actions/deploy-pages@v4`).
+    - Mỗi khi có mã nguồn mới được push lên nhánh `main`, hệ thống sẽ tự động cài đặt gói thư viện, biên dịch dự án Vite sang thư mục `dist/` và phát hành lên GitHub Pages.
+  - **Kiểm thử biên dịch**: Build production thành công trong 5.35s với đầy đủ bundles tối ưu hóa.
+
 ---
 
 ## 4. Kế Hoạch & Ý Tưởng Tiếp Theo (Roadmap)
