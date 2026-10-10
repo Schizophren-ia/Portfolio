@@ -12,38 +12,64 @@ interface StatCounterProps {
   index: number;
 }
 
-const StatCounter: React.FC<StatCounterProps> = React.memo(({ targetValue, active, index }) => {
-  const [displayValue, setDisplayValue] = useState<number>(0);
+const StatCounter: React.FC<StatCounterProps> = ({ targetValue, active, index }) => {
+  const spanRef = useRef<HTMLSpanElement>(null);
   const tweenRef = useRef<gsap.core.Tween | null>(null);
 
   useEffect(() => {
+    if (!spanRef.current) return;
+
     if (!active) {
       if (tweenRef.current) tweenRef.current.kill();
-      setDisplayValue(0);
+      spanRef.current.textContent = '0';
       return;
     }
 
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReducedMotion) {
-      setDisplayValue(targetValue);
+      spanRef.current.textContent = targetValue.toString();
       return;
     }
 
     // Reset to 0 when slide activates
-    setDisplayValue(0);
-    const counterObj = { val: 0 };
+    spanRef.current.textContent = '0';
+    const counterObj = { progress: 0 };
 
-    // Start count-up after slide 2 finishes sliding into place (0.65s delay)
+    // Start count-up immediately as slide enters view (0.10s base delay) with 3.5s cinematic duration
     tweenRef.current = gsap.to(counterObj, {
-      val: targetValue,
-      duration: 2.8,
-      delay: 0.65 + index * 0.15,
+      progress: 1,
+      duration: 3.5,
+      delay: 0.1 + index * 0.08,
       ease: 'power2.out',
       onUpdate: () => {
-        setDisplayValue(Math.floor(counterObj.val));
+        if (!spanRef.current) return;
+        const p = counterObj.progress;
+
+        if (targetValue >= 100) {
+          // Large numbers (e.g. 1991): count smoothly and continuously from 0 up to 1991
+          const currentVal = Math.floor(p * targetValue);
+          spanRef.current.textContent = currentVal.toString();
+        } else {
+          // Small numbers (5, 7, 10): active rolling digits animation that settles into target
+          if (p < 0.65) {
+            // Rapid kinetic ticker roll (cycles through digits)
+            const rollSeed = Math.floor(p * 36 + index * 5);
+            const rollVal = (rollSeed % 9) + 1;
+            spanRef.current.textContent = rollVal.toString();
+          } else if (p < 0.85) {
+            // Deceleration approach step
+            const approachVal = Math.max(1, targetValue - 1);
+            spanRef.current.textContent = approachVal.toString();
+          } else {
+            // Final settle into exact target value
+            spanRef.current.textContent = targetValue.toString();
+          }
+        }
       },
       onComplete: () => {
-        setDisplayValue(targetValue);
+        if (spanRef.current) {
+          spanRef.current.textContent = targetValue.toString();
+        }
       },
     });
 
@@ -52,8 +78,8 @@ const StatCounter: React.FC<StatCounterProps> = React.memo(({ targetValue, activ
     };
   }, [active, targetValue, index]);
 
-  return <span className="stat-number">{displayValue}</span>;
-});
+  return <span ref={spanRef} className="stat-number">0</span>;
+};
 
 export const AboutSection: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);

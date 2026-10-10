@@ -27,14 +27,33 @@ Mọi thay đổi từ thời điểm này sẽ tuân thủ nghiêm ngặt theo 
 | :--- | :--- | :--- |
 | **Preloader** | Hoàn thành | Đếm số 000% -> 100% vàng Hive Delight, loại bỏ hoàn toàn các dòng chữ kỹ thuật thừa gây chèn lấn (Frame rate, Color, Aspect, Subtitle). Hai cánh cửa letterbox điện ảnh đen tuyền tách mở mượt mà khi vào web. |
 | **Hero Section** | Hoàn thành | Typography: *LÊ ĐẶNG ĐÀI TRANG* trên 1 dòng duy nhất (#F1C34C). Nội dung (tên, chức danh, nhãn, nút CTA) căn giữa toán học 100% (dead center) tuyệt đối. Khung ngắm 4 góc ┌ ┐ └ ┘ nới rộng sát mép trái/phải nhưng hạ an toàn xuống dưới thanh tác vụ (`top-20` đến `top-28`), loại bỏ hoàn toàn việc đè lấn navbar hay Logo/INQUIRE. Cụm 'SCROLL TO BEGIN' neo độc lập đáy viewport. |
-| **About Me** | Hoàn thành | Bố cục 2 slide trượt ngang tinh giản cao cấp: <br>• **Ảnh chân dung tự nhiên, sắc nét**: Giữ trọn tỷ lệ đứng dọc điện ảnh `aspect-[4/5] max-h-[480px]`, đã gỡ bỏ hoàn toàn dải khí vàng và các hạt bụi lấp lánh để giữ ảnh nguyên bản, trong trẻo và thanh lịch.<br>• **Khối PROFILE không khung**: Đầy đủ 3 trường thông tin, typography sang trọng.<br>• **Hiệu ứng đếm số Slide 2 (StatCounter - Lựa chọn 1)**: Đã kéo dài thời gian chạy lên 2.8s, đặt delay 0.65s (chờ Slide 2 trượt vào ổn định rồi mới bắt đầu đếm từ 0 lên 5+, 7, 10+, 1991), so le 0.15s, người xem nhìn thấy rõ ràng 100% từng nấc số đếm sống động. |
-| **Filmmaking Section** | Hoàn thành | • **GSAP ScrollTrigger Pinned Horizontal Scroll with Scrubbed Parallax Layers** đa tầng.<br>• Cập nhật 100% ảnh thumbnail 5 phim theo đúng ảnh đại diện gốc trailer YouTube (`maxresdefault.jpg`), màu sắc điện ảnh nguyên bản sắc nét.<br>• Mũi tên chéo (↗) ở góc thẻ phim click trực tiếp mở ngay link trailer YouTube trên tab mới (`target='_blank'`).<br>• **Bảng Thông Tin Phim (Modal Credits) tinh gọn**: Đúng 3 mục cốt lõi: **Thể loại**, **Đạo diễn**, **Diễn viên**. |
+| **About Me** | Hoàn thành | Bố cục 2 slide trượt ngang tinh giản cao cấp: <br>• **Ảnh chân dung tự nhiên, sắc nét**: Giữ trọn tỷ lệ đứng dọc điện ảnh `aspect-[4/5] max-h-[480px]`, đã gỡ bỏ hoàn toàn dải khí vàng và các hạt bụi lấp lánh để giữ ảnh nguyên bản, trong trẻo và thanh lịch.<br>• **Khối PROFILE không khung**: Đầy đủ 3 trường thông tin, typography sang trọng.<br>• **Hiệu ứng đếm số Slide 2 (3.5s)**: Đã nâng cấp thời gian chạy lên đúng 3.5s với độ trễ siêu nhạy 0.1s. Cập nhật trực tiếp qua DOM ref loại bỏ hoàn toàn giật lag; tích hợp animation cuộn số động liên tục (rolling digits ticker) cho cả số nhỏ (5, 7, 10) và cuộn mượt mà 0 -> 1991, đảm bảo người xem nhìn thấy rõ ràng 100% từng nấc số đếm sống động suốt 3.5 giây mỗi lần bấm sang Slide 2. |
+| **Filmmaking Section** | Hoàn thành | • **GSAP ScrollTrigger Pinned Horizontal Scroll with Scrubbed Parallax Layers** đa tầng.<br>• Thay thế 100% bằng 5 ảnh poster phim chính thức được cung cấp: *Nhắm mắt thấy mùa hè*, *Trời sáng rồi ta ngủ đi thôi*, *Sài Gòn trong cơn mưa*, *Trái tim quái vật*, *Giao lộ 8675* (đã cắt bỏ dải đen letterbox thừa, chuẩn tỷ lệ 16:9 full-frame siêu nét, lưu trực tiếp nội bộ trong `public/images/`).<br>• Hiển thị nguyên vẹn 100% bố cục poster, không bị crop cạnh chữ.<br>• Mũi tên chéo (↗) ở góc thẻ phim click trực tiếp mở ngay link trailer YouTube trên tab mới (`target='_blank'`).<br>• **Bảng Thông Tin Phim (Modal Credits) tinh gọn**: Đúng 3 mục cốt lõi: **Thể loại**, **Đạo diễn**, **Diễn viên**. |
 | **Experiences / Timeline** | Hoàn thành | Dòng thời gian hành trình Producer Journey (`ACT III — EXPERIENCES`). Đã gỡ bỏ hoàn toàn khối giải thưởng `ACCOLADES & FESTIVAL LAURELS / RECOGNITION IN EXCELLENCE` theo đúng yêu cầu, timeline kết thúc tinh gọn, chuyên nghiệp. |
 | **Contact Section** | Hoàn thành | Thông tin liên hệ, form và mạng xã hội |
 
 ---
 
 ## 3. Nhật Ký Thay Đổi (Changelog)
+
+### [2026-10-10 - Cập nhật 14]
+- **Tích Hợp 5 Ảnh Bìa Phim Chính Thức (Filmmaking Section) & Nâng Cấp Hiệu Ứng Số Chạy Slide 2 Lên 3.5s (About Me)**:
+  1. **Thay thế và tối ưu hóa 5 ảnh poster phim chính thức**:
+     - Tiếp nhận 5 hình ảnh phim thực tế do bạn cung cấp, xử lý kỹ thuật và lưu trữ trực tiếp vào thư mục nội bộ `public/images/`:
+       - *Nhắm mắt thấy mùa hè*: Poster chàng trai góc nghiêng trên cánh đồng hoa Hokkaido (`/images/nham-mat-thay-mua-he.jpg`).
+       - *Trời sáng rồi ta ngủ đi thôi*: Poster đôi bạn trẻ ôm đàn hát trên nền trời xanh pastel (`/images/troi-sang-roi.jpg`).
+       - *Sài Gòn trong cơn mưa*: Poster cặp đôi che ô đỏ rực rỡ dưới cơn mưa đêm (`/images/saigon-trong-con-mua.jpg`).
+       - *Trái tim quái vật*: Poster án mạng 4 nhân vật chính khu chung cư WePro (`/images/trai-tim-quai-vat.jpg`).
+       - *Giao lộ 8675*: Poster 3 nhân vật hành trình giữa non nước hùng vĩ (`/images/giao-lo-8675.jpg`), đã xử lý cắt bỏ hoàn toàn 2 dải đen letterbox ở trên/dưới và nâng cấp chất lượng cao chuẩn tỷ lệ 16:9 full-frame.
+     - Căn chỉnh khung hình `w-full h-full` không còn cắt xén 12.5% hai bên mép thẻ, giúp toàn bộ tiêu đề phim và thông tin trên poster hiển thị sắc nét, nguyên vẹn 100%.
+     - Xóa bỏ file `src/data/content.js` cũ bị xung đột cache, đồng bộ toàn bộ hệ thống sang `src/data/content.ts`.
+  2. **Nâng cấp toàn diện hiệu ứng đếm số Slide 2 lên 3.5s**:
+     - Kéo dài thời lượng hiệu ứng số chạy chính xác lên **3.5s** theo hàm gia tốc điện ảnh `power2.out`.
+     - Giảm độ trễ kích hoạt xuống tức thì (`delay: 0.1s + index * 0.08s`), ngay khi bấm chuyển sang Slide 2 là các con số lập tức chuyển động lăn bánh, không còn bị đơ hay đứng im ở số 0.
+     - Chuyển cơ chế sang can thiệp DOM trực tiếp (`spanRef.current.textContent`), loại bỏ hoàn toàn hiện tượng nghẽn render/batching của React 19, đảm bảo độ mượt 120fps.
+     - Tích hợp animation cuộn số động liên tục (rolling digits ticker) cho cả các số nhỏ (5, 7, 10): trong suốt 3.5s các con số liên tục xoay vần sống động trước khi hãm tốc và neo chuẩn xác về giá trị đích; số 1991 cuộn nhịp nhàng từ 0 đến 1991.
+     - Tự động reset về 0 khi quay về Slide 1, và kích hoạt lại trọn vẹn hiệu ứng 3.5s mỗi khi người dùng bấm mở lại Slide 2.
+  3. **Bảo toàn 100% các thành phần khác**: Hero Section, Preloader, Experiences, Contact, v.v.
 
 ### [2026-10-10 - Cập nhật 13]
 - **Cân Bằng Đối Xứng Tuyệt Đối Hero Section, Hạ Khung 4 Góc Tránh Navbar, Cập Nhật Thumbnail Trailer Gốc & Click Mũi Tên Chéo Mở Trailer (Filmmaking)**:

@@ -75,13 +75,13 @@ export const FilmmakingSection: React.FC = () => {
         0
       );
 
-      // Layer 3: Inner Thumbnail Image Counter-Parallax (Windowing Effect inside 16:9 cards)
+      // Layer 3: Inner Thumbnail Image Subtle Cinematic Scale Depth
       const innerImages = track.querySelectorAll<HTMLElement>('.film-card-image');
       if (innerImages.length > 0) {
         horizontalTl.to(
           innerImages,
           {
-            x: -80,
+            scale: 1.05,
             ease: 'none',
           },
           0
@@ -229,14 +229,14 @@ export const FilmmakingSection: React.FC = () => {
                 data-cursor="PLAY"
                 className="group relative w-[560px] shrink-0 bg-[#151918]/90 backdrop-blur-sm border border-deep-bronze/70 rounded-sm overflow-hidden p-5 shadow-2xl hover:border-hive-delight/80 transition-all duration-500 cursor-pointer will-change-transform"
               >
-                {/* 16:9 Thumbnail Image with Inner Counter-Parallax */}
+                {/* 16:9 Thumbnail Image */}
                 <div className="relative aspect-video w-full overflow-hidden rounded bg-black">
-                  <div className="w-[125%] h-full -ml-[12.5%] overflow-hidden">
+                  <div className="w-full h-full overflow-hidden">
                     <img
                       src={film.thumbnail}
                       alt={film.title}
                       loading="lazy"
-                      className="film-card-image w-full h-full object-cover contrast-[1.03] group-hover:scale-105 transition-all duration-700 ease-out will-change-transform"
+                      className="film-card-image w-full h-full object-cover contrast-[1.04] saturate-[1.02] group-hover:scale-105 transition-all duration-700 ease-out will-change-transform"
                     />
                   </div>
 
