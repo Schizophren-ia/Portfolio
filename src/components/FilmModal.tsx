@@ -203,7 +203,7 @@ export const FilmModal: React.FC<FilmModalProps> = ({ film, onClose, onNext }) =
                   <span className="text-wainscot-green uppercase tracking-wider font-semibold">Đạo diễn:</span>
                   <span className="text-hive-delight font-semibold text-left sm:text-right">
                     {film.director ||
-                      (film.id === 'nham-mat-thay-mua-he' ? 'Cao Bá Dung' :
+                      (film.id === 'nham-mat-thay-mua-he' ? 'Cao Thúy Nhi' :
                        film.id === 'troi-sang-roi-ta-ngu-di-thoi' ? 'Chung Chí Công' :
                        film.id === 'sai-gon-trong-con-mua' ? 'Lê Minh Hoàng' :
                        film.id === 'trai-tim-quai-vat' ? 'Tạ Nguyên Hiệp' :

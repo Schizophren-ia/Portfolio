@@ -7,7 +7,7 @@ A high-end, award-level portfolio website for Vietnamese Feature Film Producer *
 ## 🎬 Featured Films
 
 1. **Nhắm mắt thấy mùa hè** (2018) — *Romance · Drama · Indie Feature*
-   - **Đạo diễn**: Cao Bá Dung
+   - **Đạo diễn**: Cao Thúy Nhi
    - **Diễn viên**: Phương Anh Đào, Takafumi Akutsu
    - [Xem Trailer](https://www.youtube.com/watch?v=tlNtE3IW6bE)
 

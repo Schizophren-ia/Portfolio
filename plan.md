@@ -237,28 +237,20 @@ Mọi thay đổi từ thời điểm này sẽ tuân thủ nghiêm ngặt theo 
     3. **Diễn viên** (Starring / Cast)
   - Loại bỏ toàn bộ các mục thừa: Camera & Tools, Aspect Ratio, Release Year, Shooting Locations trong bảng credits.
   - Bổ sung dữ liệu đạo diễn và diễn viên chính xác cho toàn bộ 5 tác phẩm:
-    - *Nhắm mắt thấy mùa hè*: Đạo diễn Cao Bá Dung / Diễn viên: Phương Anh Đào, Takafumi Akutsu
+    - *Nhắm mắt thấy mùa hè*: Đạo diễn Cao Thúy Nhi / Diễn viên: Phương Anh Đào, Takafumi Akutsu
     - *Trời sáng rồi, ta ngủ đi thôi*: Đạo diễn Chung Chí Công / Diễn viên: Hà Quốc Hoàng, Trần Lê Thúy Vy
     - *Sài Gòn trong cơn mưa*: Đạo diễn Lê Minh Hoàng / Diễn viên: Avin Lu, Hồ Thu Anh
     - *Trái tim quái vật*: Đạo diễn Tạ Nguyên Hiệp / Diễn viên: Hoàng Thùy Linh, B Trần, Hứa Vĩ Văn, Quang Trung
     - *Giao lộ 8675*: Đạo diễn Tân DS / Diễn viên: Isaac, Rocker Nguyễn, Lợi Trần, Emma Lê, La Thành
   - Bổ sung hàm ánh xạ fallback an toàn đảm bảo luôn hiển thị chuẩn xác 100% kể cả trong môi trường cache.
 
-### [2026-10-10 - Cập nhật 6]
-- **Thiết Lập Tự Động Triển Khai GitHub Pages (GitHub Actions Workflow & Vite Base)**:
-  - **Cấu hình `vite.config.ts`**: Đặt `base: process.env.NODE_ENV === 'production' ? '/Portfolio/' : '/'` để các đường dẫn CSS, JS, favicon và assets được định tuyến chính xác trên tên miền phụ repository `https://schizophren-ia.github.io/Portfolio/`.
-  - **Tạo Quy Trình Tự Động Triển Khai `.github/workflows/deploy.yml`**:
-    - Sử dụng GitHub Actions chính thức (`actions/configure-pages@v5`, `actions/upload-pages-artifact@v3`, `actions/deploy-pages@v4`).
-    - Mỗi khi có mã nguồn mới được push lên nhánh `main`, hệ thống sẽ tự động cài đặt gói thư viện, biên dịch dự án Vite sang thư mục `dist/` và phát hành lên GitHub Pages.
-  - **Kiểm thử biên dịch**: Build production thành công trong 5.35s với đầy đủ bundles tối ưu hóa.
-
-### [2026-10-10 - Cập nhật 7]
-- **Khắc Phục Lỗi Hiển Thị Ảnh Trên GitHub Pages (Assets Base Subpath Resolution)**:
-  - **Nguyên nhân**: Khi chạy trên GitHub Pages tại địa chỉ `https://schizophren-ia.github.io/Portfolio/`, các đường dẫn ảnh tĩnh trước đó là `/images/...` bị trình duyệt hiểu lầm là dẫn về gốc domain `schizophren-ia.github.io/images/...` (dẫn tới mã lỗi HTTP 404 Not Found), khiến ảnh chân dung About Me và poster các phim không hiển thị.
-  - **Khắc phục**:
-    - Tích hợp tiện ích `getAssetUrl` sử dụng `import.meta.env.BASE_URL` trong [content.ts](file:///d:/test/src/data/content.ts) và [portfolioData.ts](file:///d:/test/src/data/portfolioData.ts).
-    - Toàn bộ đường dẫn ảnh chân dung (`profile-portrait.jpg`) cùng 5 poster phim chính thức (`nham-mat-thay-mua-he.jpg`, `troi-sang-roi.jpg`, `saigon-trong-con-mua.jpg`, `trai-tim-quai-vat.jpg`, `giao-lo-8675.jpg`) được tự động gắn tiền tố `/Portfolio/images/...` chuẩn xác trên môi trường production.
-    - Đồng thời vẫn tương thích hoàn hảo 100% khi chạy kiểm thử local (`localhost:5173`).
+### [2026-10-10 - Cập nhật 8]
+- **Đính Chính Thông Tin Đạo Diễn Phim 'Nhắm Mắt Thấy Mùa Hè'**:
+  - Sửa lại chính xác tên đạo diễn thành **Cao Thúy Nhi** trong:
+    - [src/data/content.ts](file:///d:/test/src/data/content.ts)
+    - [src/components/FilmModal.tsx](file:///d:/test/src/components/FilmModal.tsx)
+    - [README.md](file:///d:/test/README.md)
+  - Đồng bộ và kích hoạt cập nhật tự động lên GitHub Pages.
 
 ---
 

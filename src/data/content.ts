@@ -141,7 +141,7 @@ export const filmmakerContent: FilmmakerContent = {
       year: "2018",
       role: "Producer",
       genre: "Romance · Drama · Indie Feature",
-      director: "Cao Bá Dung",
+      director: "Cao Thúy Nhi",
       cast: "Phương Anh Đào, Takafumi Akutsu",
       duration: "98 Min",
       aspectRatio: "2.39:1 CinemaScope",
