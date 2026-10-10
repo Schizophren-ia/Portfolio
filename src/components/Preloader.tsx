@@ -77,12 +77,8 @@ export const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
       {/* Top Letterbox Bar */}
       <div
         ref={topBarRef}
-        className="h-1/2 w-full bg-noble-black border-b border-deep-bronze/40 flex items-end justify-center pb-6"
-      >
-        <span className="text-[10px] tracking-[0.3em] uppercase text-wainscot-green font-montserrat">
-          CINE-REEL SPEC // 35MM ANAMORPHIC
-        </span>
-      </div>
+        className="h-1/2 w-full bg-noble-black border-b border-deep-bronze/40"
+      />
 
       {/* Center Counter & Slate HUD */}
       <div
@@ -102,26 +98,14 @@ export const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
             <span>{count.toString().padStart(3, '0')}</span>
             <span className="text-xl md:text-2xl font-montserrat font-light text-wainscot-green ml-2">%</span>
           </div>
-
-          <p className="mt-4 font-montserrat text-xs tracking-cinema uppercase text-solo/80">
-            INITIALIZING OPTICS & MASTER REEL
-          </p>
         </div>
       </div>
 
       {/* Bottom Letterbox Bar */}
       <div
         ref={bottomBarRef}
-        className="h-1/2 w-full bg-noble-black border-t border-deep-bronze/40 flex items-start justify-center pt-6"
-      >
-        <div className="flex items-center gap-6 text-[10px] tracking-widest uppercase text-wainscot-green font-montserrat">
-          <span>FRAME RATE: 24.000</span>
-          <span className="text-olivia">•</span>
-          <span>COLOR: ACEScc</span>
-          <span className="text-olivia">•</span>
-          <span>ASPECT: 2.39:1</span>
-        </div>
-      </div>
+        className="h-1/2 w-full bg-noble-black border-t border-deep-bronze/40"
+      />
     </div>
   );
 };

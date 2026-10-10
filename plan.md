@@ -25,9 +25,9 @@ Mọi thay đổi từ thời điểm này sẽ tuân thủ nghiêm ngặt theo 
 
 | Khu vực | Trạng thái hiện tại | Ghi chú kỹ thuật |
 | :--- | :--- | :--- |
-| **Preloader** | Hoàn thành | Đếm số 000% -> 100%, tách cửa 2 cánh điện ảnh |
+| **Preloader** | Hoàn thành | Đếm số 000% -> 100% vàng Hive Delight, loại bỏ hoàn toàn các dòng chữ kỹ thuật thừa gây chèn lấn (Frame rate, Color, Aspect, Subtitle). Hai cánh cửa letterbox điện ảnh đen tuyền tách mở mượt mà khi vào web. |
 | **Hero Section** | Hoàn thành | Typography: *LÊ ĐẶNG ĐÀI TRANG* trên 1 dòng duy nhất, thống nhất màu vàng Hive Delight (#F1C34C). Khung ngắm 4 góc ┌ ┐ └ ┘ mở rộng ra sát mép màn hình theo đúng bản vẽ (inset mép ngoài), nội dung căn chỉnh chính xác 100% ở chính giữa màn hình (dead center), không gian khoáng đạt, không bị chật hẹp hay vướng thanh tác vụ. |
-| **About Me** | Hoàn thành | Bố cục 2 slide trượt ngang tinh giản cao cấp: <br>• **Ảnh chân dung tự nhiên, sắc nét**: Giữ trọn tỷ lệ đứng dọc điện ảnh `aspect-[4/5] max-h-[480px]`, đã gỡ bỏ hoàn toàn dải khí vàng và các hạt bụi lấp lánh để giữ ảnh nguyên bản, trong trẻo và thanh lịch.<br>• **Khối PROFILE không khung**: Đầy đủ 3 trường thông tin, typography sang trọng.<br>• **Hiệu ứng đếm số Slide 2 (StatCounter)**: Sử dụng kiến trúc component độc lập, tự động chạy đếm số sống động từ 0 lên 5+, 7, 10+, 1991 ngay khi mở Slide 2 và tự reset để replay mỗi lần mở lại. |
+| **About Me** | Hoàn thành | Bố cục 2 slide trượt ngang tinh giản cao cấp: <br>• **Ảnh chân dung tự nhiên, sắc nét**: Giữ trọn tỷ lệ đứng dọc điện ảnh `aspect-[4/5] max-h-[480px]`, đã gỡ bỏ hoàn toàn dải khí vàng và các hạt bụi lấp lánh để giữ ảnh nguyên bản, trong trẻo và thanh lịch.<br>• **Khối PROFILE không khung**: Đầy đủ 3 trường thông tin, typography sang trọng.<br>• **Hiệu ứng đếm số Slide 2 (StatCounter - Lựa chọn 1)**: Đã kéo dài thời gian chạy lên 2.8s, đặt delay 0.65s (chờ Slide 2 trượt vào ổn định rồi mới bắt đầu đếm từ 0 lên 5+, 7, 10+, 1991), so le 0.15s, người xem nhìn thấy rõ ràng 100% từng nấc số đếm sống động. |
 | **Filmmaking Section** | Hoàn thành | • **GSAP ScrollTrigger Pinned Horizontal Scroll with Scrubbed Parallax Layers** đa tầng (Ambient Typography, Film Track, Inner Image Counter-Parallax, Floating Badges, Golden Cine Scrubber).<br>• Tích hợp link trailer YouTube chính thức cho cả 5 tác phẩm.<br>• **Bảng Thông Tin Phim (Modal Credits) tinh gọn**: Đã cấu hình chỉ hiển thị đúng 3 mục cốt lõi: **Thể loại**, **Đạo diễn**, **Diễn viên**; loại bỏ hoàn toàn các trường máy móc camera hay định dạng cũ. |
 | **Experiences / Timeline** | Hoàn thành | Dòng thời gian hành trình Producer Journey (`ACT III — EXPERIENCES`). Đã gỡ bỏ hoàn toàn khối giải thưởng `ACCOLADES & FESTIVAL LAURELS / RECOGNITION IN EXCELLENCE` theo đúng yêu cầu, timeline kết thúc tinh gọn, chuyên nghiệp. |
 | **Contact Section** | Hoàn thành | Thông tin liên hệ, form và mạng xã hội |
@@ -35,6 +35,15 @@ Mọi thay đổi từ thời điểm này sẽ tuân thủ nghiêm ngặt theo 
 ---
 
 ## 3. Nhật Ký Thay Đổi (Changelog)
+
+### [2026-10-10 - Cập nhật 12]
+- **Tinh Gọn Màn Hình Mở Đầu (Preloader) & Kéo Dài Thời Gian Số Chạy Slide 2 Lên 2.8s (Lựa Chọn 1)**:
+  1. **Khắc phục triệt để lỗi chữ chèn lấn ở Preloader**:
+     - Gỡ bỏ hoàn toàn các dòng chữ kỹ thuật thừa gây chèn ép lên số 000%: `FRAME RATE: 24.000 • COLOR: ACEScc • ASPECT: 2.39:1` (chân trang), `CINE-REEL SPEC // 35MM ANAMORPHIC` (đỉnh trang) và `INITIALIZING OPTICS & MASTER REEL` (phụ đề).
+     - Giữ nguyên vẹn tâm ngắm quang học điện ảnh và bộ đếm số vàng hoàng kim chạy mượt mà từ `000%` $\rightarrow$ `100%` (`#F1C34C`) trên nền 2 cánh cửa letterbox đen tuyền sang trọng, tách mở êm ái khi đếm xong.
+  2. **Kéo dài thời gian hiệu ứng số chạy ở Slide 2 lên 2.8s theo Lựa chọn 1**:
+     - Căn chỉnh độ trễ bắt đầu `delay: 0.65s`: chờ Slide 2 trượt vào đúng tầm mắt người xem rồi mới bắt đầu kích hoạt chạy số.
+     - Thời lượng chạy được kéo dài từ 1.8s lên **2.8s** (so le `0.15s` giữa các cột), giúp mắt người xem nhìn thấy rõ rệt từng bước số nhảy từ 0 lên `5+`, `7`, `10+`, `1991` mà không bị trôi tuột hay bỏ lỡ.
 
 ### [2026-10-10 - Cập nhật 11]
 - **Bỏ Mục Giải Thưởng Accolades, Bỏ Ánh Vàng Lấp Lánh Ở Intro & Sửa Dứt Điểm Hiệu Ứng Số Chạy Slide 2**:

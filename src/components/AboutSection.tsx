@@ -33,11 +33,11 @@ const StatCounter: React.FC<StatCounterProps> = React.memo(({ targetValue, activ
     setDisplayValue(0);
     const counterObj = { val: 0 };
 
-    // Start count-up as slide 2 slides into view
+    // Start count-up after slide 2 finishes sliding into place (0.65s delay)
     tweenRef.current = gsap.to(counterObj, {
       val: targetValue,
-      duration: 1.8,
-      delay: 0.2 + index * 0.12,
+      duration: 2.8,
+      delay: 0.65 + index * 0.15,
       ease: 'power2.out',
       onUpdate: () => {
         setDisplayValue(Math.floor(counterObj.val));
