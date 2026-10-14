@@ -33,3 +33,5 @@ capture*.mjs
 snap*.mjs
 inspect_dom.mjs
 temp-chrome-profile/
+ 
+.timtro-stage/

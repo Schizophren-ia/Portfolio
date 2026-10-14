@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
-import { filmmakerContent } from '../data/content';
 import { formatSMPTETimecode } from '../utils/timecode';
 
 interface NavigationProps {
@@ -65,28 +64,14 @@ export const Navigation: React.FC<NavigationProps> = ({ activeSection }) => {
         }`}
       >
         <div className="max-w-7xl mx-auto px-6 sm:px-8 flex items-center justify-between">
-          {/* Logo / Initials */}
+          {/* Brand link: "Portfolio" */}
           <a
             href="#hero"
             onClick={(e) => scrollToSection(e, '#hero')}
-            className="group flex items-center gap-3 text-solo hover:text-hive-delight transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-hive-delight"
-            aria-label="Lê Đặng Đài Trang - Film Producer Portfolio"
+            className="font-playfair font-black tracking-[0.22em] text-sm sm:text-base uppercase text-solo hover:text-hive-delight transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-hive-delight"
+            aria-label="Portfolio"
           >
-            <div className="relative w-8 h-8 rounded-sm border border-deep-bronze/80 group-hover:border-hive-delight flex items-center justify-center bg-deep-bronze/30 transition-colors">
-              <span className="font-playfair font-black text-sm text-hive-delight">DT</span>
-              {/* Camera viewfinder corner accents */}
-              <span className="absolute -top-[1px] -left-[1px] w-1.5 h-1.5 border-t border-l border-hive-delight/70" />
-              <span className="absolute -bottom-[1px] -right-[1px] w-1.5 h-1.5 border-b border-r border-hive-delight/70" />
-            </div>
-
-            <div className="flex flex-col leading-tight">
-              <span className="font-playfair font-bold tracking-widest text-xs sm:text-sm text-solo group-hover:text-hive-delight transition-colors whitespace-nowrap">
-                {filmmakerContent.profile.fullName}
-              </span>
-              <span className="hidden xs:block font-montserrat text-[8.5px] uppercase tracking-cinema text-wainscot-green">
-                PRODUCER · FILMMAKER
-              </span>
-            </div>
+            Portfolio
           </a>
 
           {/* Desktop Navigation Links + Timecode Counter */}

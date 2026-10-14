@@ -1,5 +1,5 @@
-import React, { useMemo, useState } from 'react';
-import { ArrowUpRight, Film, Play, Sparkles } from 'lucide-react';
+import React, { useMemo, useRef, useState } from 'react';
+import { ArrowUpRight, ChevronLeft, ChevronRight, Film, Play, Sparkles } from 'lucide-react';
 import { filmmakerContent } from '../data/content';
 import { archiveFilms } from '../data/archiveData';
 import type { FilmCategory, FilmItem } from '../data/types';
@@ -16,19 +16,23 @@ const categories: { id: FilmCategory; label: string; note: string }[] = [
 
 type IndexedFilm = FilmItem & { archiveIndex: number };
 
-const FilmCard: React.FC<{ film: IndexedFilm; onOpen: () => void; duplicate?: boolean }> = ({ film, onOpen, duplicate = false }) => (
+const FilmCard: React.FC<{
+  film: IndexedFilm;
+  onOpen: () => void;
+  className?: string;
+}> = ({ film, onOpen, className = '' }) => (
   <article
     onClick={onOpen}
     onKeyDown={(event) => {
-      if (!duplicate && (event.key === 'Enter' || event.key === ' ')) {
+      if (event.key === 'Enter' || event.key === ' ') {
         event.preventDefault();
         onOpen();
       }
     }}
     role="button"
-    tabIndex={duplicate ? -1 : 0}
+    tabIndex={0}
     aria-label={`Xem ${film.title}`}
-    className="archive-card group relative w-[260px] sm:w-[310px] xl:w-[340px] shrink-0 cursor-pointer overflow-hidden border border-deep-bronze/60 bg-[#112A46] shadow-xl transition-colors duration-300 hover:border-hive-delight/80 focus-within:border-hive-delight"
+    className={`archive-card group relative cursor-pointer overflow-hidden border border-deep-bronze/60 bg-[#112A46] shadow-xl transition-all duration-300 hover:border-hive-delight/80 hover:-translate-y-1 focus-within:border-hive-delight ${className}`}
     data-cursor="PLAY"
   >
     <div className="relative aspect-video overflow-hidden bg-black">
@@ -53,6 +57,12 @@ const FilmCard: React.FC<{ film: IndexedFilm; onOpen: () => void; duplicate?: bo
           src={film.thumbnail}
           alt={film.title}
           loading="lazy"
+          onError={(e) => {
+            const target = e.currentTarget;
+            if (target.src.includes('maxresdefault.jpg')) {
+              target.src = target.src.replace('maxresdefault.jpg', 'hqdefault.jpg');
+            }
+          }}
           className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
         />
       )}
@@ -82,34 +92,63 @@ const FilmCard: React.FC<{ film: IndexedFilm; onOpen: () => void; duplicate?: bo
   </article>
 );
 
-const MarqueeRow: React.FC<{
+const ScrollableShelf: React.FC<{
   films: IndexedFilm[];
-  reverse?: boolean;
   onOpen: (archiveIndex: number) => void;
-}> = ({ films, reverse = false, onOpen }) => {
-  if (!films.length) return null;
+}> = ({ films, onOpen }) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
 
-  if (films.length === 1) {
-    return (
-      <div className="mx-auto max-w-7xl px-6 sm:px-8">
-        <FilmCard film={films[0]} onOpen={() => onOpen(films[0].archiveIndex)} />
-      </div>
-    );
-  }
+  const checkScroll = () => {
+    if (!containerRef.current) return;
+    const { scrollLeft, scrollWidth, clientWidth } = containerRef.current;
+    setCanScrollLeft(scrollLeft > 10);
+    setCanScrollRight(scrollLeft + clientWidth < scrollWidth - 10);
+  };
 
-  const group = (suffix: string, hidden: boolean) => (
-    <div className="archive-marquee-group" aria-hidden={hidden || undefined}>
-      {films.map((film) => (
-        <FilmCard key={`${film.id}-${suffix}`} film={film} duplicate={hidden} onOpen={() => onOpen(film.archiveIndex)} />
-      ))}
-    </div>
-  );
+  const handleScroll = (direction: 'left' | 'right') => {
+    if (!containerRef.current) return;
+    const scrollAmount = Math.max(300, containerRef.current.clientWidth * 0.75);
+    containerRef.current.scrollBy({
+      left: direction === 'left' ? -scrollAmount : scrollAmount,
+      behavior: 'smooth',
+    });
+  };
 
   return (
-    <div className="archive-marquee" aria-label={`${films.length} filmmaking works`}>
-      <div className={`archive-marquee-track ${reverse ? 'archive-marquee-reverse' : ''}`}>
-        {group('primary', false)}
-        {group('duplicate', true)}
+    <div className="relative">
+      <div
+        ref={containerRef}
+        onScroll={checkScroll}
+        className="flex gap-5 sm:gap-6 overflow-x-auto scrollbar-none scroll-smooth pb-3 pt-1 snap-x snap-mandatory"
+      >
+        {films.map((film) => (
+          <div key={film.id} className="w-[280px] sm:w-[320px] lg:w-[360px] shrink-0 snap-start">
+            <FilmCard film={film} onOpen={() => onOpen(film.archiveIndex)} className="w-full" />
+          </div>
+        ))}
+      </div>
+
+      <div className="flex items-center justify-end gap-2 mt-3">
+        <button
+          type="button"
+          onClick={() => handleScroll('left')}
+          disabled={!canScrollLeft}
+          className="flex h-8 w-8 items-center justify-center rounded border border-deep-bronze/70 bg-[#112A46]/60 text-wainscot-green hover:border-hive-delight hover:text-hive-delight disabled:opacity-25 disabled:pointer-events-none transition-colors"
+          aria-label="Previous items"
+        >
+          <ChevronLeft className="h-4 w-4" />
+        </button>
+        <button
+          type="button"
+          onClick={() => handleScroll('right')}
+          disabled={!canScrollRight}
+          className="flex h-8 w-8 items-center justify-center rounded border border-deep-bronze/70 bg-[#112A46]/60 text-wainscot-green hover:border-hive-delight hover:text-hive-delight disabled:opacity-25 disabled:pointer-events-none transition-colors"
+          aria-label="Next items"
+        >
+          <ChevronRight className="h-4 w-4" />
+        </button>
       </div>
     </div>
   );
@@ -162,7 +201,7 @@ export const FilmmakingSection: React.FC = () => {
               <span>{allFilms.length} selected works</span>
             </div>
           </div>
-          <p className="mt-5 max-w-2xl font-montserrat text-sm leading-relaxed text-wainscot-green">
+          <p className="mt-5 max-w-2xl font-montserrat text-sm leading-relaxed text-wainscot-green text-justify">
             A continuous production reel across feature films, short-form storytelling, commercials and music culture. Hover to pause · Drag or swipe to explore.
           </p>
         </header>
@@ -174,13 +213,10 @@ export const FilmmakingSection: React.FC = () => {
               ...film,
               index: `${String(index + 1).padStart(2, '0')}/${String(categoryFilms.length).padStart(2, '0')}`,
             }));
-            const useTwoRows = indexed.length >= 4;
-            const firstRow = useTwoRows ? indexed.filter((_, index) => index % 2 === 0) : indexed;
-            const secondRow = useTwoRows ? indexed.filter((_, index) => index % 2 === 1) : [];
 
             return (
               <section key={category.id} aria-labelledby={`archive-${category.id}`}>
-                <div className="mx-auto mb-5 flex max-w-7xl items-end justify-between gap-5 px-6 sm:px-8">
+                <div className="mx-auto mb-6 flex max-w-7xl items-end justify-between gap-5 px-6 sm:px-8">
                   <div className="flex items-baseline gap-3 sm:gap-5">
                     <span className="font-mono text-xs text-stone-ground">0{categoryIndex + 1}</span>
                     <div>
@@ -191,20 +227,41 @@ export const FilmmakingSection: React.FC = () => {
                   <span className="font-mono text-xs text-hive-delight">{String(indexed.length).padStart(2, '0')} WORKS</span>
                 </div>
 
-                {indexed.length ? (
-                  <div className="space-y-3">
-                    <MarqueeRow films={firstRow} onOpen={setActiveFilmIndex} />
-                    {secondRow.length > 0 && <MarqueeRow films={secondRow} reverse onOpen={setActiveFilmIndex} />}
-                  </div>
-                ) : (
-                  <div className="mx-auto max-w-7xl px-6 sm:px-8">
+                <div className="mx-auto max-w-7xl px-6 sm:px-8">
+                  {indexed.length === 0 ? (
                     <div className="flex min-h-48 flex-col items-center justify-center border border-dashed border-deep-bronze/80 bg-[#112A46]/70 text-center">
                       <Sparkles className="mb-4 h-6 w-6 text-hive-delight" />
                       <p className="font-playfair text-2xl uppercase text-solo">New work in development</p>
                       <span className="mt-2 font-montserrat text-[10px] uppercase tracking-cinema text-wainscot-green">Coming soon</span>
                     </div>
-                  </div>
-                )}
+                  ) : category.id === 'movie' ? (
+                    /* Movie feature films in a clean responsive grid bounded and balanced on both sides */
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7">
+                      {indexed.map((film) => (
+                        <FilmCard
+                          key={film.id}
+                          film={film}
+                          onOpen={() => setActiveFilmIndex(film.archiveIndex)}
+                          className="w-full"
+                        />
+                      ))}
+                    </div>
+                  ) : indexed.length <= 3 ? (
+                    <div className={`grid grid-cols-1 sm:grid-cols-2 ${indexed.length === 3 ? 'lg:grid-cols-3' : ''} gap-6 sm:gap-7`}>
+                      {indexed.map((film) => (
+                        <FilmCard
+                          key={film.id}
+                          film={film}
+                          onOpen={() => setActiveFilmIndex(film.archiveIndex)}
+                          className="w-full"
+                        />
+                      ))}
+                    </div>
+                  ) : (
+                    /* Shelves with > 3 items: smooth horizontal scroll with Prev/Next buttons, perfectly bounded within max-w-7xl */
+                    <ScrollableShelf films={indexed} onOpen={setActiveFilmIndex} />
+                  )}
+                </div>
               </section>
             );
           })}

@@ -106,8 +106,8 @@ export const AboutSection: React.FC = () => {
 
         {/* Portrait, profile and biography remain one unified block. */}
         <div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-12 lg:gap-16">
-          <div className="lg:col-span-5">
-            <div className="group relative mx-auto aspect-[4/5] max-h-[500px] max-w-md overflow-hidden border border-deep-bronze/90 bg-black shadow-2xl lg:mx-0">
+          <div className="lg:col-span-5 flex flex-col items-center">
+            <div className="group relative mx-auto aspect-[4/5] max-h-[500px] w-full max-w-md overflow-hidden border border-deep-bronze/90 bg-black shadow-2xl">
               <img ref={portraitRef} src={filmmakerContent.profile.portraitImage} alt={`${filmmakerContent.profile.fullName} portrait`} className="h-full w-full object-cover object-[center_15%] transition-transform duration-700 group-hover:scale-[1.025]" />
               <div className="absolute inset-0 bg-gradient-to-t from-noble-black/80 via-transparent to-noble-black/10" />
               <div className="absolute inset-4 border border-solo/15" />
@@ -116,13 +116,36 @@ export const AboutSection: React.FC = () => {
               </div>
             </div>
 
-            <div className="mt-5 border-l-2 border-hive-delight pl-4">
-              <p className="font-montserrat text-[10px] font-bold uppercase tracking-cinema text-hive-delight">Profile</p>
-              <dl className="mt-3 grid grid-cols-[100px_1fr] gap-y-2 font-montserrat text-xs sm:text-sm">
-                <dt className="uppercase tracking-wider text-wainscot-green">Name</dt><dd className="text-solo">Le Dang Dai Trang</dd>
-                <dt className="uppercase tracking-wider text-wainscot-green">Birthday</dt><dd className="text-solo">15.10.1991</dd>
-                <dt className="uppercase tracking-wider text-wainscot-green">Occupation</dt><dd className="text-solo">Producer</dd>
-              </dl>
+            {/* Profile section centered directly beneath the photo with generous row spacing */}
+            <div className="mt-6 w-full max-w-md mx-auto flex flex-col items-center">
+              <div className="inline-flex items-center gap-2 mb-3.5">
+                <span className="h-1.5 w-1.5 rounded-full bg-hive-delight" />
+                <p className="font-montserrat text-xs font-bold uppercase tracking-widest text-hive-delight">Profile</p>
+                <span className="h-1.5 w-1.5 rounded-full bg-hive-delight" />
+              </div>
+
+              <div className="w-full rounded border border-deep-bronze/60 bg-[#112A46]/35 p-4 sm:p-5 backdrop-blur-sm shadow-lg">
+                <dl className="space-y-3.5 font-montserrat text-xs sm:text-sm">
+                  <div className="flex items-center justify-between border-b border-deep-bronze/40 pb-3">
+                    <dt className="flex items-center gap-2 uppercase tracking-wider text-wainscot-green">
+                      <span className="text-hive-delight">•</span> Name:
+                    </dt>
+                    <dd className="font-semibold text-solo">Le Dang Dai Trang</dd>
+                  </div>
+                  <div className="flex items-center justify-between border-b border-deep-bronze/40 pb-3">
+                    <dt className="flex items-center gap-2 uppercase tracking-wider text-wainscot-green">
+                      <span className="text-hive-delight">•</span> Birthday:
+                    </dt>
+                    <dd className="font-semibold text-solo">15.10.1991</dd>
+                  </div>
+                  <div className="flex items-center justify-between pt-0.5">
+                    <dt className="flex items-center gap-2 uppercase tracking-wider text-wainscot-green">
+                      <span className="text-hive-delight">•</span> Occupation:
+                    </dt>
+                    <dd className="font-semibold text-solo">Producer</dd>
+                  </div>
+                </dl>
+              </div>
             </div>
           </div>
 
@@ -131,7 +154,7 @@ export const AboutSection: React.FC = () => {
             <h2 className="border-b border-deep-bronze/50 pb-6 font-playfair text-4xl font-black uppercase leading-none tracking-tight text-solo sm:text-6xl">
               ABOUT <span className="text-hive-delight">ME</span>
             </h2>
-            <div ref={bioRef} className="mt-8 font-montserrat text-base font-light leading-relaxed sm:text-lg md:text-xl">
+            <div ref={bioRef} className="mt-8 font-montserrat text-base font-light leading-relaxed sm:text-lg md:text-xl text-justify">
               {bioWords.map((word, index) => {
                 const highlighted = filmmakerContent.bio.highlightWords.some((item) => word.toLowerCase().includes(item.toLowerCase()));
                 return <span key={index} className={`bio-word mr-1.5 inline-block ${highlighted ? 'font-normal text-hive-delight underline decoration-stone-ground/50' : ''}`}>{word}</span>;
@@ -140,11 +163,11 @@ export const AboutSection: React.FC = () => {
             <div className="mt-8 grid gap-4 sm:grid-cols-2">
               <div className="border border-deep-bronze/60 bg-[#112A46] p-5">
                 <p className="font-playfair text-lg font-bold text-hive-delight">My Philosophy</p>
-                <p className="mt-2 font-montserrat text-xs leading-relaxed text-wainscot-green">Connect creativity with honest emotion so every frame carries meaning beyond the screen.</p>
+                <p className="mt-2 font-montserrat text-xs leading-relaxed text-wainscot-green text-justify">Connect creativity with honest emotion so every frame carries meaning beyond the screen.</p>
               </div>
               <div className="border border-deep-bronze/60 bg-[#112A46] p-5">
                 <p className="font-playfair text-lg font-bold text-hive-delight">The Mission</p>
-                <p className="mt-2 font-montserrat text-xs leading-relaxed text-wainscot-green">Transform ideas on paper into vivid films that reach audiences through the language of cinema.</p>
+                <p className="mt-2 font-montserrat text-xs leading-relaxed text-wainscot-green text-justify">Transform ideas on paper into vivid films that reach audiences through the language of cinema.</p>
               </div>
             </div>
           </div>

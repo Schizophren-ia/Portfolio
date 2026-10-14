@@ -357,3 +357,33 @@ Mọi thay đổi từ thời điểm này sẽ tuân thủ nghiêm ngặt theo 
 - Screenshot headless không khả dụng do GPU process của Chrome/Edge trong môi trường kiểm thử; không ảnh hưởng production build.
 
 ---
+# Cập nhật 15.10.2026 — Đổi Brand sang "Portfolio", Căn Giữa Profile & Căn Chuẩn Lề Filmmaking
+
+## 1. Thanh điều hướng (Navigation / Taskbar)
+- Gỡ bỏ hoàn toàn khung logo/initials `DT` và các góc ngắm máy quay trên taskbar.
+- Thay thế dòng chữ họ tên `Lê Đặng Đài Trang` và `PRODUCER · FILMMAKER` thành từ duy nhất **"Portfolio"** với typography `Playfair Display` đen tuyền/vàng kim, khoảng cách ký tự thoáng đãng (`tracking-[0.22em]`).
+
+## 2. Phần Giới thiệu (About Me)
+- **Căn giữa khối Profile**: Khối Profile được căn lề giữa toán học, nằm ngay chính diện bên dưới ảnh chân dung (`max-w-md mx-auto flex flex-col items-center`).
+- **Nội dung thông tin thông thoáng, không dính chèn**: Khoảng cách giữa các dòng thông tin (Name, Birthday, Occupation) được nới rộng thoáng đãng (`space-y-3.5`), có đường viền phân tách tinh tế và bullet vàng Hive Delight.
+- **Căn lề 2 bên đối xứng**:
+  - Nhãn (Name, Birthday, Occupation) neo sát lề trái, giá trị thông tin neo sát lề phải trong khung thẻ.
+  - Đoạn văn giới thiệu bản thân (Biography) và 2 khối triết lý (My Philosophy / The Mission) được căn đều 2 bên (`text-justify`), triệt tiêu mép lởm chởm, tạo sự cân đối thị giác hoàn hảo.
+
+## 3. Phần Điện ảnh (Filmmaking Archive)
+- **Sửa triệt để lỗi phim bị lệch sang trái & bị khuất**:
+  - Loại bỏ hoàn toàn hiệu ứng marquee tự động trôi lệch trái và dải gradient che mờ (`mask-image`) làm mất chữ/khuất thẻ phim.
+  - Cố định toàn bộ danh sách phim bên trong khung chuẩn `mx-auto max-w-7xl px-6 sm:px-8`, đảm bảo cạnh trái và cạnh phải của thẻ phim thẳng hàng tuyệt đối với tiêu đề và căn lề 2 bên cân đối.
+- **Hiển thị 5 phim chiếu rạp (Category: Movie)**:
+  - Bố cục lưới responsive (`grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6`), hiển thị đầy đủ 5 phim theo đúng thứ tự 01/05 đến 05/05 mà không bị che khuất.
+  - Cập nhật 100% ảnh thumbnail của 5 bộ phim sang hình ảnh gốc từ trailer YouTube chính thức (`maxresdefault.jpg` kèm fallback `hqdefault.jpg`):
+    - *Nhắm mắt thấy mùa hè*: `https://img.youtube.com/vi/tlNtE3IW6bE/maxresdefault.jpg`
+    - *Trời sáng rồi ta ngủ đi thôi*: `https://img.youtube.com/vi/pKE389nMnk8/maxresdefault.jpg`
+    - *Sài Gòn trong cơn mưa*: `https://img.youtube.com/vi/Eyju5ODfd-g/maxresdefault.jpg`
+    - *Trái tim quái vật*: `https://img.youtube.com/vi/qgVg0xh_ogQ/maxresdefault.jpg`
+    - *Giao lộ 8675*: `https://img.youtube.com/vi/wrOLqdg54Bo/maxresdefault.jpg`
+- **Các hạng mục khác**: Được neo chuẩn lề 2 bên; các danh mục nhiều tác phẩm (Short Film, TVC) có nút điều hướng cuộn ngang mượt mà (`ChevronLeft` / `ChevronRight`).
+
+## 4. Bảo toàn hệ thống
+- Giữ nguyên 100% tất cả các section, logic phát video, preloader và âm thanh môi trường.
+
