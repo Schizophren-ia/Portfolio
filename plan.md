@@ -257,4 +257,22 @@ Mọi thay đổi từ thời điểm này sẽ tuân thủ nghiêm ngặt theo 
 ## 4. Kế Hoạch & Ý Tưởng Tiếp Theo (Roadmap)
 
 *(Đang chờ ý tưởng tiếp theo từ bạn)*
+# Cập nhật 14.10.2026 — Mở rộng Filmmaking Archive theo danh mục
+
+## Kết quả triển khai
+
+- Phân bổ Filmmaking Archive thành 6 danh mục có bộ đếm riêng: **Movie (05), Short Film (08), TVC (08), House Rule (02), MV (03), AI Film (00)**.
+- Bổ sung đầy đủ 21 tác phẩm mới từ các liên kết được cung cấp; tổng archive hiện có **26 tác phẩm**.
+- Giữ nguyên ngôn ngữ thiết kế cinematic của mục Movie: card 16:9, horizontal pinned gallery trên desktop, vertical gallery trên mobile, modal chi tiết và liên kết nguồn chính thức.
+- Bộ đếm reel, index card, progress HUD và điểm đầu/cuối archive tự cập nhật theo danh mục đang chọn.
+- Thêm empty state **“New work in development”** cho AI Film để sẵn sàng bổ sung tác phẩm sau này.
+- Lưu 15 thumbnail YouTube trong `public/images`; tạo artwork cục bộ đồng nhất cho 6 nội dung Generali không cho tải trực tiếp ảnh Open Graph.
+- Modal hỗ trợ cả video YouTube nhúng và preview dẫn tới trang nguồn Generali.
+
+## Kiểm thử
+
+- `npm run build`: **Passed**.
+- `npm run lint`: **Passed**, còn 3 cảnh báo React có sẵn tại `TimecodeHUD.tsx` và `FilmModal.tsx`, không có lỗi lint.
+
+---
 

@@ -3,7 +3,8 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Play, ArrowUpRight, Sparkles } from 'lucide-react';
 import { filmmakerContent } from '../data/content';
-import type { FilmItem } from '../data/types';
+import { archiveFilms } from '../data/archiveData';
+import type { FilmCategory, FilmItem } from '../data/types';
 import { FilmModal } from './FilmModal';
 
 const YoutubeIcon: React.FC<{ className?: string }> = ({ className }) => (
@@ -14,6 +15,15 @@ const YoutubeIcon: React.FC<{ className?: string }> = ({ className }) => (
 
 gsap.registerPlugin(ScrollTrigger);
 
+const categories: { id: FilmCategory; label: string }[] = [
+  { id: 'movie', label: 'MOVIE' },
+  { id: 'short-film', label: 'SHORT FILM' },
+  { id: 'tvc', label: 'TVC' },
+  { id: 'house-rule', label: 'HOUSE RULE' },
+  { id: 'mv', label: 'MV' },
+  { id: 'ai-film', label: 'AI FILM' },
+];
+
 export const FilmmakingSection: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
@@ -22,8 +32,18 @@ export const FilmmakingSection: React.FC = () => {
 
   const [activeFilmIndex, setActiveFilmIndex] = useState<number | null>(null);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [activeCategory, setActiveCategory] = useState<FilmCategory>('movie');
 
-  const films: FilmItem[] = filmmakerContent.films;
+  const allFilms: FilmItem[] = [
+    ...filmmakerContent.films.map((film) => ({ ...film, category: 'movie' as const })),
+    ...archiveFilms,
+  ];
+  const films = allFilms
+    .filter((film) => film.category === activeCategory)
+    .map((film, index, list) => ({
+      ...film,
+      index: `${String(index + 1).padStart(2, '0')}/${String(list.length).padStart(2, '0')}`,
+    }));
 
   useEffect(() => {
     const mm = gsap.matchMedia();
@@ -35,6 +55,10 @@ export const FilmmakingSection: React.FC = () => {
       const ambient = ambientTextRef.current;
       const progressLine = progressLineRef.current;
       if (!track || !section) return;
+
+      gsap.set(track, { x: 0 });
+      if (progressLine) gsap.set(progressLine, { scaleX: 0 });
+      if (films.length === 0) return;
 
       const getScrollDistance = () => track.scrollWidth - window.innerWidth + 140;
 
@@ -125,7 +149,13 @@ export const FilmmakingSection: React.FC = () => {
     });
 
     return () => mm.revert();
-  }, []);
+  }, [activeCategory, films.length]);
+
+  const handleCategoryChange = (category: FilmCategory) => {
+    setActiveFilmIndex(null);
+    setScrollProgress(0);
+    setActiveCategory(category);
+  };
 
   const handleOpenFilm = (index: number) => {
     setActiveFilmIndex(index);
@@ -142,10 +172,9 @@ export const FilmmakingSection: React.FC = () => {
   };
 
   // Calculate current active film index based on scroll progress for HUD
-  const currentActiveFilm = Math.min(
-    films.length - 1,
-    Math.floor(scrollProgress * films.length)
-  );
+  const currentActiveFilm = films.length
+    ? Math.min(films.length - 1, Math.floor(scrollProgress * films.length))
+    : 0;
 
   return (
     <>
@@ -194,14 +223,32 @@ export const FilmmakingSection: React.FC = () => {
                   CURRENT REEL
                 </span>
                 <span className="font-playfair font-bold text-base text-hive-delight">
-                  0{currentActiveFilm + 1} / 0{films.length} · {films[currentActiveFilm]?.title}
+                  {films.length ? films[currentActiveFilm]?.index : '00 / 00'} · {films[currentActiveFilm]?.title ?? 'COMING SOON'}
                 </span>
               </div>
               <div className="flex items-center gap-2 px-3 py-1.5 rounded-sm bg-deep-bronze/40 border border-deep-bronze text-xs font-montserrat text-wainscot-green">
                 <Sparkles className="w-3.5 h-3.5 text-hive-delight" />
-                <span>5 FEATURE FILMS</span>
+                <span>{films.length} {categories.find((item) => item.id === activeCategory)?.label}</span>
               </div>
             </div>
+          </div>
+          <div className="flex gap-2 sm:gap-3 overflow-x-auto pt-4 pb-1" role="tablist" aria-label="Filmmaking categories">
+            {categories.map((category) => {
+              const count = allFilms.filter((film) => film.category === category.id).length;
+              const selected = category.id === activeCategory;
+              return (
+                <button
+                  key={category.id}
+                  type="button"
+                  role="tab"
+                  aria-selected={selected}
+                  onClick={() => handleCategoryChange(category.id)}
+                  className={`shrink-0 px-3 py-2 border text-[10px] sm:text-xs font-montserrat font-semibold tracking-widest transition-all ${selected ? 'border-hive-delight bg-hive-delight text-noble-black' : 'border-deep-bronze/70 text-wainscot-green hover:border-hive-delight/70 hover:text-solo'}`}
+                >
+                  {category.label} <span className="opacity-70">{String(count).padStart(2, '0')}</span>
+                </button>
+              );
+            })}
           </div>
         </div>
 
@@ -211,7 +258,13 @@ export const FilmmakingSection: React.FC = () => {
             ref={trackRef}
             className="horizontal-scroll-container flex items-center gap-12 pl-12 pr-32 will-change-transform"
           >
-            {films.map((film, index) => (
+            {films.length === 0 ? (
+              <div className="w-[min(760px,calc(100vw-6rem))] min-h-72 shrink-0 border border-deep-bronze/70 bg-[#151918]/90 flex flex-col items-center justify-center text-center px-8">
+                <Sparkles className="w-7 h-7 text-hive-delight mb-5" />
+                <h3 className="font-playfair text-3xl text-solo uppercase">New work in development</h3>
+                <p className="mt-3 font-montserrat text-xs tracking-widest text-wainscot-green uppercase">AI Film · Coming Soon</p>
+              </div>
+            ) : films.map((film, index) => (
               <div
                 key={film.id}
                 onClick={() => handleOpenFilm(index)}
@@ -278,9 +331,9 @@ export const FilmmakingSection: React.FC = () => {
                     <h3 className="font-playfair font-black text-2xl text-solo group-hover:text-hive-delight transition-colors uppercase tracking-tight">
                       {film.title}
                     </h3>
-                    {film.youtubeUrl ? (
+                    {film.sourceUrl || film.youtubeUrl ? (
                       <a
-                        href={film.youtubeUrl}
+                        href={film.sourceUrl || film.youtubeUrl}
                         target="_blank"
                         rel="noopener noreferrer"
                         onClick={(e) => e.stopPropagation()}
@@ -318,7 +371,7 @@ export const FilmmakingSection: React.FC = () => {
         <div className="hidden lg:block relative z-10 w-full max-w-7xl mx-auto px-6 sm:px-8 pb-3">
           <div className="flex items-center justify-between gap-6">
             <span className="font-montserrat text-[10px] tracking-widest uppercase text-wainscot-green">
-              01 // NHẮM MẮT THẤY MÙA HÈ
+              {films[0] ? `01 // ${films[0].title}` : 'AI FILM // COMING SOON'}
             </span>
 
             {/* Continuous Golden Scrubber Line */}
@@ -330,14 +383,20 @@ export const FilmmakingSection: React.FC = () => {
             </div>
 
             <span className="font-montserrat text-[10px] tracking-widest uppercase text-wainscot-green">
-              05 // GIAO LỘ 8675
+              {films.length ? `${String(films.length).padStart(2, '0')} // ${films[films.length - 1].title}` : 'NEW WORK IN DEVELOPMENT'}
             </span>
           </div>
         </div>
 
         {/* MOBILE / TABLET: Vertical Stack Layout with Direct YouTube Actions */}
         <div className="lg:hidden relative z-10 max-w-2xl mx-auto px-6 pb-16 pt-4 space-y-8">
-          {films.map((film, index) => (
+          {films.length === 0 ? (
+            <div className="film-card-mobile border border-deep-bronze/80 bg-[#161a19] min-h-64 flex flex-col items-center justify-center text-center px-6">
+              <Sparkles className="w-6 h-6 text-hive-delight mb-4" />
+              <h3 className="font-playfair text-2xl text-solo uppercase">New work in development</h3>
+              <p className="mt-2 font-montserrat text-xs tracking-widest text-wainscot-green uppercase">AI Film · Coming Soon</p>
+            </div>
+          ) : films.map((film, index) => (
             <div
               key={film.id}
               onClick={() => handleOpenFilm(index)}
@@ -375,9 +434,9 @@ export const FilmmakingSection: React.FC = () => {
                   <h3 className="font-playfair font-black text-xl text-solo uppercase tracking-tight">
                     {film.title}
                   </h3>
-                  {film.youtubeUrl ? (
+                  {film.sourceUrl || film.youtubeUrl ? (
                     <a
-                      href={film.youtubeUrl}
+                      href={film.sourceUrl || film.youtubeUrl}
                       target="_blank"
                       rel="noopener noreferrer"
                       onClick={(e) => e.stopPropagation()}

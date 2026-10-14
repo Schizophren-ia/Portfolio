@@ -8,8 +8,10 @@ export interface FilmItem {
   duration: string;
   aspectRatio: string;
   thumbnail: string;
-  videoUrl: string;
+  videoUrl?: string;
   youtubeUrl?: string;
+  sourceUrl?: string;
+  category?: FilmCategory;
   logline: string;
   synopsis: string;
   director?: string;
@@ -18,6 +20,8 @@ export interface FilmItem {
   tools: string[];
   laurel?: string;
 }
+
+export type FilmCategory = 'movie' | 'short-film' | 'tvc' | 'house-rule' | 'mv' | 'ai-film';
 
 export interface ExperienceItem {
   period: string;

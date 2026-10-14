@@ -99,15 +99,27 @@ export const FilmModal: React.FC<FilmModalProps> = ({ film, onClose, onNext }) =
         ref={contentRef}
         className="relative z-10 w-full max-w-5xl my-auto bg-[#181e1d] border border-deep-bronze/80 rounded-sm shadow-2xl overflow-hidden"
       >
-        {/* Video Reel Container (16:9 Cinema Aspect) */}
+        {/* Video reel or official-source preview */}
         <div className="relative aspect-video w-full bg-black overflow-hidden border-b border-deep-bronze/60">
-          <iframe
-            src={film.videoUrl}
-            title={film.title}
-            className="w-full h-full border-0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          />
+          {film.videoUrl ? (
+            <iframe
+              src={film.videoUrl}
+              title={film.title}
+              className="w-full h-full border-0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          ) : (
+            <div className="relative w-full h-full">
+              <img src={film.thumbnail} alt={film.title} className="w-full h-full object-cover opacity-70" />
+              <div className="absolute inset-0 bg-gradient-to-t from-noble-black via-transparent to-transparent flex items-end justify-center p-8">
+                <a href={film.sourceUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-5 py-3 bg-hive-delight text-noble-black font-montserrat font-bold text-xs tracking-widest uppercase">
+                  <span>Watch at official source</span>
+                  <ExternalLink className="w-4 h-4" />
+                </a>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Project Meta & Dossier */}
@@ -144,14 +156,14 @@ export const FilmModal: React.FC<FilmModalProps> = ({ film, onClose, onNext }) =
                 </div>
               </div>
 
-              {film.youtubeUrl && (
+              {(film.sourceUrl || film.youtubeUrl) && (
                 <a
-                  href={film.youtubeUrl}
+                  href={film.sourceUrl || film.youtubeUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 text-xs font-montserrat font-semibold px-4 py-2 rounded bg-deep-bronze/80 hover:bg-hive-delight text-solo hover:text-noble-black border border-olivia/40 hover:border-hive-delight transition-all duration-300"
                 >
-                  <span>XEM TRÊN YOUTUBE</span>
+                  <span>XEM NGUỒN CHÍNH THỨC</span>
                   <ExternalLink className="w-3.5 h-3.5" />
                 </a>
               )}
