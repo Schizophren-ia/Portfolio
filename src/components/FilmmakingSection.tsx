@@ -11,24 +11,51 @@ const categories: { id: FilmCategory; label: string; note: string }[] = [
   { id: 'tvc', label: 'TVC', note: 'Commercial films' },
   { id: 'house-rule', label: 'HOUSE RULE', note: 'Cinema etiquette films' },
   { id: 'mv', label: 'MV', note: 'Music videos' },
-  { id: 'ai-film', label: 'AI FILM', note: 'New work in development' },
+  { id: 'ai-film', label: 'AI FILM', note: 'AI-crafted visual experiments' },
 ];
 
 type IndexedFilm = FilmItem & { archiveIndex: number };
 
-const FilmCard: React.FC<{ film: IndexedFilm; onOpen: () => void }> = ({ film, onOpen }) => (
+const FilmCard: React.FC<{ film: IndexedFilm; onOpen: () => void; duplicate?: boolean }> = ({ film, onOpen, duplicate = false }) => (
   <article
     onClick={onOpen}
-    className="archive-card group relative w-[260px] sm:w-[310px] xl:w-[340px] shrink-0 cursor-pointer overflow-hidden border border-deep-bronze/70 bg-[#151918] shadow-xl transition-colors duration-300 hover:border-hive-delight/80"
+    onKeyDown={(event) => {
+      if (!duplicate && (event.key === 'Enter' || event.key === ' ')) {
+        event.preventDefault();
+        onOpen();
+      }
+    }}
+    role="button"
+    tabIndex={duplicate ? -1 : 0}
+    aria-label={`Xem ${film.title}`}
+    className="archive-card group relative w-[260px] sm:w-[310px] xl:w-[340px] shrink-0 cursor-pointer overflow-hidden border border-deep-bronze/60 bg-[#112A46] shadow-xl transition-colors duration-300 hover:border-hive-delight/80 focus-within:border-hive-delight"
     data-cursor="PLAY"
   >
     <div className="relative aspect-video overflow-hidden bg-black">
-      <img
-        src={film.thumbnail}
-        alt={film.title}
-        loading="lazy"
-        className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-      />
+      {film.mediaType === 'local-video' && film.videoUrl ? (
+        <video
+          src={film.videoUrl}
+          poster={film.thumbnail}
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          aria-label={`Preview ${film.title}`}
+          className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+          onMouseEnter={(event) => void event.currentTarget.play()}
+          onMouseLeave={(event) => {
+            event.currentTarget.pause();
+            event.currentTarget.currentTime = 0;
+          }}
+        />
+      ) : (
+        <img
+          src={film.thumbnail}
+          alt={film.title}
+          loading="lazy"
+          className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+        />
+      )}
       <div className="absolute inset-0 bg-gradient-to-t from-noble-black via-noble-black/15 to-transparent" />
       <span className="absolute left-2.5 top-2.5 border border-deep-bronze/80 bg-noble-black/90 px-2 py-1 font-mono text-[10px] text-hive-delight">
         {film.index}
@@ -62,10 +89,18 @@ const MarqueeRow: React.FC<{
 }> = ({ films, reverse = false, onOpen }) => {
   if (!films.length) return null;
 
+  if (films.length === 1) {
+    return (
+      <div className="mx-auto max-w-7xl px-6 sm:px-8">
+        <FilmCard film={films[0]} onOpen={() => onOpen(films[0].archiveIndex)} />
+      </div>
+    );
+  }
+
   const group = (suffix: string, hidden: boolean) => (
     <div className="archive-marquee-group" aria-hidden={hidden || undefined}>
       {films.map((film) => (
-        <FilmCard key={`${film.id}-${suffix}`} film={film} onOpen={() => onOpen(film.archiveIndex)} />
+        <FilmCard key={`${film.id}-${suffix}`} film={film} duplicate={hidden} onOpen={() => onOpen(film.archiveIndex)} />
       ))}
     </div>
   );
@@ -163,7 +198,7 @@ export const FilmmakingSection: React.FC = () => {
                   </div>
                 ) : (
                   <div className="mx-auto max-w-7xl px-6 sm:px-8">
-                    <div className="flex min-h-48 flex-col items-center justify-center border border-dashed border-deep-bronze/80 bg-[#151918]/70 text-center">
+                    <div className="flex min-h-48 flex-col items-center justify-center border border-dashed border-deep-bronze/80 bg-[#112A46]/70 text-center">
                       <Sparkles className="mb-4 h-6 w-6 text-hive-delight" />
                       <p className="font-playfair text-2xl uppercase text-solo">New work in development</p>
                       <span className="mt-2 font-montserrat text-[10px] uppercase tracking-cinema text-wainscot-green">Coming soon</span>

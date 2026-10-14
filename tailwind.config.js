@@ -7,26 +7,26 @@ export default {
   theme: {
     extend: {
       colors: {
-        'noble-black': '#1E2524',
-        'solo': '#CCD4D0',
-        'wainscot-green': '#9D9F87',
-        'hive-delight': '#F1C34C',
-        'stone-ground': '#D39730',
-        'olivia': '#986626',
-        'deep-bronze': '#504530',
+        'noble-black': '#0A1B2E',
+        'solo': '#F2F6FB',
+        'wainscot-green': '#A1B2C4',
+        'hive-delight': '#E1E8F0',
+        'stone-ground': '#7A8CA6',
+        'olivia': '#557392',
+        'deep-bronze': '#34506D',
       },
       fontFamily: {
-        playfair: ['"Playfair Display"', 'Georgia', 'serif'],
-        montserrat: ['Montserrat', 'system-ui', 'sans-serif'],
+        playfair: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+        montserrat: ['Inter', 'system-ui', 'sans-serif'],
       },
       letterSpacing: {
         'cinema': '0.25em',
         'ultra': '0.35em',
       },
       boxShadow: {
-        'gold-glow': '0 0 25px rgba(241, 195, 76, 0.25)',
-        'gold-glow-lg': '0 0 45px rgba(241, 195, 76, 0.4)',
-        'bronze-surface': '0 10px 30px -10px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(204, 212, 208, 0.08)',
+        'gold-glow': '0 0 25px rgba(196, 210, 225, 0.16)',
+        'gold-glow-lg': '0 0 45px rgba(196, 210, 225, 0.22)',
+        'bronze-surface': '0 18px 50px -28px rgba(0, 0, 0, 0.72), inset 0 1px 0 rgba(225, 232, 240, 0.07)',
       }
     },
   },

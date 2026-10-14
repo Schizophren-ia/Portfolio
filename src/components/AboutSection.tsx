@@ -71,8 +71,8 @@ export const AboutSection: React.FC = () => {
       }
 
       if (!prefersReducedMotion && bioRef.current) {
-        gsap.fromTo(bioRef.current.querySelectorAll('.bio-word'), { color: '#767863', opacity: 0.35 }, {
-          color: '#CCD4D0', opacity: 1, stagger: 0.025,
+        gsap.fromTo(bioRef.current.querySelectorAll('.bio-word'), { color: '#7A8CA6', opacity: 0.42 }, {
+          color: '#F2F6FB', opacity: 1, stagger: 0.025,
           scrollTrigger: { trigger: bioRef.current, start: 'top 78%', end: 'bottom 45%', scrub: 0.5 },
         });
       }
@@ -138,11 +138,11 @@ export const AboutSection: React.FC = () => {
               })}
             </div>
             <div className="mt-8 grid gap-4 sm:grid-cols-2">
-              <div className="border border-deep-bronze/70 bg-[#171c1b] p-5">
+              <div className="border border-deep-bronze/60 bg-[#112A46] p-5">
                 <p className="font-playfair text-lg font-bold text-hive-delight">My Philosophy</p>
                 <p className="mt-2 font-montserrat text-xs leading-relaxed text-wainscot-green">Connect creativity with honest emotion so every frame carries meaning beyond the screen.</p>
               </div>
-              <div className="border border-deep-bronze/70 bg-[#171c1b] p-5">
+              <div className="border border-deep-bronze/60 bg-[#112A46] p-5">
                 <p className="font-playfair text-lg font-bold text-hive-delight">The Mission</p>
                 <p className="mt-2 font-montserrat text-xs leading-relaxed text-wainscot-green">Transform ideas on paper into vivid films that reach audiences through the language of cinema.</p>
               </div>
@@ -151,7 +151,7 @@ export const AboutSection: React.FC = () => {
         </div>
 
         {/* Former slide 2: clapperboard, statistics and dossier now live together. */}
-        <div ref={dossierRef} className="relative mt-20 overflow-hidden border border-deep-bronze/70 bg-[#121716] p-5 shadow-2xl sm:p-8 lg:mt-28 lg:p-10">
+        <div ref={dossierRef} className="relative mt-20 overflow-hidden border border-deep-bronze/60 bg-[#112A46] p-5 shadow-2xl sm:p-8 lg:mt-28 lg:p-10">
           <div aria-hidden="true" className="absolute inset-0 opacity-20 [background:radial-gradient(circle_at_28%_32%,rgba(241,195,76,0.18),transparent_38%)]" />
           <div className="dossier-reveal relative mb-8 flex flex-col gap-3 border-b border-deep-bronze/50 pb-6 sm:flex-row sm:items-end sm:justify-between">
             <div>
@@ -187,7 +187,7 @@ export const AboutSection: React.FC = () => {
 
               <div className="mt-5 grid grid-cols-2 gap-px bg-deep-bronze/60">
                 {filmmakerContent.stats.map((stat, index) => (
-                  <div key={stat.label} className="bg-[#171c1b] p-4 sm:p-5">
+                  <div key={stat.label} className="bg-[#0A1B2E] p-4 sm:p-5">
                     <div className="font-playfair text-3xl font-black text-hive-delight sm:text-4xl"><StatCounter targetValue={stat.value} active={statsActive} index={index} /><span className="text-stone-ground">{stat.suffix}</span></div>
                     <p className="mt-1 font-montserrat text-[10px] font-semibold uppercase tracking-wider text-solo">{stat.label}</p>
                     <p className="mt-1 text-[9px] text-wainscot-green">{stat.description}</p>
@@ -206,7 +206,7 @@ export const AboutSection: React.FC = () => {
                 </article>
                 <article className="dossier-reveal border border-deep-bronze/70 bg-noble-black/80 p-5">
                   <h4 className="flex items-center gap-2 font-montserrat text-xs font-bold uppercase tracking-widest text-hive-delight"><Languages className="h-4 w-4" />Languages</h4>
-                  <div className="mt-4 flex flex-wrap gap-2">{filmmakerContent.aboutMeDetails.languages.map((item) => <span key={item} className="border border-deep-bronze bg-[#171c1b] px-3 py-1.5 font-montserrat text-xs text-solo">{item}</span>)}</div>
+                  <div className="mt-4 flex flex-wrap gap-2">{filmmakerContent.aboutMeDetails.languages.map((item) => <span key={item} className="border border-deep-bronze bg-[#0A1B2E] px-3 py-1.5 font-montserrat text-xs text-solo">{item}</span>)}</div>
                 </article>
               </div>
 

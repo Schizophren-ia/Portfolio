@@ -1,29 +1,39 @@
 @import "tailwindcss";
 
 @theme {
-  --color-noble-black: #1E2524;
-  --color-solo: #CCD4D0;
-  --color-wainscot-green: #9D9F87;
-  --color-hive-delight: #F1C34C;
-  --color-stone-ground: #D39730;
-  --color-olivia: #986626;
-  --color-deep-bronze: #504530;
+  --color-noble-black: #0A1B2E;
+  --color-solo: #F2F6FB;
+  --color-wainscot-green: #A1B2C4;
+  --color-hive-delight: #E1E8F0;
+  --color-stone-ground: #7A8CA6;
+  --color-olivia: #557392;
+  --color-deep-bronze: #34506D;
 
-  --font-playfair: 'Playfair Display', Georgia, serif;
-  --font-montserrat: 'Montserrat', system-ui, -apple-system, sans-serif;
-  --font-editorial: 'Playfair Display', Georgia, serif;
-  --font-sans: 'Montserrat', system-ui, -apple-system, sans-serif;
+  --font-playfair: 'Cormorant Garamond', Georgia, serif;
+  --font-montserrat: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-editorial: 'Cormorant Garamond', Georgia, serif;
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
 @layer base {
   :root {
-    --noble-black: #1E2524;
-    --solo: #CCD4D0;
-    --wainscot-green: #9D9F87;
-    --hive-delight: #F1C34C;
-    --stone-ground: #D39730;
-    --olivia: #986626;
-    --deep-bronze: #504530;
+    --noble-black: #0A1B2E;
+    --midnight-blue: #112A46;
+    --ocean-depth: #1B3B5A;
+    --storm-blue: #34506D;
+    --blue-slate: #557392;
+    --dusk-blue: #7A8CA6;
+    --foggy-blue: #A1B2C4;
+    --cloud-blue: #C4D2E1;
+    --mist-blue: #E1E8F0;
+    --arctic-haze: #F2F6FB;
+    --solo: #F2F6FB;
+    --wainscot-green: #A1B2C4;
+    --hive-delight: #E1E8F0;
+    --stone-ground: #7A8CA6;
+    --olivia: #557392;
+    --deep-bronze: #34506D;
+    --header-height: 72px;
   }
 
   * {
@@ -31,16 +41,17 @@
   }
 
   html {
-    background-color: #1E2524;
-    color: #CCD4D0;
-    font-family: 'Montserrat', system-ui, sans-serif;
+    background-color: #0A1B2E;
+    color: #F2F6FB;
+    font-family: 'Inter', system-ui, sans-serif;
     scroll-behavior: smooth;
+    scroll-padding-top: var(--header-height);
     overflow-x: hidden;
   }
 
   body {
-    background-color: #1E2524;
-    color: #CCD4D0;
+    background-color: #0A1B2E;
+    color: #F2F6FB;
     margin: 0;
     padding: 0;
     min-height: 100vh;
@@ -63,14 +74,14 @@
     width: 6px;
   }
   ::-webkit-scrollbar-track {
-    background: #1E2524;
+    background: #0A1B2E;
   }
   ::-webkit-scrollbar-thumb {
-    background: #504530;
+    background: #34506D;
     border-radius: 3px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: #D39730;
+    background: #7A8CA6;
   }
 }
 
@@ -82,7 +93,7 @@
   height: 100vh;
   pointer-events: none;
   z-index: 999;
-  opacity: 0.04;
+  opacity: 0.018;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
 }
 
@@ -97,19 +108,30 @@
 
 /* Gold glow shadows */
 .shadow-gold-glow {
-  box-shadow: 0 0 25px rgba(241, 195, 76, 0.25);
+  box-shadow: 0 0 25px rgba(196, 210, 225, 0.16);
 }
 
 .shadow-gold-glow-lg {
-  box-shadow: 0 0 45px rgba(241, 195, 76, 0.4);
+  box-shadow: 0 0 45px rgba(196, 210, 225, 0.22);
 }
 
 .shadow-bronze-surface {
-  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(204, 212, 208, 0.08);
+  box-shadow: 0 18px 50px -28px rgba(0, 0, 0, 0.72), inset 0 1px 0 rgba(225, 232, 240, 0.07);
 }
 
 .text-glow {
-  text-shadow: 0 0 35px rgba(241, 195, 76, 0.35);
+  text-shadow: 0 0 42px rgba(161, 178, 196, 0.2);
+}
+
+:focus-visible {
+  outline: 2px solid #C4D2E1;
+  outline-offset: 3px;
+}
+
+button,
+a,
+[role="button"] {
+  min-height: 44px;
 }
 
 /* Subtle Cinematic Dust & Optical HUD Animations */
@@ -188,4 +210,3 @@
     display: none;
   }
 }
-

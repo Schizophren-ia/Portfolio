@@ -321,3 +321,39 @@ Mọi thay đổi từ thời điểm này sẽ tuân thủ nghiêm ngặt theo 
 - Kiểm tra TypeScript và production bundle: **Passed**.
 
 ---
+# Cập nhật 14.10.2026 — Deep Navy Minimal Redesign & AI Film
+
+## Design system
+
+- Cài đặt và áp dụng skill **UI UX Pro Max**; lưu source of truth tại `design-system/filmmaker-portfolio/MASTER.md`.
+- Art direction: **Editorial Minimalism · Deep Navy Cinema**, variance 3/10, motion 5/10, density 3/10.
+- Chuyển toàn bộ semantic color tokens sang palette người dùng cung cấp, với **Deep Navy `#0A1B2E`** làm background chủ đạo.
+- Hệ màu hỗ trợ: Midnight Blue `#112A46`, Ocean Depth `#1B3B5A`, Storm Blue `#34506D`, Blue Slate `#557392`, Dusk Blue `#7A8CA6`, Foggy Blue `#A1B2C4`, Cloud Blue `#C4D2E1`, Mist Blue `#E1E8F0`, Arctic Haze `#F2F6FB`.
+- Typography mới: **Cormorant Garamond** cho display/editorial heading và **Inter** cho body/UI.
+- Loại bỏ cảm giác vàng/bronze và glow mạnh; chuyển shadow, selection, scrollbar, border và focus state sang hệ xanh trung tính.
+- Bổ sung focus ring 2px, touch target tối thiểu 44px, `scroll-padding-top` cho fixed navigation và giữ hỗ trợ `prefers-reduced-motion`.
+
+## AI Film
+
+- Thêm `public/videos/ai-film.mp4` từ file `260710_FINAL_AI FILM.mp4` vào danh mục **AI FILM**.
+- Metadata đã xác nhận: 50 giây, 1440×1920, 30fps, tỷ lệ 3:4 dọc.
+- Kiểm tra SHA-256: file trong dự án khớp hoàn toàn với file nguồn.
+- Bổ sung poster SVG Deep Navy, preview video khi hover và HTML5 player trong modal.
+- Player dùng `controls`, `playsInline`, `preload="metadata"`; không tự phát âm thanh và không tải toàn bộ video khi trang vừa mở.
+- Mở rộng `FilmItem` với `mediaType` để hỗ trợ song song YouTube iframe và MP4 nội bộ.
+
+## Filmmaking & interaction
+
+- Giữ Infinite Horizontal Scroll theo từng category shelf.
+- AI Film hiển thị như một featured card riêng thay vì lặp lại một tác phẩm để giả marquee.
+- Card archive hỗ trợ bàn phím bằng Enter/Space, có `role`, `tabIndex`, `aria-label`; bản sao marquee bị loại khỏi tab order.
+- Hover/focus tạm dừng marquee và reduced-motion chuyển về cuộn ngang thủ công.
+
+## Kiểm thử
+
+- `npm run build`: **Passed**; video được sao chép đúng vào production bundle.
+- `npm run lint`: **Passed**, còn 3 cảnh báo React tồn tại từ trước, không phát sinh lint error.
+- Kiểm tra responsive theo code tại 375/768/1024/1440 và audit tĩnh theo checklist UI UX Pro Max.
+- Screenshot headless không khả dụng do GPU process của Chrome/Edge trong môi trường kiểm thử; không ảnh hưởng production build.
+
+---

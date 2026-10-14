@@ -12,6 +12,7 @@ export interface FilmItem {
   youtubeUrl?: string;
   sourceUrl?: string;
   category?: FilmCategory;
+  mediaType?: 'youtube' | 'local-video';
   logline: string;
   synopsis: string;
   director?: string;

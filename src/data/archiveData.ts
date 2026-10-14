@@ -7,11 +7,12 @@ type ArchiveSeed = {
   id: string;
   title: string;
   category: FilmCategory;
-  sourceUrl: string;
+  sourceUrl?: string;
   image: string;
   year?: string;
   author?: string;
   youtubeId?: string;
+  videoPath?: string;
 };
 
 const seeds: ArchiveSeed[] = [
@@ -39,6 +40,8 @@ const seeds: ArchiveSeed[] = [
   { id: 'all-eyes-on-us', title: 'ALL EYES ON US', category: 'mv', sourceUrl: 'https://www.youtube.com/watch?v=nxTzWhDwv_Y', image: 'mv-all-eyes-on-us.jpg', year: '2025', youtubeId: 'nxTzWhDwv_Y', author: 'Vie Channel' },
   { id: 'muc-ha-vo-nhan', title: 'MỤC HẠ VÔ NHÂN', category: 'mv', sourceUrl: 'https://www.youtube.com/watch?v=FikdKWos-NQ', image: 'mv-muc-ha-vo-nhan.jpg', youtubeId: 'FikdKWos-NQ', author: 'SOOBIN · Binz · NSND Huỳnh Tú' },
   { id: 'yeu-thuong-tiep-noi', title: 'YÊU THƯƠNG TIẾP NỐI', category: 'mv', sourceUrl: 'https://www.youtube.com/watch?v=8fXOfDX2RZQ', image: 'mv-yeu-thuong-tiep-noi.jpg', year: '2022', youtubeId: '8fXOfDX2RZQ', author: 'Mỹ Tâm · Phan Mạnh Quỳnh · ZaloPay' },
+
+  { id: 'ai-film-260710', title: 'AI FILM — 260710', category: 'ai-film', image: 'ai-film-poster.svg', year: '2026', videoPath: '/videos/ai-film.mp4', author: 'Lê Đặng Đài Trang' },
 ];
 
 const categoryGenre: Record<FilmCategory, string> = {
@@ -58,12 +61,13 @@ export const archiveFilms: FilmItem[] = seeds.map((item) => ({
   year: item.year ?? 'Archive',
   role: 'Production',
   genre: categoryGenre[item.category],
-  duration: 'Watch online',
-  aspectRatio: '16:9',
+  duration: item.videoPath ? '50 Sec' : 'Watch online',
+  aspectRatio: item.videoPath ? '3:4 Vertical' : '16:9',
   thumbnail: asset(`/images/${item.image}`),
   youtubeUrl: item.youtubeId ? item.sourceUrl : undefined,
   sourceUrl: item.sourceUrl,
-  videoUrl: item.youtubeId ? `https://www.youtube.com/embed/${item.youtubeId}?autoplay=1&mute=0` : undefined,
+  videoUrl: item.youtubeId ? `https://www.youtube.com/embed/${item.youtubeId}?autoplay=1&mute=0` : item.videoPath ? asset(item.videoPath) : undefined,
+  mediaType: item.videoPath ? 'local-video' : 'youtube',
   logline: `${item.title} — a selected work from the filmmaking archive.`,
   synopsis: `Official work presented by ${item.author ?? 'the production team'}. Open the original source to watch the complete film and production details.`,
   director: item.author ?? 'Production team',

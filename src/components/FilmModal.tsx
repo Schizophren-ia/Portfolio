@@ -97,11 +97,22 @@ export const FilmModal: React.FC<FilmModalProps> = ({ film, onClose, onNext }) =
       {/* Modal Dialog Content Container */}
       <div
         ref={contentRef}
-        className="relative z-10 w-full max-w-5xl my-auto bg-[#181e1d] border border-deep-bronze/80 rounded-sm shadow-2xl overflow-hidden"
+        className="relative z-10 w-full max-w-5xl my-auto bg-[#112A46] border border-deep-bronze/70 rounded-sm shadow-2xl overflow-hidden"
       >
         {/* Video reel or official-source preview */}
         <div className="relative aspect-video w-full bg-black overflow-hidden border-b border-deep-bronze/60">
-          {film.videoUrl ? (
+          {film.videoUrl && film.mediaType === 'local-video' ? (
+            <video
+              src={film.videoUrl}
+              poster={film.thumbnail}
+              className="h-full w-full bg-black object-contain"
+              controls
+              playsInline
+              preload="metadata"
+            >
+              Trình duyệt của bạn không hỗ trợ video HTML5.
+            </video>
+          ) : film.videoUrl ? (
             <iframe
               src={film.videoUrl}
               title={film.title}

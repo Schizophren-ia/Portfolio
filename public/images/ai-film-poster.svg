@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 1920" role="img" aria-labelledby="title desc">
+  <title id="title">AI Film 260710</title>
+  <desc id="desc">Minimal deep navy poster for the AI film.</desc>
+  <defs>
+    <radialGradient id="glow" cx="58%" cy="36%" r="68%">
+      <stop offset="0" stop-color="#557392" stop-opacity=".75"/>
+      <stop offset=".52" stop-color="#1B3B5A" stop-opacity=".5"/>
+      <stop offset="1" stop-color="#0A1B2E"/>
+    </radialGradient>
+    <linearGradient id="line" x1="0" x2="1">
+      <stop stop-color="#E1E8F0" stop-opacity="0"/>
+      <stop offset=".5" stop-color="#E1E8F0"/>
+      <stop offset="1" stop-color="#E1E8F0" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect width="1440" height="1920" fill="#0A1B2E"/>
+  <rect width="1440" height="1920" fill="url(#glow)"/>
+  <circle cx="720" cy="720" r="380" fill="none" stroke="#A1B2C4" stroke-opacity=".18" stroke-width="2"/>
+  <circle cx="720" cy="720" r="260" fill="none" stroke="#E1E8F0" stroke-opacity=".12"/>
+  <path d="M210 720h1020M720 210v1020" stroke="url(#line)" stroke-opacity=".35"/>
+  <text x="110" y="150" fill="#A1B2C4" font-family="Arial,sans-serif" font-size="26" letter-spacing="12">ARTIFICIAL CINEMA · 2026</text>
+  <text x="720" y="1480" text-anchor="middle" fill="#F2F6FB" font-family="Georgia,serif" font-size="130" letter-spacing="8">AI FILM</text>
+  <text x="720" y="1565" text-anchor="middle" fill="#A1B2C4" font-family="Arial,sans-serif" font-size="30" letter-spacing="18">260710</text>
+  <rect x="110" y="1710" width="1220" height="1" fill="#557392"/>
+  <text x="110" y="1770" fill="#E1E8F0" font-family="Arial,sans-serif" font-size="22" letter-spacing="8">LÊ ĐẶNG ĐÀI TRANG</text>
+</svg>
