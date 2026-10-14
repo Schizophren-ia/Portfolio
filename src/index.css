@@ -139,4 +139,53 @@
   }
 }
 
+/* Infinite filmmaking shelves */
+@keyframes archiveMarquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(calc(-50% - 0.375rem)); }
+}
+
+.archive-marquee {
+  width: 100%;
+  overflow-x: hidden;
+  mask-image: linear-gradient(to right, transparent, black 4%, black 96%, transparent);
+}
+
+.archive-marquee-track {
+  display: flex;
+  width: max-content;
+  gap: 0.75rem;
+  animation: archiveMarquee 34s linear infinite;
+  will-change: transform;
+}
+
+.archive-marquee-group {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.archive-marquee-reverse {
+  animation-direction: reverse;
+  animation-duration: 39s;
+}
+
+.archive-marquee:hover .archive-marquee-track,
+.archive-marquee:focus-within .archive-marquee-track {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .archive-marquee {
+    overflow-x: auto;
+    mask-image: none;
+  }
+
+  .archive-marquee-track {
+    animation: none !important;
+  }
+
+  .archive-marquee-group[aria-hidden="true"] {
+    display: none;
+  }
+}
 

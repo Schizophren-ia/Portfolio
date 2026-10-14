@@ -293,3 +293,31 @@ Mọi thay đổi từ thời điểm này sẽ tuân thủ nghiêm ngặt theo 
 - `npm run lint`: **Passed**, còn 3 cảnh báo React có sẵn, không phát sinh lỗi lint.
 
 ---
+# Cập nhật 14.10.2026 — Filmmaking Infinite Shelves & About Clapperboard Dossier
+
+## Filmmaking Archive
+
+- Thay gallery pinned một hàng và hệ tab bằng **6 category shelf hiển thị liên tiếp**: Movie, Short Film, TVC, House Rule, MV và AI Film.
+- Các nhóm từ 4 tác phẩm trở lên được chia thành **lưới hai hàng ngang**, giúp tăng số thumbnail nhìn thấy đồng thời và cải thiện độ nhận diện tác phẩm.
+- Mỗi hàng sử dụng **infinite horizontal scroll** liền mạch; hàng thứ hai chạy ngược chiều để tạo nhịp chuyển động cinematic.
+- Animation tự dừng khi hover/focus; chế độ `prefers-reduced-motion` chuyển thành danh sách cuộn ngang thủ công và loại bỏ bản sao nội dung.
+- Card được thu gọn, ưu tiên thumbnail, tên phim, năm và thể loại; click vẫn mở modal video và Next Reel chỉ chuyển trong cùng danh mục.
+- Không trộn nội dung giữa các danh mục; toàn bộ archive được nhìn thấy khi cuộn dọc thay vì phải chuyển tab.
+
+## About Me
+
+- Loại bỏ hoàn toàn slider, bộ đếm `01 / 02` và nút điều hướng slide.
+- Khối trên giữ nguyên quan hệ **ảnh chân dung độc lập + Profile + Bio** trong cùng một composition; ảnh không nằm trong clapperboard.
+- Philosophy và Mission được trình bày thành hai production-note card đi cùng bio.
+- Đưa toàn bộ nội dung slide 2 xuống khối **Behind the Clapperboard** riêng bên dưới.
+- Clapperboard được dựng bằng HTML/CSS, có thanh clap tương tác và chuyển động nhẹ khi đi vào viewport.
+- Bốn chỉ số thống kê nằm cùng clapperboard và giữ hiệu ứng count-up.
+- Education, Languages, Skills, Passport và Hobbies được bố trí trong lưới dossier responsive bên cạnh clapperboard; mobile tự chuyển thành một cột.
+
+## Kiểm thử
+
+- `npm run build`: **Passed**.
+- `npm run lint`: **Passed**, còn 3 cảnh báo React tồn tại từ trước, không có lỗi lint.
+- Kiểm tra TypeScript và production bundle: **Passed**.
+
+---
