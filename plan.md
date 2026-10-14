@@ -275,4 +275,21 @@ Mọi thay đổi từ thời điểm này sẽ tuân thủ nghiêm ngặt theo 
 - `npm run lint`: **Passed**, còn 3 cảnh báo React có sẵn tại `TimecodeHUD.tsx` và `FilmModal.tsx`, không có lỗi lint.
 
 ---
+# Cập nhật 14.10.2026 — Chuyển nguồn Generali sang YouTube
 
+## Kết quả triển khai
+
+- Đã kiểm tra và thay thế 6 liên kết trang Generali bằng video chính thức trên kênh **Generali Vietnam**.
+- Short Film cập nhật 5 video: *Ngày của Cha*, *Sống Như Ý — Tết 2020*, *Sống Như Ý — Tết 2021*, *Chẳng Cần Như Ai, Chỉ Cần Như Ý*, *Tựa Vào Nhau Cho Đời Như Ý*.
+- TVC cập nhật video *Hãy Yêu Nhau Đi Cho Đời Như Ý*.
+- Cả 6 tác phẩm hiện phát trực tiếp bằng YouTube embed trong modal và mở đúng nguồn YouTube từ card/action link.
+- Tải 6 thumbnail YouTube riêng về `public/images`; loại bỏ artwork Generali dùng chung không còn cần thiết.
+- Số lượng archive được giữ nguyên: **8 Short Film, 8 TVC, tổng 26 tác phẩm**.
+
+## Kiểm thử
+
+- Đối chiếu metadata qua YouTube oEmbed: **6/6 link hợp lệ**, đúng kênh Generali Vietnam.
+- `npm run build`: **Passed**.
+- `npm run lint`: **Passed**, còn 3 cảnh báo React có sẵn, không phát sinh lỗi lint.
+
+---
