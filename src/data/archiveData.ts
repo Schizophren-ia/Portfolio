@@ -59,7 +59,7 @@ export const archiveFilms: FilmItem[] = seeds.map((item) => ({
   title: item.title,
   category: item.category,
   year: item.year ?? 'Archive',
-  role: 'Production',
+  role: 'Line Producer',
   genre: categoryGenre[item.category],
   duration: item.videoPath ? '50 Sec' : 'Watch online',
   aspectRatio: item.videoPath ? '3:4 Vertical' : '16:9',
