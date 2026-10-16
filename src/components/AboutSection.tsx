@@ -132,17 +132,11 @@ export const AboutSection: React.FC = () => {
                     </dt>
                     <dd className="break-words text-right font-semibold leading-relaxed text-solo">Le Dang Dai Trang</dd>
                   </div>
-                  <div className="grid min-h-8 grid-cols-[minmax(7rem,auto)_minmax(0,1fr)] items-center gap-4 border-b border-deep-bronze/40 pb-4">
-                    <dt className="flex items-center gap-2 text-left uppercase tracking-wider text-wainscot-green">
-                      <span className="text-hive-delight">•</span> Birthday:
-                    </dt>
-                    <dd className="break-words text-right font-semibold leading-relaxed text-solo">15.10.1991</dd>
-                  </div>
                   <div className="grid min-h-8 grid-cols-[minmax(7rem,auto)_minmax(0,1fr)] items-center gap-4 pt-0.5">
                     <dt className="flex items-center gap-2 text-left uppercase tracking-wider text-wainscot-green">
                       <span className="text-hive-delight">•</span> Occupation:
                     </dt>
-                    <dd className="break-words text-right font-semibold leading-relaxed text-solo">Producer</dd>
+                    <dd className="break-words text-right font-semibold leading-relaxed text-solo">{filmmakerContent.profile.role}</dd>
                   </div>
                 </dl>
               </div>
@@ -200,7 +194,7 @@ export const AboutSection: React.FC = () => {
                     <Clapperboard className="mb-7 h-9 w-9 text-hive-delight" />
                     <p className="font-playfair text-3xl font-black uppercase leading-tight text-solo sm:text-4xl">Lê Đặng<br /><span className="text-hive-delight">Đài Trang</span></p>
                     <div className="mt-8 space-y-3 border-t border-deep-bronze/70 pt-5 font-mono text-[10px] uppercase tracking-widest text-wainscot-green">
-                      <div className="flex justify-between"><span>Role</span><strong className="text-solo">Producer</strong></div>
+                      <div className="flex items-start justify-between gap-4"><span>Role</span><strong className="min-w-0 text-right leading-relaxed text-solo">{filmmakerContent.profile.role}</strong></div>
                       <div className="flex justify-between"><span>Location</span><strong className="text-solo">Ho Chi Minh City</strong></div>
                       <div className="flex justify-between"><span>Format</span><strong className="text-solo">Cinema · Digital</strong></div>
                     </div>
@@ -210,7 +204,7 @@ export const AboutSection: React.FC = () => {
 
               <div className="mt-5 grid grid-cols-2 gap-px bg-deep-bronze/60">
                 {filmmakerContent.stats.map((stat, index) => (
-                  <div key={stat.label} className="bg-[#0A1B2E] p-4 sm:p-5">
+                  <div key={stat.label} className={`bg-[#0A1B2E] p-4 sm:p-5 ${index === filmmakerContent.stats.length - 1 && filmmakerContent.stats.length % 2 !== 0 ? 'col-span-2' : ''}`}>
                     <div className="font-playfair text-3xl font-black text-hive-delight sm:text-4xl"><StatCounter targetValue={stat.value} active={statsActive} index={index} /><span className="text-stone-ground">{stat.suffix}</span></div>
                     <p className="mt-1 font-montserrat text-[10px] font-semibold uppercase tracking-wider text-solo">{stat.label}</p>
                     <p className="mt-1 text-[9px] text-wainscot-green">{stat.description}</p>

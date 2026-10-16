@@ -9,13 +9,12 @@ export const filmmakerContent: FilmmakerContent = {
     firstName: "LÊ ĐẶNG",
     lastName: "ĐÀI TRANG",
     fullName: "LÊ ĐẶNG ĐÀI TRANG",
-    role: "Film Producer",
+    role: "Film Producer & AI Business Head",
     tagline: "Connecting creativity and emotion — transforming paper into living cinema.",
-    dob: "15. 10. 1991",
     location: "Ho Chi Minh City, Vietnam",
     availability: "Available for Film Productions & Creative Collaborations",
     email: "ledangdaitrang@gmail.com",
-    phone: "0935 958 358",
+    phone: "+84 935 958 358",
     heroVideo: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
     heroPoster: "https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=2000&q=85",
     portraitImage: getAssetUrl("/images/profile-portrait.jpg"),
@@ -70,7 +69,8 @@ export const filmmakerContent: FilmmakerContent = {
       "Film Editing",
       "3D Drawing with Maya",
       "Using a Drone (Flycam)",
-      "Drawing"
+      "Drawing",
+      "AI Strategy & Production Integration"
     ],
     passport: [
       "USA",
@@ -106,10 +106,9 @@ export const filmmakerContent: FilmmakerContent = {
   },
 
   stats: [
-    { value: 5, suffix: "+", label: "Feature Films", description: "Produced & Production Team" },
+    { value: 6, suffix: "+", label: "Feature Films", description: "Producer & Line Producer" },
     { value: 7, suffix: "", label: "Passport Countries", description: "International Experience" },
     { value: 10, suffix: "+", label: "Years of Passion", description: "Dedication to Cinema" },
-    { value: 1991, suffix: "", label: "Born 15.10.1991", description: "Producer based in HCMC" },
   ],
 
   skills: {
@@ -121,7 +120,8 @@ export const filmmakerContent: FilmmakerContent = {
       "Film Editing",
       "3D Drawing with Maya",
       "Using Drone (Flycam)",
-      "Concept Drawing"
+      "Concept Drawing",
+      "AI Strategy & Production Integration"
     ],
     tools: [
       "Autodesk Maya 3D",
@@ -139,7 +139,7 @@ export const filmmakerContent: FilmmakerContent = {
       index: "01/05",
       title: "NHẮM MẮT THẤY MÙA HÈ",
       year: "2018",
-      role: "Producer",
+      role: "Line Producer",
       genre: "Romance · Drama · Indie Feature",
       director: "Cao Thúy Nhi",
       cast: "Phương Anh Đào, Takafumi Akutsu",
@@ -151,7 +151,7 @@ export const filmmakerContent: FilmmakerContent = {
       logline: "A young Vietnamese woman travels to the snowy, blooming landscapes of Higashikawa, Hokkaido, searching for her estranged father and discovering heartfelt love.",
       synopsis: "Shot on location in Hokkaido, Japan and Vietnam, 'Nhắm mắt thấy mùa hè' won widespread acclaim as one of the most aesthetically poignant independent films in modern Vietnamese cinema.",
       credits: [
-        { label: "Role", value: "Producer / Production Team" },
+        { label: "Role", value: "Line Producer" },
         { label: "Filming Locations", value: "Higashikawa, Hokkaido (Japan) & Saigon" },
         { label: "Starring", value: "Phương Anh Đào, Takafumi Akutsu" },
         { label: "Release Year", value: "2018" }
@@ -164,7 +164,7 @@ export const filmmakerContent: FilmmakerContent = {
       index: "02/05",
       title: "TRỜI SÁNG RỒI TA NGỦ ĐI THÔI",
       year: "2019",
-      role: "Producer",
+      role: "Line Producer",
       genre: "Indie Musical Drama · Youth Romance",
       director: "Chung Chí Công",
       cast: "Hà Quốc Hoàng, Trần Lê Thúy Vy",
@@ -176,7 +176,7 @@ export const filmmakerContent: FilmmakerContent = {
       logline: "Two wandering souls drift together through an intoxicating night in Saigon, serenading each other with acoustic songs, memories, and vulnerable confessions.",
       synopsis: "A lyrical love letter to Saigon's indie music scene and sleepless youth culture, celebrated for its authentic intimacy and soul-stirring original soundtrack.",
       credits: [
-        { label: "Role", value: "Producer / Production Team" },
+        { label: "Role", value: "Line Producer" },
         { label: "Location", value: "Ho Chi Minh City, Vietnam" },
         { label: "Starring", value: "Hà Quốc Hoàng, Trần Lê Thúy Vy" },
         { label: "Release Year", value: "2019" }
@@ -189,7 +189,7 @@ export const filmmakerContent: FilmmakerContent = {
       index: "03/05",
       title: "SÀI GÒN TRONG CƠN MƯA",
       year: "2020",
-      role: "Producer",
+      role: "Line Producer",
       genre: "Romance · Music · Youth Drama",
       director: "Lê Minh Hoàng",
       cast: "Avin Lu, Hồ Thu Anh",
@@ -201,7 +201,7 @@ export const filmmakerContent: FilmmakerContent = {
       logline: "Two ambitious dreamers strive to stay true to their art and to each other under Saigon's relentless, poetic monsoon downpours.",
       synopsis: "Capturing the raw tension between creative aspirations and financial survival, this film portrays the heartbeat of Saigon through evocative rainy visuals and honest emotion.",
       credits: [
-        { label: "Role", value: "Producer / Production Team" },
+        { label: "Role", value: "Line Producer" },
         { label: "Location", value: "Ho Chi Minh City, Vietnam" },
         { label: "Starring", value: "Avin Lu, Hồ Thu Anh" },
         { label: "Release Year", value: "2020" }
@@ -214,7 +214,7 @@ export const filmmakerContent: FilmmakerContent = {
       index: "04/05",
       title: "TRÁI TIM QUÁI VẬT",
       year: "2020",
-      role: "Producer",
+      role: "Line Producer",
       genre: "Mystery · Psychological Thriller · Crime",
       director: "Tạ Nguyên Hiệp",
       cast: "Hoàng Thùy Linh, B Trần, Hứa Vĩ Văn, Quang Trung",
@@ -226,7 +226,7 @@ export const filmmakerContent: FilmmakerContent = {
       logline: "A gruesome murder in an old, crowded tenement plunges a single mother into a treacherous maze of deception, police interrogation, and urban monsters.",
       synopsis: "Produced by WePro Entertainment, 'Trái tim quái vật' delivers a gritty neo-noir atmosphere, unraveling the hidden fractures of human psychology within Vietnam's tight-knit tenements.",
       credits: [
-        { label: "Role", value: "Producer / Production Team" },
+        { label: "Role", value: "Line Producer" },
         { label: "Production House", value: "WePro Entertainment" },
         { label: "Starring", value: "Hoàng Thùy Linh, B Trần, Hứa Vĩ Văn" },
         { label: "Release Year", value: "2020" }
@@ -251,7 +251,7 @@ export const filmmakerContent: FilmmakerContent = {
       logline: "Three interwoven journeys across scenic landscapes challenge a martial artist, a traveler, and a musician to confront crossroads defining their true destiny.",
       synopsis: "A cinematic odyssey across Vietnam highlighting the martial arts heritage of Binh Dinh, bustling Saigon, and open roads of discovery.",
       credits: [
-        { label: "Role", value: "Producer / Production Team" },
+        { label: "Role", value: "Producer" },
         { label: "Locations", value: "Bình Định, TP. Hồ Chí Minh & Regional Vietnam" },
         { label: "Starring", value: "Isaac, Rocker Nguyễn, Lợi Trần, Emma Lê" },
         { label: "Release Year", value: "2023" }
@@ -328,7 +328,7 @@ export const filmmakerContent: FilmmakerContent = {
 
   socials: [
     { name: "Email", url: "mailto:ledangdaitrang@gmail.com", handle: "ledangdaitrang@gmail.com" },
-    { name: "Phone", url: "tel:0935958358", handle: "0935 958 358" },
+    { name: "Phone", url: "tel:+84935958358", handle: "+84 935 958 358" },
     { name: "Facebook", url: "https://www.facebook.com/ledangdaitrang", handle: "Lê Đặng Đài Trang" },
     { name: "Instagram", url: "https://instagram.com", handle: "@ledangdaitrang" }
   ],
@@ -337,7 +337,7 @@ export const filmmakerContent: FilmmakerContent = {
     title: "LET'S MAKE SOMETHING UNFORGETTABLE",
     subtitle: "Story about me · Story about film · Story about dream",
     directorText: "PRODUCER: LÊ ĐẶNG ĐÀI TRANG",
-    cameraText: "HO CHI MINH CITY · VIETNAM · 15.10.1991",
+    cameraText: "HO CHI MINH CITY · VIETNAM",
     yearText: "MMXXVI · CINEMA ARCHIVE"
   }
 };
