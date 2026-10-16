@@ -14,7 +14,7 @@ export const Navigation: React.FC<NavigationProps> = ({ activeSection }) => {
   const navLinks = [
     { label: 'ABOUT', href: '#about', act: 'ACT I' },
     { label: 'FILMMAKING', href: '#filmmaking', act: 'ACT II' },
-    { label: 'EXPERIENCES', href: '#experiences', act: 'ACT III' },
+    { label: 'JOURNEY', href: '#experiences', act: 'ACT III' },
     { label: 'CONTACT', href: '#contact', act: 'ACT IV' },
   ];
 
