@@ -258,6 +258,26 @@ export const filmmakerContent: FilmmakerContent = {
       ],
       tools: ["Martial Arts Choreography", "Multi-Location Drone Cinematography", "Panoramic Road Filmmaking"],
       laurel: "Theatrical Nationwide Release 2023"
+    },
+    {
+      id: "doi-gi-mo-di",
+      index: "06/06",
+      title: "ĐỢI GÌ MƠ ĐI",
+      year: "Archive",
+      role: "Producer",
+      genre: "Feature Film",
+      duration: "Watch online",
+      aspectRatio: "16:9",
+      thumbnail: "https://img.youtube.com/vi/13abLbVVAaA/maxresdefault.jpg",
+      youtubeUrl: "https://www.youtube.com/watch?v=13abLbVVAaA",
+      videoUrl: "https://www.youtube.com/embed/13abLbVVAaA?autoplay=1&mute=0",
+      logline: "Watch the film on YouTube.",
+      synopsis: "Open the YouTube video for film details and credits.",
+      credits: [
+        { label: "Role", value: "Producer" },
+        { label: "Source", value: "YouTube" }
+      ],
+      tools: []
     }
   ],
 

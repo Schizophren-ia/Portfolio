@@ -121,10 +121,10 @@ const ScrollableShelf: React.FC<{
       <div
         ref={containerRef}
         onScroll={checkScroll}
-        className="flex gap-5 sm:gap-6 overflow-x-auto scrollbar-none scroll-smooth pb-3 pt-1 snap-x snap-mandatory"
+        className="scrollbar-none flex w-full snap-x snap-mandatory gap-5 overflow-x-auto overscroll-x-contain scroll-smooth pb-3 pt-1 sm:gap-6"
       >
         {films.map((film) => (
-          <div key={film.id} className="w-[280px] sm:w-[320px] lg:w-[360px] shrink-0 snap-start">
+          <div key={film.id} className="w-full max-w-[360px] shrink-0 snap-start">
             <FilmCard film={film} onOpen={() => onOpen(film.archiveIndex)} className="w-full" />
           </div>
         ))}
@@ -185,7 +185,7 @@ export const FilmmakingSection: React.FC = () => {
           CINEMA ARCHIVE · CINEMA ARCHIVE
         </div>
 
-        <header className="relative z-10 mx-auto mb-14 max-w-7xl px-6 sm:px-8">
+        <header className="portfolio-container relative z-10 mb-14">
           <div className="flex flex-col gap-5 border-b border-deep-bronze/40 pb-7 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <div className="mb-3 flex items-center gap-3">
@@ -216,7 +216,7 @@ export const FilmmakingSection: React.FC = () => {
 
             return (
               <section key={category.id} aria-labelledby={`archive-${category.id}`}>
-                <div className="mx-auto mb-6 flex max-w-7xl items-end justify-between gap-5 px-6 sm:px-8">
+                <div className="portfolio-container mb-6 flex items-end justify-between gap-5">
                   <div className="flex items-baseline gap-3 sm:gap-5">
                     <span className="font-mono text-xs text-stone-ground">0{categoryIndex + 1}</span>
                     <div>
@@ -227,7 +227,7 @@ export const FilmmakingSection: React.FC = () => {
                   <span className="font-mono text-xs text-hive-delight">{String(indexed.length).padStart(2, '0')} WORKS</span>
                 </div>
 
-                <div className="mx-auto max-w-7xl px-6 sm:px-8">
+                <div className="portfolio-container">
                   {indexed.length === 0 ? (
                     <div className="flex min-h-48 flex-col items-center justify-center border border-dashed border-deep-bronze/80 bg-[#112A46]/70 text-center">
                       <Sparkles className="mb-4 h-6 w-6 text-hive-delight" />
@@ -235,15 +235,16 @@ export const FilmmakingSection: React.FC = () => {
                       <span className="mt-2 font-montserrat text-[10px] uppercase tracking-cinema text-wainscot-green">Coming soon</span>
                     </div>
                   ) : category.id === 'movie' ? (
-                    /* Movie feature films in a clean responsive grid bounded and balanced on both sides */
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7">
+                    /* Center incomplete rows so movie cards keep equal left and right margins. */
+                    <div className="movie-grid">
                       {indexed.map((film) => (
-                        <FilmCard
-                          key={film.id}
-                          film={film}
-                          onOpen={() => setActiveFilmIndex(film.archiveIndex)}
-                          className="w-full"
-                        />
+                        <div key={film.id} className="movie-grid-cell">
+                          <FilmCard
+                            film={film}
+                            onOpen={() => setActiveFilmIndex(film.archiveIndex)}
+                            className="h-full w-full"
+                          />
+                        </div>
                       ))}
                     </div>
                   ) : indexed.length <= 3 ? (

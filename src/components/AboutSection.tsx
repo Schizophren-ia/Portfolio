@@ -98,7 +98,7 @@ export const AboutSection: React.FC = () => {
 
   return (
     <section id="about" ref={sectionRef} className="relative overflow-hidden border-t border-deep-bronze/30 bg-noble-black py-20 sm:py-28" aria-label="About the Filmmaker">
-      <div className="mx-auto max-w-7xl px-6 sm:px-8">
+      <div className="portfolio-container">
         <div className="mb-8 flex items-center gap-3">
           <span className="font-montserrat text-xs font-semibold uppercase tracking-cinema text-wainscot-green">{filmmakerContent.bio.actLabel}</span>
           <span className="h-px w-12 bg-olivia/50" />
@@ -117,32 +117,32 @@ export const AboutSection: React.FC = () => {
             </div>
 
             {/* Profile section centered directly beneath the photo with generous row spacing */}
-            <div className="mt-6 w-full max-w-md mx-auto flex flex-col items-center">
-              <div className="inline-flex items-center gap-2 mb-3.5">
+            <div className="mx-auto mt-7 flex w-full max-w-md flex-col items-center text-center">
+              <div className="mb-4 inline-flex items-center justify-center gap-2">
                 <span className="h-1.5 w-1.5 rounded-full bg-hive-delight" />
                 <p className="font-montserrat text-xs font-bold uppercase tracking-widest text-hive-delight">Profile</p>
                 <span className="h-1.5 w-1.5 rounded-full bg-hive-delight" />
               </div>
 
-              <div className="w-full rounded border border-deep-bronze/60 bg-[#112A46]/35 p-4 sm:p-5 backdrop-blur-sm shadow-lg">
-                <dl className="space-y-3.5 font-montserrat text-xs sm:text-sm">
-                  <div className="flex items-center justify-between border-b border-deep-bronze/40 pb-3">
-                    <dt className="flex items-center gap-2 uppercase tracking-wider text-wainscot-green">
+              <div className="w-full rounded border border-deep-bronze/60 bg-[#112A46]/35 p-5 shadow-lg backdrop-blur-sm sm:p-6">
+                <dl className="space-y-4 font-montserrat text-xs sm:text-sm">
+                  <div className="grid min-h-8 grid-cols-[minmax(7rem,auto)_minmax(0,1fr)] items-center gap-4 border-b border-deep-bronze/40 pb-4">
+                    <dt className="flex items-center gap-2 text-left uppercase tracking-wider text-wainscot-green">
                       <span className="text-hive-delight">•</span> Name:
                     </dt>
-                    <dd className="font-semibold text-solo">Le Dang Dai Trang</dd>
+                    <dd className="break-words text-right font-semibold leading-relaxed text-solo">Le Dang Dai Trang</dd>
                   </div>
-                  <div className="flex items-center justify-between border-b border-deep-bronze/40 pb-3">
-                    <dt className="flex items-center gap-2 uppercase tracking-wider text-wainscot-green">
+                  <div className="grid min-h-8 grid-cols-[minmax(7rem,auto)_minmax(0,1fr)] items-center gap-4 border-b border-deep-bronze/40 pb-4">
+                    <dt className="flex items-center gap-2 text-left uppercase tracking-wider text-wainscot-green">
                       <span className="text-hive-delight">•</span> Birthday:
                     </dt>
-                    <dd className="font-semibold text-solo">15.10.1991</dd>
+                    <dd className="break-words text-right font-semibold leading-relaxed text-solo">15.10.1991</dd>
                   </div>
-                  <div className="flex items-center justify-between pt-0.5">
-                    <dt className="flex items-center gap-2 uppercase tracking-wider text-wainscot-green">
+                  <div className="grid min-h-8 grid-cols-[minmax(7rem,auto)_minmax(0,1fr)] items-center gap-4 pt-0.5">
+                    <dt className="flex items-center gap-2 text-left uppercase tracking-wider text-wainscot-green">
                       <span className="text-hive-delight">•</span> Occupation:
                     </dt>
-                    <dd className="font-semibold text-solo">Producer</dd>
+                    <dd className="break-words text-right font-semibold leading-relaxed text-solo">Producer</dd>
                   </div>
                 </dl>
               </div>
