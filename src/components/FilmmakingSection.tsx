@@ -4,6 +4,7 @@ import { filmmakerContent } from '../data/content';
 import { archiveFilms } from '../data/archiveData';
 import type { FilmCategory, FilmItem } from '../data/types';
 import { FilmModal } from './FilmModal';
+import { FilmThumbnail } from './FilmThumbnail';
 
 const categories: { id: FilmCategory; label: string; note: string }[] = [
   { id: 'movie', label: 'MOVIE', note: 'Feature films' },
@@ -88,17 +89,10 @@ const FilmCard: React.FC<{
       {film.mediaType === 'local-video' && film.videoUrl ? (
         <InlineVideo film={film} decorative={decorative} />
       ) : (
-        <img
-          src={film.thumbnail}
-          alt={decorative ? '' : film.title}
-          loading={decorative ? 'lazy' : 'eager'}
-          decoding="async"
-          onError={(e) => {
-            const target = e.currentTarget;
-            if (target.src.includes('maxresdefault.jpg')) {
-              target.src = target.src.replace('maxresdefault.jpg', 'hqdefault.jpg');
-            }
-          }}
+        <FilmThumbnail
+          key={film.id}
+          film={film}
+          decorative={decorative}
           className="h-full w-full object-contain"
         />
       )}

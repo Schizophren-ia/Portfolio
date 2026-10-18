@@ -418,3 +418,24 @@ Mọi thay đổi từ thời điểm này sẽ tuân thủ nghiêm ngặt theo 
 - `npm run lint`: **Passed**, còn 3 cảnh báo có sẵn tại `TimecodeHUD.tsx` và `FilmModal.tsx`.
 - GitHub: `Schizophren-ia/Portfolio`, nhánh `main`; commit `Remove name from Journey header`.
 
+---
+# Cập nhật 18.10.2026 — Ưu tiên 3 TVC và sửa thumbnail video
+
+## Kết quả triển khai
+
+- Đưa 3 TVC lên vị trí 01/08–03/08 theo thứ tự đã duyệt: **Khát vọng vì một Việt Nam mai sau**, **Hãy yêu nhau đi cho đời như ý**, **Sống như ý — Bumper Ads**. Giữ thứ tự tương đối của 5 TVC còn lại.
+- Archive dùng ảnh đã lưu trong `public/images` làm thumbnail chính, với đường dẫn hỗ trợ cả local và GitHub Pages `/Portfolio/`.
+- Dùng chung component `FilmThumbnail` cho card và ảnh preview trong modal: khi tải lỗi, thử ảnh YouTube maxres/HQ/MQ rồi ảnh dự phòng local.
+- Phát hiện ảnh giữ chỗ YouTube rộng tối đa 120px kể cả khi HTTP trả về 200; dừng ở nguồn cuối để tránh lặp tải lỗi.
+- Thêm `public/images/film-placeholder.svg`, giữ nguyên bố cục card, liên kết video và điều khiển marquee.
+
+## Kiểm thử
+
+- `npm run build`: **Passed**.
+- `npm run lint`: **Passed**, còn 3 cảnh báo có sẵn tại `TimecodeHUD.tsx` và `FilmModal.tsx`.
+- Đọc/giải mã ảnh local: **21/21 thumbnail archive hợp lệ**, gồm **8/8 TVC**.
+- Chrome headless trên production preview `/Portfolio/`: **Passed** cho thứ tự cả 8 TVC, chỉ số 01/08–08/08, tải ảnh local, mở video và Next Reel đúng thứ tự.
+- Giả lập ảnh local lỗi, YouTube trả ảnh giữ chỗ HTTP 200, và toàn bộ nguồn ảnh lỗi: **Passed**, fallback tới HQ hoặc ảnh local cuối cùng, không lặp tải.
+- Mobile 390px: **Passed**, ảnh TVC tải đúng và trang không tràn ngang.
+- GitHub: `Schizophren-ia/Portfolio`, nhánh `main`; commit `Prioritize featured TVCs and fix video thumbnail fallbacks`.
+

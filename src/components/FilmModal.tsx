@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { X, ArrowRight, Award, Film as FilmIcon, Clock, ExternalLink } from 'lucide-react';
 import gsap from 'gsap';
 import type { FilmItem } from '../data/types';
+import { FilmThumbnail } from './FilmThumbnail';
 
 interface FilmModalProps {
   film: FilmItem | null;
@@ -122,7 +123,7 @@ export const FilmModal: React.FC<FilmModalProps> = ({ film, onClose, onNext }) =
             />
           ) : (
             <div className="relative w-full h-full">
-              <img src={film.thumbnail} alt={film.title} className="w-full h-full object-cover opacity-70" />
+              <FilmThumbnail key={film.id} film={film} className="w-full h-full object-cover opacity-70" />
               <div className="absolute inset-0 bg-gradient-to-t from-noble-black via-transparent to-transparent flex items-end justify-center p-8">
                 <a href={film.sourceUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-5 py-3 bg-hive-delight text-noble-black font-montserrat font-bold text-xs tracking-widest uppercase">
                   <span>Watch at official source</span>
