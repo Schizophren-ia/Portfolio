@@ -25,14 +25,14 @@ const seeds: ArchiveSeed[] = [
   { id: 'hoa-hong-no-muon', title: 'HOA HỒNG NỞ MUỘN', category: 'short-film', sourceUrl: 'https://www.youtube.com/watch?v=jZui_9c6UO8', image: 'short-hoa-hong-no-muon.jpg', year: '2022', youtubeId: 'jZui_9c6UO8', author: 'Ensure Gold Vietnam' },
   { id: 'me-ve-voi-con', title: 'MẸ VỀ VỚI CON', category: 'short-film', sourceUrl: 'https://www.youtube.com/watch?v=E6slLdeexSM', image: 'short-me-ve-voi-con.jpg', year: '2023', youtubeId: 'E6slLdeexSM', author: 'Ensure Gold Vietnam' },
 
-  { id: 'hack-tet-mon-ngon', title: 'HACK TẾT — MÓN NGON LÀM GỌN', category: 'tvc', sourceUrl: 'https://www.youtube.com/watch?v=o1fJXQAl6cs', image: 'tvc-hack-tet-mon-ngon.jpg', year: '2023', youtubeId: 'o1fJXQAl6cs', author: 'Miu Lê Official' },
-  { id: 'hack-tet-truyen-thong', title: 'HACK TẾT — MÓN TRUYỀN THỐNG, SỐNG HIỆN ĐẠI', category: 'tvc', sourceUrl: 'https://www.youtube.com/watch?v=l2ZkuSeBp_I', image: 'tvc-hack-tet-truyen-thong.jpg', year: '2023', youtubeId: 'l2ZkuSeBp_I', author: 'Miu Lê Official' },
   { id: 'vi-tuoi-toi-chon', title: 'VỊ TƯƠI TÔI CHỌN', category: 'tvc', sourceUrl: 'https://www.youtube.com/watch?v=2ct1Vfd3ss4', image: 'tvc-vi-tuoi-toi-chon.jpg', youtubeId: '2ct1Vfd3ss4', author: 'Barona' },
   { id: 'nivea-silver-protect', title: 'NIVEA MEN SILVER PROTECT', category: 'tvc', sourceUrl: 'https://www.youtube.com/watch?v=XlP1VJ1wTfE', image: 'tvc-nivea-silver-protect.jpg', youtubeId: 'XlP1VJ1wTfE', author: 'NIVEA MEN Vietnam' },
   { id: 'vita-dau-tu-nhu-y', title: 'VITA — ĐẦU TƯ NHƯ Ý', category: 'tvc', sourceUrl: 'https://www.youtube.com/watch?v=n_LU8pyX_cQ', image: 'tvc-vita-dau-tu-nhu-y.jpg', youtubeId: 'n_LU8pyX_cQ', author: 'Generali Vietnam' },
   { id: 'khat-vong-viet-nam', title: 'KHÁT VỌNG VÌ MỘT VIỆT NAM MAI SAU', category: 'tvc', sourceUrl: 'https://www.youtube.com/watch?v=RYXggnG8alo', image: 'tvc-khat-vong-viet-nam.jpg', youtubeId: 'RYXggnG8alo', author: 'One Mount' },
   { id: 'hay-yeu-nhau-di', title: 'HÃY YÊU NHAU ĐI CHO ĐỜI NHƯ Ý', category: 'tvc', sourceUrl: 'https://www.youtube.com/watch?v=T0eUu5ILzx0', image: 'tvc-hay-yeu-nhau-di.jpg', youtubeId: 'T0eUu5ILzx0', author: 'Generali Vietnam' },
   { id: 'song-nhu-y-bumper', title: 'SỐNG NHƯ Ý — BUMPER ADS', category: 'tvc', sourceUrl: 'https://www.youtube.com/watch?v=pXUtNmJS4vs', image: 'tvc-song-nhu-y-bumper.jpg', youtubeId: 'pXUtNmJS4vs', author: '30 Pictures' },
+  { id: 'hack-tet-mon-ngon', title: 'HACK TẾT — MÓN NGON LÀM GỌN', category: 'tvc', sourceUrl: 'https://www.youtube.com/watch?v=o1fJXQAl6cs', image: 'tvc-hack-tet-mon-ngon.jpg', year: '2023', youtubeId: 'o1fJXQAl6cs', author: 'Miu Lê Official' },
+  { id: 'hack-tet-truyen-thong', title: 'HACK TẾT — MÓN TRUYỀN THỐNG, SỐNG HIỆN ĐẠI', category: 'tvc', sourceUrl: 'https://www.youtube.com/watch?v=l2ZkuSeBp_I', image: 'tvc-hack-tet-truyen-thong.jpg', year: '2023', youtubeId: 'l2ZkuSeBp_I', author: 'Miu Lê Official' },
 
   { id: 'bay-ngot-ngao-house-rules', title: 'BẪY NGỌT NGÀO — HOUSE RULES', category: 'house-rule', sourceUrl: 'https://www.youtube.com/watch?v=ibLDjoFT8zk', image: 'house-rule-bay-ngot-ngao.jpg', year: '2022', youtubeId: 'ibLDjoFT8zk', author: 'CJ ENM Vietnam' },
   { id: 'bo-gia-house-rule', title: 'BỐ GIÀ — HOUSE RULE', category: 'house-rule', sourceUrl: 'https://www.youtube.com/watch?v=omw7O1X4CNA', image: 'house-rule-bo-gia.jpg', year: '2021', youtubeId: 'omw7O1X4CNA', author: 'Galaxy Studio' },
@@ -59,11 +59,13 @@ export const archiveFilms: FilmItem[] = seeds.map((item) => ({
   title: item.title,
   category: item.category,
   year: item.year ?? 'Archive',
-  role: 'Production',
+  role: 'Line Producer',
   genre: categoryGenre[item.category],
   duration: item.videoPath ? '50 Sec' : 'Watch online',
   aspectRatio: item.videoPath ? '3:4 Vertical' : '16:9',
-  thumbnail: asset(`/images/${item.image}`),
+  thumbnail: item.youtubeId
+    ? `https://img.youtube.com/vi/${item.youtubeId}/maxresdefault.jpg`
+    : asset(`/images/${item.image}`),
   youtubeUrl: item.youtubeId ? item.sourceUrl : undefined,
   sourceUrl: item.sourceUrl,
   videoUrl: item.youtubeId ? `https://www.youtube.com/embed/${item.youtubeId}?autoplay=1&mute=0` : item.videoPath ? asset(item.videoPath) : undefined,

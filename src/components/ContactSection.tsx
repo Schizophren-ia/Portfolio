@@ -121,10 +121,10 @@ export const ContactSection: React.FC = () => {
               </span>
               <a
                 href={`tel:${profile.phone.replace(/[^0-9+]/g, '')}`}
-                className="font-playfair text-xl sm:text-2xl text-solo hover:text-hive-delight transition-colors inline-flex items-center gap-2 group"
+                className="font-montserrat text-xl sm:text-2xl text-solo hover:text-hive-delight transition-colors inline-flex items-center gap-2 group"
               >
                 <Phone className="w-4 h-4 text-stone-ground" />
-                <span>{profile.phone}</span>
+                <span className="whitespace-nowrap tabular-nums lining-nums tracking-normal">{profile.phone}</span>
                 <ArrowUpRight className="w-4 h-4 text-stone-ground group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
               </a>
             </div>
