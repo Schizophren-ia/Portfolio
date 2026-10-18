@@ -142,9 +142,36 @@ a,
   padding-inline: 1.5rem;
 }
 
+/* Keep incomplete movie rows centered with balanced outer margins. */
+.movie-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.movie-grid-cell {
+  flex: 0 0 100%;
+  min-width: 0;
+}
+
 @media (min-width: 640px) {
   .portfolio-container {
     padding-inline: 2rem;
+  }
+
+  .movie-grid {
+    gap: 1.75rem;
+  }
+
+  .movie-grid-cell {
+    flex-basis: calc((100% - 1.75rem) / 2);
+  }
+}
+
+@media (min-width: 1024px) {
+  .movie-grid-cell {
+    flex-basis: calc((100% - 3.5rem) / 3);
   }
 }
 

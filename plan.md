@@ -405,5 +405,7 @@ Mọi thay đổi từ thời điểm này sẽ tuân thủ nghiêm ngặt theo 
 
 - Repo đích: `https://github.com/Schizophren-ia/Portfolio`, nhánh `main`.
 - Người dùng đã duyệt đưa toàn bộ thay đổi hiện có lên GitHub, gồm các chỉnh sửa có sẵn về Profile/Bio, thông tin liên hệ, Filmmaking Archive, tiêu đề trang, bố cục dùng chung và bộ ảnh/dữ liệu MY JOURNEY.
-- Đang chuẩn bị commit toàn bộ bản hiện tại và push lên `origin/main`; sẽ ghi nhận mã commit và kết quả sau khi GitHub xác nhận.
+- Commit nội dung: `9dd2e89` — `Update portfolio content and journey gallery; simplify journal header`.
+- Hợp nhất lịch sử mới nhất từ `origin/main` (`0486fc5`), giữ các chỉnh sửa căn hàng phim trên GitHub và phần Bio tại local; giải quyết xung đột MY JOURNEY theo yêu cầu bỏ ảnh đại diện và dòng mô tả.
+- Build/lint được chạy lại sau khi hợp nhất; bản bàn giao dùng nhánh `main` tại repo nêu trên.
 
