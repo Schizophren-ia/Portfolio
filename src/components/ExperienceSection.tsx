@@ -48,8 +48,6 @@ export const ExperienceSection: React.FC = () => {
               Places, moments and memories, collected along the way.
             </p>
           </div>
-
-          <p className="shrink-0 font-montserrat text-sm font-medium text-solo">Lê Đặng Đài Trang</p>
         </header>
 
         <ol className="space-y-14 sm:space-y-20">

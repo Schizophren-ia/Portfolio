@@ -409,3 +409,12 @@ Mọi thay đổi từ thời điểm này sẽ tuân thủ nghiêm ngặt theo 
 - Hợp nhất lịch sử mới nhất từ `origin/main` (`0486fc5`), giữ các chỉnh sửa căn hàng phim trên GitHub và phần Bio tại local; giải quyết xung đột MY JOURNEY theo yêu cầu bỏ ảnh đại diện và dòng mô tả.
 - Build/lint được chạy lại sau khi hợp nhất; bản bàn giao dùng nhánh `main` tại repo nêu trên.
 
+---
+# Cập nhật 18.10.2026 — Bỏ dòng tên ở đầu MY JOURNEY
+
+- Đã được người dùng duyệt: xóa dòng "Lê Đặng Đài Trang" ở đầu mục MY JOURNEY trong `src/components/ExperienceSection.tsx`.
+- Giữ nguyên tiêu đề, lời giới thiệu, ảnh hành trình, thông tin năm/địa điểm và hiệu ứng.
+- `npm run build`: **Passed**.
+- `npm run lint`: **Passed**, còn 3 cảnh báo có sẵn tại `TimecodeHUD.tsx` và `FilmModal.tsx`.
+- GitHub: `Schizophren-ia/Portfolio`, nhánh `main`; commit `Remove name from Journey header`.
+
