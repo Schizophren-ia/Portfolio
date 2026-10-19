@@ -16,6 +16,9 @@ export default {
         'deep-bronze': '#34506D',
       },
       fontFamily: {
+        sans: ['Inter', 'system-ui', 'sans-serif'],
+        serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+        mono: ['Inter', 'system-ui', 'sans-serif'],
         playfair: ['"Cormorant Garamond"', 'Georgia', 'serif'],
         montserrat: ['Inter', 'system-ui', 'sans-serif'],
       },

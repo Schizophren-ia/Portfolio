@@ -5,11 +5,12 @@ type FilmThumbnailProps = {
   film: FilmItem;
   decorative?: boolean;
   className?: string;
+  loading?: 'eager' | 'lazy';
 };
 
 const fallback = `${import.meta.env.BASE_URL}images/film-placeholder.svg`;
 
-export function FilmThumbnail({ film, decorative = false, className }: FilmThumbnailProps) {
+export function FilmThumbnail({ film, decorative = false, className, loading = 'eager' }: FilmThumbnailProps) {
   const [sourceIndex, setSourceIndex] = useState(0);
   const youtubeId = film.youtubeUrl?.match(/[?&]v=([\w-]{11})(?:[&#]|$)/)?.[1];
   const sources = [...new Set([
@@ -25,9 +26,7 @@ export function FilmThumbnail({ film, decorative = false, className }: FilmThumb
     <img
       src={sources[sourceIndex]}
       alt={decorative ? '' : film.title}
-      // Copies must be ready before a transform brings them into the viewport.
-      // Identical URLs reuse the browser cache rather than waiting for lazy loading.
-      loading="eager"
+      loading={loading}
       decoding="async"
       style={sourceIndex === 0 && film.thumbnailScale ? { transform: `scale(${film.thumbnailScale})` } : undefined}
       onError={tryNextSource}

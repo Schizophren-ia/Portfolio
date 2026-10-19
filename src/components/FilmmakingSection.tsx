@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useMemo, useRef, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { ArrowUpRight, Film, Image as ImageIcon, Play, Sparkles } from 'lucide-react';
 import { filmmakerContent } from '../data/content';
 import { archiveFilms } from '../data/archiveData';
@@ -17,42 +17,40 @@ const categories: { id: FilmCategory; label: string; note: string }[] = [
 
 type IndexedFilm = FilmItem & { archiveIndex: number };
 
-const MARQUEE_SPEED_PX_PER_SECOND = 40;
-
 const previewAspectRatio = (film: FilmItem) => film.thumbnailAspectRatio ?? (film.mediaType === 'local-video' ? 3 / 4 : 16 / 9);
 
 const FilmCard: React.FC<{
   film: IndexedFilm;
   onOpen: () => void;
   className?: string;
-  decorative?: boolean;
-}> = ({ film, onOpen, className = '', decorative = false }) => (
+}> = ({ film, onOpen, className = '' }) => (
   <article
+    data-film-id={film.id}
     onClick={onOpen}
-    onKeyDown={decorative ? undefined : (event) => {
+    onKeyDown={(event) => {
       if (event.key === 'Enter' || event.key === ' ') {
         event.preventDefault();
         onOpen();
       }
     }}
-    role={decorative ? undefined : 'button'}
-    tabIndex={decorative ? -1 : 0}
-    aria-label={decorative ? undefined : `Xem ${film.title}`}
-    aria-hidden={decorative || undefined}
-    className={`archive-card group relative cursor-pointer overflow-hidden border border-deep-bronze/60 bg-[#112A46] shadow-xl transition-colors duration-300 hover:border-hive-delight/80 focus-within:border-hive-delight ${className}`}
+    role="button"
+    tabIndex={0}
+    aria-label={`Xem ${film.title}`}
+    style={{ '--archive-aspect': previewAspectRatio(film) } as React.CSSProperties}
+    className={`archive-card group relative min-w-0 cursor-pointer overflow-hidden border border-deep-bronze/60 bg-[#112A46] shadow-xl transition-colors duration-300 hover:border-hive-delight/80 focus-visible:border-hive-delight motion-reduce:transition-none ${className}`}
   >
     <div className="archive-card-media relative overflow-hidden bg-black">
       <FilmThumbnail
         key={film.id}
         film={film}
-        decorative={decorative}
-        className="absolute inset-0 block h-full w-full object-cover"
+        loading="lazy"
+        className={`absolute inset-0 block h-full w-full ${film.mediaType === 'poster' ? 'object-contain' : 'object-cover'}`}
       />
       {film.mediaType !== 'poster' && film.category !== 'ai-film' && <div className="absolute inset-0 bg-gradient-to-t from-noble-black via-noble-black/15 to-transparent" />}
       <span className="absolute left-2.5 top-2.5 border border-deep-bronze/80 bg-noble-black/90 px-2 py-1 font-mono text-[10px] text-hive-delight">
         {film.index}
       </span>
-      <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+      <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100 motion-reduce:transition-none">
         <span className="flex h-12 w-12 items-center justify-center rounded-full bg-hive-delight text-noble-black shadow-gold-glow">
           {film.mediaType === 'poster' ? <ImageIcon className="h-4 w-4" /> : <Play className="ml-0.5 h-4 w-4 fill-current" />}
         </span>
@@ -60,117 +58,35 @@ const FilmCard: React.FC<{
     </div>
 
     <div className="p-3.5 sm:p-4">
-      <div className="mb-2 flex min-w-0 items-center justify-between gap-3 font-montserrat text-[9px] uppercase tracking-widest text-wainscot-green">
-        <span className="shrink-0">{film.year} · {film.role}</span>
-        <span className="min-w-0 truncate text-right">{film.genre}</span>
+      <div className="mb-2 flex min-w-0 flex-wrap items-center justify-between gap-x-3 gap-y-1 font-montserrat text-[10px] uppercase tracking-wider text-wainscot-green">
+        <span>{film.year} · {film.role}</span>
+        <span>{film.genre}</span>
       </div>
       <div className="flex items-start justify-between gap-3">
-        <h3 className="line-clamp-2 min-h-[2.5rem] font-playfair text-base font-black uppercase leading-tight text-solo transition-colors group-hover:text-hive-delight sm:text-lg">
+        <h4 className="min-h-[2.5rem] font-playfair text-lg font-bold uppercase leading-tight text-solo transition-colors group-hover:text-hive-delight sm:text-xl">
           {film.title}
-        </h3>
+        </h4>
         <ArrowUpRight className="mt-0.5 h-4 w-4 shrink-0 text-stone-ground transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
       </div>
     </div>
   </article>
 );
 
-const AutoScrollShelf: React.FC<{
+const ArchiveGrid: React.FC<{
   films: IndexedFilm[];
   onOpen: (archiveIndex: number) => void;
-  speedPixelsPerSecond?: number;
-}> = ({ films, onOpen, speedPixelsPerSecond = MARQUEE_SPEED_PX_PER_SECOND }) => {
-  const viewportRef = useRef<HTMLDivElement>(null);
-  const trackRef = useRef<HTMLDivElement>(null);
-  const groupRef = useRef<HTMLDivElement>(null);
-  const sequenceRef = useRef<HTMLDivElement>(null);
-  const previousDistanceRef = useRef(0);
-  const [repeats, setRepeats] = useState(1);
-  const speed = Number.isFinite(speedPixelsPerSecond) && speedPixelsPerSecond > 0 ? speedPixelsPerSecond : MARQUEE_SPEED_PX_PER_SECOND;
-
-  useLayoutEffect(() => {
-    const viewport = viewportRef.current;
-    const track = trackRef.current;
-    const group = groupRef.current;
-    const sequence = sequenceRef.current;
-    if (!viewport || !track || !group || !sequence) return;
-    const measure = () => {
-      const sequenceWidth = sequence.getBoundingClientRect().width;
-      if (!sequenceWidth) return;
-      const requiredRepeats = Math.max(1, Math.ceil(viewport.clientWidth / sequenceWidth));
-      if (requiredRepeats !== repeats) {
-        setRepeats(requiredRepeats);
-        return;
-      }
-
-      // The group includes every internal gap and the trailing boundary gap.
-      // Both groups have the same children; the track itself has no gap/padding.
-      const distance = group.getBoundingClientRect().width;
-      if (!distance) return;
-      // Equal physical velocity for all shelves, regardless of their loop length.
-      const duration = distance / speed;
-      const previousDistance = previousDistanceRef.current;
-      const animation = track.getAnimations()[0];
-      const elapsed = Number(animation?.currentTime ?? 0);
-      const previousDuration = Number(animation?.effect?.getTiming().duration ?? duration * 1000);
-      const offset = previousDistance && previousDuration
-        ? ((elapsed % previousDuration + previousDuration) % previousDuration) / previousDuration * previousDistance
-        : 0;
-
-      track.style.setProperty('--archive-distance', `${distance}px`);
-      track.style.setProperty('--archive-duration', `${duration}s`);
-      // Keep the current pixel offset on resize, even when the repeat count changes.
-      const updatedAnimation = track.getAnimations()[0];
-      if (updatedAnimation) updatedAnimation.currentTime = (offset % distance) / distance * duration * 1000;
-      previousDistanceRef.current = distance;
-      track.dataset.ready = 'true';
-    };
-    measure();
-    const observer = new ResizeObserver(measure);
-    observer.observe(viewport);
-    observer.observe(sequence);
-    observer.observe(group);
-    return () => observer.disconnect();
-  }, [films.length, repeats, speed]);
-
-  const renderGroup = (copy: boolean) => (
-    <div ref={!copy ? groupRef : undefined} className="archive-marquee-group" aria-hidden={copy || undefined}>
-      {Array.from({ length: repeats }, (_, repeat) => (
-        <div
-          key={repeat}
-          ref={!copy && repeat === 0 ? sequenceRef : undefined}
-          className="archive-marquee-sequence"
-          aria-hidden={copy || repeat > 0 || undefined}
-        >
-          {films.map((film) => (
-            <div
-              key={film.id}
-              className={`archive-marquee-card${film.mediaType === 'poster' ? ' archive-marquee-poster' : ''}`}
-              style={{ '--archive-aspect': previewAspectRatio(film) } as React.CSSProperties}
-            >
-              <FilmCard
-                film={film}
-                onOpen={() => onOpen(film.archiveIndex)}
-                className="h-full w-full"
-                decorative={copy || repeat > 0}
-              />
-            </div>
-          ))}
-        </div>
-      ))}
-    </div>
-  );
-
-  return (
-    <div className="relative min-w-0">
-      <div ref={viewportRef} className="archive-marquee" aria-label="Dải phim tự động cuộn">
-        <div ref={trackRef} className="archive-marquee-track" data-ready="false">
-          {renderGroup(false)}
-          {renderGroup(true)}
-        </div>
-      </div>
-    </div>
-  );
-};
+  portrait?: boolean;
+}> = ({ films, onOpen, portrait = false }) => (
+  <div className={`archive-grid${portrait ? ' archive-grid-portrait' : ''}`}>
+    {films.map((film, index) => (
+      <FilmCard
+        key={film.id}
+        film={{ ...film, index: `${String(index + 1).padStart(2, '0')}/${String(films.length).padStart(2, '0')}` }}
+        onOpen={() => onOpen(film.archiveIndex)}
+      />
+    ))}
+  </div>
+);
 
 export const FilmmakingSection: React.FC = () => {
   const [activeFilmIndex, setActiveFilmIndex] = useState<number | null>(null);
@@ -188,9 +104,9 @@ export const FilmmakingSection: React.FC = () => {
 
   const handleNextFilm = () => {
     if (activeFilmIndex === null) return;
-    const category = allFilms[activeFilmIndex].category;
+    const currentFilm = allFilms[activeFilmIndex];
     const categoryIndexes = allFilms
-      .filter((film) => film.category === category)
+      .filter((film) => film.category === currentFilm.category && (film.mediaType === 'poster') === (currentFilm.mediaType === 'poster'))
       .map((film) => film.archiveIndex);
     const current = categoryIndexes.indexOf(activeFilmIndex);
     setActiveFilmIndex(categoryIndexes[(current + 1) % categoryIndexes.length]);
@@ -220,17 +136,14 @@ export const FilmmakingSection: React.FC = () => {
             </div>
           </div>
           <p className="mt-5 max-w-2xl font-montserrat text-sm leading-relaxed text-wainscot-green text-justify">
-            A continuous production reel across feature films, short-form storytelling, commercials and music culture.
+            A curated collection of feature films, short-form storytelling, commercials and music videos. Explore every selected work below.
           </p>
         </header>
 
         <div className="relative z-10 space-y-16 sm:space-y-20">
           {categories.map((category, categoryIndex) => {
-            const categoryFilms = allFilms.filter((film) => film.category === category.id);
-            const indexed = categoryFilms.map((film, index) => ({
-              ...film,
-              index: `${String(index + 1).padStart(2, '0')}/${String(categoryFilms.length).padStart(2, '0')}`,
-            }));
+            const categoryFilms = allFilms.filter((film) => film.category === category.id && film.mediaType !== 'poster');
+            const posters = allFilms.filter((film) => film.category === category.id && film.mediaType === 'poster');
 
             return (
               <section key={category.id} aria-labelledby={`archive-${category.id}`}>
@@ -242,31 +155,31 @@ export const FilmmakingSection: React.FC = () => {
                       <p className="mt-1 font-montserrat text-[10px] uppercase tracking-widest text-wainscot-green">{category.note}</p>
                     </div>
                   </div>
-                  <span className="shrink-0 whitespace-nowrap text-right font-mono text-xs text-hive-delight">{String(indexed.length).padStart(2, '0')} WORKS</span>
+                  <span className="shrink-0 whitespace-nowrap text-right font-mono text-xs text-hive-delight">{String(categoryFilms.length).padStart(2, '0')} WORKS</span>
                 </div>
 
                 <div className="portfolio-container">
-                  {indexed.length === 0 ? (
+                  {categoryFilms.length === 0 ? (
                     <div className="flex min-h-48 flex-col items-center justify-center border border-dashed border-deep-bronze/80 bg-[#112A46]/70 text-center">
                       <Sparkles className="mb-4 h-6 w-6 text-hive-delight" />
                       <p className="font-playfair text-2xl uppercase text-solo">New work in development</p>
                       <span className="mt-2 font-montserrat text-[10px] uppercase tracking-cinema text-wainscot-green">Coming soon</span>
                     </div>
-                  ) : category.id === 'ai-film' ? (
-                    <div className="archive-static-gallery">
-                      {indexed.map((film) => (
-                        <div
-                          key={film.id}
-                          className="archive-marquee-card"
-                          style={{ '--archive-aspect': previewAspectRatio(film) } as React.CSSProperties}
-                        >
-                          <FilmCard film={film} onOpen={() => setActiveFilmIndex(film.archiveIndex)} className="h-full w-full" />
-                        </div>
-                      ))}
-                    </div>
                   ) : (
-                    /* CSS animates between two identically measured groups. */
-                    <AutoScrollShelf films={indexed} onOpen={setActiveFilmIndex} />
+                    <ArchiveGrid films={categoryFilms} onOpen={setActiveFilmIndex} portrait={category.id === 'ai-film'} />
+                  )}
+
+                  {posters.length > 0 && (
+                    <section className="mt-12 border-t border-deep-bronze/40 pt-8 sm:mt-16" aria-labelledby={`archive-${category.id}-posters`}>
+                      <div className="mb-6 flex items-end justify-between gap-4">
+                        <div>
+                          <h3 id={`archive-${category.id}-posters`} className="font-playfair text-2xl font-bold uppercase text-solo sm:text-3xl">Short Film Posters</h3>
+                          <p className="mt-1 font-montserrat text-[10px] uppercase tracking-widest text-wainscot-green">MINH & Vũ điệu tình yêu · Poster collection</p>
+                        </div>
+                        <span className="shrink-0 font-montserrat text-xs tabular-nums text-hive-delight">{String(posters.length).padStart(2, '0')} POSTERS</span>
+                      </div>
+                      <ArchiveGrid films={posters} onOpen={setActiveFilmIndex} portrait />
+                    </section>
                   )}
                 </div>
               </section>

@@ -46,18 +46,18 @@ const seeds: ArchiveSeed[] = [
     },
   },
 
-  // Narrative brand films; classification is based on format, not the client.
+  // FE CREDIT projects are presented in TVC as requested by the portfolio owner.
   {
     id: 'goi-noi-nho-vao-nhung-cuoc-goi',
     title: 'GÓI NỖI NHỚ VÀO NHỮNG CUỘC GỌI',
-    category: 'short-film',
+    category: 'tvc',
     sourceUrl: 'https://www.youtube.com/watch?v=pFWxcBzKaJU',
     youtubeId: 'pFWxcBzKaJU',
     image: 'short-goi-noi-nho-cuoc-goi.jpg',
     year: '2022',
     author: 'QA Production · FE CREDIT',
     duration: '1 Min 56 Sec',
-    genre: 'Branded Short Film',
+    genre: 'Commercial Film',
     details: {
       director: 'Đang cập nhật',
       cast: 'See official credits',
@@ -68,14 +68,14 @@ const seeds: ArchiveSeed[] = [
   {
     id: 'con-thuyen-cho-ca-uoc-mo',
     title: 'CON THUYỀN CHỞ CẢ ƯỚC MƠ',
-    category: 'short-film',
+    category: 'tvc',
     sourceUrl: 'https://www.youtube.com/watch?v=txXKJtxJA_Y',
     youtubeId: 'txXKJtxJA_Y',
     image: 'short-con-thuyen-cho-ca-uoc-mo.jpg',
     year: '2022',
     author: 'QA Production · FE CREDIT',
     duration: '2 Min 5 Sec',
-    genre: 'Branded Short Film',
+    genre: 'Commercial Film',
     details: {
       director: 'Đang cập nhật',
       cast: 'Chị Mùi · See official credits',
