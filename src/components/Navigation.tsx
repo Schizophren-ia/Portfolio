@@ -116,9 +116,9 @@ export const Navigation: React.FC<NavigationProps> = ({ activeSection }) => {
             <a
               href="#contact"
               onClick={(e) => scrollToSection(e, '#contact')}
-              className="inline-flex items-center justify-center px-4 py-1.5 text-xs font-montserrat font-medium tracking-wider uppercase rounded-sm border border-hive-delight/80 text-hive-delight hover:bg-hive-delight hover:text-noble-black transition-all duration-200 shadow-gold-glow/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-hive-delight"
+              className="inline-flex h-11 shrink-0 items-center justify-center px-4 py-0 text-center text-xs leading-none font-montserrat font-medium tracking-wider uppercase rounded-sm border border-hive-delight/80 text-hive-delight hover:bg-hive-delight hover:text-noble-black transition-all duration-200 shadow-gold-glow/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-hive-delight"
             >
-              INQUIRE
+              <span className="block">INQUIRE</span>
             </a>
           </div>
 

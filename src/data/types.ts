@@ -12,7 +12,8 @@ export interface FilmItem {
   youtubeUrl?: string;
   sourceUrl?: string;
   category?: FilmCategory;
-  mediaType?: 'youtube' | 'local-video';
+  mediaType?: 'youtube' | 'local-video' | 'poster';
+  thumbnailAspectRatio?: number;
   logline: string;
   synopsis: string;
   director?: string;

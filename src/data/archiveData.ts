@@ -13,6 +13,7 @@ type ArchiveSeed = {
   author?: string;
   youtubeId?: string;
   videoPath?: string;
+  posterAspectRatio?: number;
 };
 
 const seeds: ArchiveSeed[] = [
@@ -24,6 +25,7 @@ const seeds: ArchiveSeed[] = [
   { id: 'cung-con-kham-pha', title: 'CÙNG CON KHÁM PHÁ MỌI ƯỚC MƠ', category: 'short-film', sourceUrl: 'https://www.youtube.com/watch?v=OqYap_DSxNc', image: 'short-cung-con-kham-pha.jpg', youtubeId: 'OqYap_DSxNc', author: 'TH Official Channel' },
   { id: 'hoa-hong-no-muon', title: 'HOA HỒNG NỞ MUỘN', category: 'short-film', sourceUrl: 'https://www.youtube.com/watch?v=jZui_9c6UO8', image: 'short-hoa-hong-no-muon.jpg', year: '2022', youtubeId: 'jZui_9c6UO8', author: 'Ensure Gold Vietnam' },
   { id: 'me-ve-voi-con', title: 'MẸ VỀ VỚI CON', category: 'short-film', sourceUrl: 'https://www.youtube.com/watch?v=E6slLdeexSM', image: 'short-me-ve-voi-con.jpg', year: '2023', youtubeId: 'E6slLdeexSM', author: 'Ensure Gold Vietnam' },
+  { id: 'minh-echoes-of-doves-wings', title: 'MÌNH — ECHOES OF DOVE’S WINGS', category: 'short-film', image: 'short-minh-poster.webp', posterAspectRatio: 3508 / 4724 },
 
   { id: 'khat-vong-viet-nam', title: 'KHÁT VỌNG VÌ MỘT VIỆT NAM MAI SAU', category: 'tvc', sourceUrl: 'https://www.youtube.com/watch?v=RYXggnG8alo', image: 'tvc-khat-vong-viet-nam.jpg', youtubeId: 'RYXggnG8alo', author: 'One Mount' },
   { id: 'hay-yeu-nhau-di', title: 'HÃY YÊU NHAU ĐI CHO ĐỜI NHƯ Ý', category: 'tvc', sourceUrl: 'https://www.youtube.com/watch?v=T0eUu5ILzx0', image: 'tvc-hay-yeu-nhau-di.jpg', youtubeId: 'T0eUu5ILzx0', author: 'Generali Vietnam' },
@@ -61,15 +63,16 @@ export const archiveFilms: FilmItem[] = seeds.map((item) => ({
   year: item.year ?? 'Archive',
   role: 'Line Producer',
   genre: categoryGenre[item.category],
-  duration: item.videoPath ? '50 Sec' : 'Watch online',
-  aspectRatio: item.videoPath ? '3:4 Vertical' : '16:9',
+  duration: item.posterAspectRatio ? 'Poster' : item.videoPath ? '50 Sec' : 'Watch online',
+  aspectRatio: item.posterAspectRatio ? 'Portrait' : item.videoPath ? '3:4 Vertical' : '16:9',
+  thumbnailAspectRatio: item.posterAspectRatio,
   thumbnail: asset(`/images/${item.image}`),
   youtubeUrl: item.youtubeId ? item.sourceUrl : undefined,
   sourceUrl: item.sourceUrl,
   videoUrl: item.youtubeId ? `https://www.youtube.com/embed/${item.youtubeId}?autoplay=1&mute=0` : item.videoPath ? asset(item.videoPath) : undefined,
-  mediaType: item.videoPath ? 'local-video' : 'youtube',
+  mediaType: item.posterAspectRatio ? 'poster' : item.videoPath ? 'local-video' : 'youtube',
   logline: `${item.title} — a selected work from the filmmaking archive.`,
-  synopsis: `Official work presented by ${item.author ?? 'the production team'}. Open the original source to watch the complete film and production details.`,
+  synopsis: item.posterAspectRatio ? 'Short-film poster from the filmmaking archive.' : `Official work presented by ${item.author ?? 'the production team'}. Open the original source to watch the complete film and production details.`,
   director: item.author ?? 'Production team',
   cast: 'See official credits',
   credits: [],

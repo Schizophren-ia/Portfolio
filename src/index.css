@@ -211,22 +211,34 @@ a,
 /* Infinite filmmaking shelves */
 @keyframes archiveMarquee {
   from { transform: translate3d(0, 0, 0); }
-  to { transform: translate3d(-50%, 0, 0); }
+  to { transform: translate3d(calc(-1 * var(--archive-distance, 0px)), 0, 0); }
 }
 
-.archive-marquee {
+.archive-marquee,
+.archive-static-gallery {
   --archive-gap: 1.25rem;
   --archive-media-height: clamp(10rem, 19vw, 12.5rem);
   width: 100%;
   min-width: 0;
-  overflow-x: hidden;
   padding-block: 0.25rem 0.75rem;
+}
+
+.archive-marquee {
+  overflow-x: hidden;
+}
+
+.archive-static-gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--archive-gap);
 }
 
 .archive-marquee-track {
   display: flex;
   width: max-content;
-  animation: archiveMarquee var(--archive-duration, 36s) linear infinite;
+  gap: 0;
+  padding: 0;
+  animation: archiveMarquee var(--archive-duration, 30s) linear infinite;
   will-change: transform;
 }
 
@@ -260,15 +272,10 @@ a,
 }
 
 @media (min-width: 640px) {
-  .archive-marquee {
+  .archive-marquee,
+  .archive-static-gallery {
     --archive-gap: 1.5rem;
   }
-}
-
-.archive-marquee:hover .archive-marquee-track,
-.archive-marquee:focus-within .archive-marquee-track,
-.archive-marquee-paused .archive-marquee-track {
-  animation-play-state: paused;
 }
 
 @media (prefers-reduced-motion: reduce) {

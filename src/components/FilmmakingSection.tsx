@@ -1,5 +1,5 @@
-import React, { useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from 'react';
-import { ArrowUpRight, Film, Pause, Play, Sparkles } from 'lucide-react';
+import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { ArrowUpRight, Film, Image as ImageIcon, Play, Sparkles } from 'lucide-react';
 import { filmmakerContent } from '../data/content';
 import { archiveFilms } from '../data/archiveData';
 import type { FilmCategory, FilmItem } from '../data/types';
@@ -16,6 +16,8 @@ const categories: { id: FilmCategory; label: string; note: string }[] = [
 ];
 
 type IndexedFilm = FilmItem & { archiveIndex: number };
+
+const previewAspectRatio = (film: FilmItem) => film.thumbnailAspectRatio ?? (film.mediaType === 'local-video' ? 3 / 4 : 16 / 9);
 
 const InlineVideo: React.FC<{ film: IndexedFilm; decorative: boolean }> = ({ film, decorative }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -82,7 +84,7 @@ const FilmCard: React.FC<{
     tabIndex={decorative ? -1 : 0}
     aria-label={decorative ? undefined : `Xem ${film.title}`}
     aria-hidden={decorative || undefined}
-    className={`archive-card group relative cursor-pointer overflow-hidden border border-deep-bronze/60 bg-[#112A46] shadow-xl transition-all duration-300 hover:border-hive-delight/80 hover:-translate-y-1 focus-within:border-hive-delight ${className}`}
+    className={`archive-card group relative cursor-pointer overflow-hidden border border-deep-bronze/60 bg-[#112A46] shadow-xl transition-colors duration-300 hover:border-hive-delight/80 focus-within:border-hive-delight ${className}`}
     data-cursor="PLAY"
   >
     <div className="archive-card-media relative overflow-hidden bg-black">
@@ -93,16 +95,16 @@ const FilmCard: React.FC<{
           key={film.id}
           film={film}
           decorative={decorative}
-          className="block h-full w-full object-cover"
+          className="absolute inset-0 block h-full w-full object-cover"
         />
       )}
-      <div className="absolute inset-0 bg-gradient-to-t from-noble-black via-noble-black/15 to-transparent" />
+      {film.mediaType !== 'poster' && <div className="absolute inset-0 bg-gradient-to-t from-noble-black via-noble-black/15 to-transparent" />}
       <span className="absolute left-2.5 top-2.5 border border-deep-bronze/80 bg-noble-black/90 px-2 py-1 font-mono text-[10px] text-hive-delight">
         {film.index}
       </span>
       <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
         <span className="flex h-12 w-12 items-center justify-center rounded-full bg-hive-delight text-noble-black shadow-gold-glow">
-          <Play className="ml-0.5 h-4 w-4 fill-current" />
+          {film.mediaType === 'poster' ? <ImageIcon className="h-4 w-4" /> : <Play className="ml-0.5 h-4 w-4 fill-current" />}
         </span>
       </div>
     </div>
@@ -125,40 +127,62 @@ const FilmCard: React.FC<{
 const AutoScrollShelf: React.FC<{
   films: IndexedFilm[];
   onOpen: (archiveIndex: number) => void;
-}> = ({ films, onOpen }) => {
-  const [paused, setPaused] = useState(false);
+  cycleDurationSeconds?: number;
+}> = ({ films, onOpen, cycleDurationSeconds = 30 }) => {
   const viewportRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const groupRef = useRef<HTMLDivElement>(null);
   const sequenceRef = useRef<HTMLDivElement>(null);
-  const trackId = useId();
-  const [layout, setLayout] = useState({ repeats: 1, duration: 30, ready: false });
+  const previousDistanceRef = useRef(0);
+  const [repeats, setRepeats] = useState(1);
+  const duration = Number.isFinite(cycleDurationSeconds) && cycleDurationSeconds > 0 ? cycleDurationSeconds : 30;
 
   useLayoutEffect(() => {
     const viewport = viewportRef.current;
+    const track = trackRef.current;
+    const group = groupRef.current;
     const sequence = sequenceRef.current;
-    if (!viewport || !sequence) return;
+    if (!viewport || !track || !group || !sequence) return;
     const measure = () => {
       const sequenceWidth = sequence.getBoundingClientRect().width;
       if (!sequenceWidth) return;
-      const repeats = Math.max(1, Math.ceil(viewport.clientWidth / sequenceWidth));
-      // Every shelf travels at 40 CSS pixels per second, regardless of its item count.
-      const duration = sequenceWidth * repeats / 40;
-      setLayout((current) => current.repeats === repeats && Math.abs(current.duration - duration) < 0.01 && current.ready
-        ? current : { repeats, duration, ready: true });
+      const requiredRepeats = Math.max(1, Math.ceil(viewport.clientWidth / sequenceWidth));
+      if (requiredRepeats !== repeats) {
+        setRepeats(requiredRepeats);
+        return;
+      }
+
+      // The group includes every internal gap and the trailing boundary gap.
+      // Both groups have the same children; the track itself has no gap/padding.
+      const distance = group.getBoundingClientRect().width;
+      if (!distance) return;
+      const previousDistance = previousDistanceRef.current;
+      const animation = track.getAnimations()[0];
+      const elapsed = Number(animation?.currentTime ?? 0);
+      const previousDuration = Number(animation?.effect?.getTiming().duration ?? duration * 1000);
+      const offset = previousDistance && previousDuration
+        ? ((elapsed % previousDuration + previousDuration) % previousDuration) / previousDuration * previousDistance
+        : 0;
+
+      track.style.setProperty('--archive-distance', `${distance}px`);
+      track.style.setProperty('--archive-duration', `${duration}s`);
+      // Keep the current pixel offset on resize, even when the repeat count changes.
+      const updatedAnimation = track.getAnimations()[0];
+      if (updatedAnimation) updatedAnimation.currentTime = (offset % distance) / distance * duration * 1000;
+      previousDistanceRef.current = distance;
+      track.dataset.ready = 'true';
     };
     measure();
     const observer = new ResizeObserver(measure);
     observer.observe(viewport);
     observer.observe(sequence);
+    observer.observe(group);
     return () => observer.disconnect();
-  }, [films.length]);
-
-  const animationStyle = {
-    '--archive-duration': `${layout.duration}s`,
-  } as React.CSSProperties;
+  }, [films.length, repeats, duration]);
 
   const renderGroup = (copy: boolean) => (
-    <div className="archive-marquee-group" aria-hidden={copy || undefined}>
-      {Array.from({ length: layout.repeats }, (_, repeat) => (
+    <div ref={!copy ? groupRef : undefined} className="archive-marquee-group" aria-hidden={copy || undefined}>
+      {Array.from({ length: repeats }, (_, repeat) => (
         <div
           key={repeat}
           ref={!copy && repeat === 0 ? sequenceRef : undefined}
@@ -169,7 +193,7 @@ const AutoScrollShelf: React.FC<{
             <div
               key={film.id}
               className="archive-marquee-card"
-              style={{ '--archive-aspect': film.mediaType === 'local-video' ? 3 / 4 : 16 / 9 } as React.CSSProperties}
+              style={{ '--archive-aspect': previewAspectRatio(film) } as React.CSSProperties}
             >
               <FilmCard
                 film={film}
@@ -186,25 +210,11 @@ const AutoScrollShelf: React.FC<{
 
   return (
     <div className="relative min-w-0">
-      <div ref={viewportRef} className={`archive-marquee ${paused ? 'archive-marquee-paused' : ''}`} aria-label="Dải phim tự động cuộn">
-        <div id={trackId} className="archive-marquee-track" style={animationStyle} data-ready={layout.ready}>
+      <div ref={viewportRef} className="archive-marquee" aria-label="Dải phim tự động cuộn">
+        <div ref={trackRef} className="archive-marquee-track" data-ready="false">
           {renderGroup(false)}
           {renderGroup(true)}
         </div>
-      </div>
-
-      <div className="mt-3 flex items-center justify-end">
-        <button
-          type="button"
-          onClick={() => setPaused((current) => !current)}
-          aria-pressed={paused}
-          aria-controls={trackId}
-          className="inline-flex min-h-11 items-center gap-2 rounded border border-deep-bronze/70 bg-[#112A46]/60 px-3 font-montserrat text-[10px] uppercase tracking-widest text-wainscot-green transition-colors hover:border-hive-delight hover:text-hive-delight"
-          aria-label={paused ? 'Tiếp tục tự động cuộn phim' : 'Tạm dừng tự động cuộn phim'}
-        >
-          {paused ? <Play className="h-3.5 w-3.5" aria-hidden="true" /> : <Pause className="h-3.5 w-3.5" aria-hidden="true" />}
-          <span>{paused ? 'Continue reel' : 'Pause reel'}</span>
-        </button>
       </div>
     </div>
   );
@@ -258,7 +268,7 @@ export const FilmmakingSection: React.FC = () => {
             </div>
           </div>
           <p className="mt-5 max-w-2xl font-montserrat text-sm leading-relaxed text-wainscot-green text-justify">
-            A continuous production reel across feature films, short-form storytelling, commercials and music culture. Hover, focus or use the control to pause.
+            A continuous production reel across feature films, short-form storytelling, commercials and music culture.
           </p>
         </header>
 
@@ -290,8 +300,20 @@ export const FilmmakingSection: React.FC = () => {
                       <p className="font-playfair text-2xl uppercase text-solo">New work in development</p>
                       <span className="mt-2 font-montserrat text-[10px] uppercase tracking-cinema text-wainscot-green">Coming soon</span>
                     </div>
+                  ) : category.id === 'ai-film' ? (
+                    <div className="archive-static-gallery">
+                      {indexed.map((film) => (
+                        <div
+                          key={film.id}
+                          className="archive-marquee-card"
+                          style={{ '--archive-aspect': previewAspectRatio(film) } as React.CSSProperties}
+                        >
+                          <FilmCard film={film} onOpen={() => setActiveFilmIndex(film.archiveIndex)} className="h-full w-full" />
+                        </div>
+                      ))}
+                    </div>
                   ) : (
-                    /* Duplicate groups create a seamless CSS-only infinite reel. */
+                    /* CSS animates between two identically measured groups. */
                     <AutoScrollShelf films={indexed} onOpen={setActiveFilmIndex} />
                   )}
                 </div>

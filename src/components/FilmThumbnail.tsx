@@ -25,7 +25,9 @@ export function FilmThumbnail({ film, decorative = false, className }: FilmThumb
     <img
       src={sources[sourceIndex]}
       alt={decorative ? '' : film.title}
-      loading={decorative ? 'lazy' : 'eager'}
+      // Copies must be ready before a transform brings them into the viewport.
+      // Identical URLs reuse the browser cache rather than waiting for lazy loading.
+      loading="eager"
       decoding="async"
       onError={tryNextSource}
       onLoad={(event) => {

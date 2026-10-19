@@ -101,8 +101,10 @@ export const FilmModal: React.FC<FilmModalProps> = ({ film, onClose, onNext }) =
         className="relative z-10 w-full max-w-5xl my-auto bg-[#112A46] border border-deep-bronze/70 rounded-sm shadow-2xl overflow-hidden"
       >
         {/* Video reel or official-source preview */}
-        <div className="relative aspect-video w-full bg-black overflow-hidden border-b border-deep-bronze/60">
-          {film.videoUrl && film.mediaType === 'local-video' ? (
+        <div className={`relative ${film.mediaType === 'poster' ? 'h-[65vh] sm:h-[75vh]' : 'aspect-video'} w-full bg-black overflow-hidden border-b border-deep-bronze/60`}>
+          {film.mediaType === 'poster' ? (
+            <FilmThumbnail key={film.id} film={film} className="block h-full w-full object-contain" />
+          ) : film.videoUrl && film.mediaType === 'local-video' ? (
             <video
               src={film.videoUrl}
               poster={film.thumbnail}
