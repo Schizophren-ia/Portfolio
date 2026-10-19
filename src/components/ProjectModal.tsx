@@ -121,7 +121,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) 
           {project.producerNote && (
             <div className="p-5 rounded-xl border border-[#504530]/40 bg-[#504530]/15">
               <span className="font-mono-tag text-[10px] tracking-[0.2em] text-[#D39730] uppercase block mb-1">
-                Producer's Reflection • Ghi Chú Của Nhà Sản Xuất
+                Producer's Reflection
               </span>
               <p className="font-sans-ui text-sm text-[#CCD4D0] leading-relaxed italic">
                 "{project.producerNote}"

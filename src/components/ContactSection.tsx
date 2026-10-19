@@ -263,7 +263,7 @@ export const ContactSection: React.FC = () => {
               — THE END —
             </span>
             <span className="block text-[9px] uppercase tracking-ultra text-wainscot-green/60 mt-0.5">
-              FINIS CORONAT OPUS
+              THE END CROWNS THE WORK
             </span>
           </div>
 

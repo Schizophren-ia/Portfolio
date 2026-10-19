@@ -177,7 +177,7 @@ export const FilmModal: React.FC<FilmModalProps> = ({ film, onClose, onNext }) =
               playsInline
               preload="metadata"
             >
-              Trình duyệt của bạn không hỗ trợ video HTML5.
+              Your browser does not support HTML5 video.
             </video>
           ) : film.videoUrl ? (
             <iframe
@@ -241,7 +241,7 @@ export const FilmModal: React.FC<FilmModalProps> = ({ film, onClose, onNext }) =
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 text-xs font-montserrat font-semibold px-4 py-2 rounded bg-deep-bronze/80 hover:bg-hive-delight text-solo hover:text-noble-black border border-olivia/40 hover:border-hive-delight transition-all duration-300"
                 >
-                  <span>XEM NGUỒN CHÍNH THỨC</span>
+                  <span>WATCH AT OFFICIAL SOURCE</span>
                   <ExternalLink className="w-3.5 h-3.5" />
                 </a>
               )}
@@ -282,33 +282,33 @@ export const FilmModal: React.FC<FilmModalProps> = ({ film, onClose, onNext }) =
             <div className="lg:col-span-5 bg-noble-black/90 p-5 sm:p-6 rounded-sm border border-deep-bronze/80 space-y-4">
               <h4 className="text-xs font-montserrat uppercase tracking-cinema text-hive-delight font-bold border-b border-deep-bronze/60 pb-3 flex items-center gap-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-hive-delight" />
-                <span>THÔNG TIN PHIM</span>
+                <span>FILM DETAILS</span>
               </h4>
               <div className="space-y-4 text-xs font-montserrat">
                 <div className="flex flex-col sm:flex-row sm:justify-between gap-1 border-b border-deep-bronze/30 pb-2.5">
-                  <span className="text-wainscot-green uppercase tracking-wider font-semibold">Thể loại:</span>
+                  <span className="text-wainscot-green uppercase tracking-wider font-semibold">Genre:</span>
                   <span className="text-solo font-medium text-left sm:text-right">{film.genre}</span>
                 </div>
                 <div className="flex flex-col sm:flex-row sm:justify-between gap-1 border-b border-deep-bronze/30 pb-2.5">
-                  <span className="text-wainscot-green uppercase tracking-wider font-semibold">Đạo diễn:</span>
+                  <span className="text-wainscot-green uppercase tracking-wider font-semibold">Director:</span>
                   <span className="text-hive-delight font-semibold text-left sm:text-right">
                     {film.director ||
                       (film.id === 'nham-mat-thay-mua-he' ? 'Cao Thúy Nhi' :
                        film.id === 'troi-sang-roi-ta-ngu-di-thoi' ? 'Chung Chí Công' :
                        film.id === 'sai-gon-trong-con-mua' ? 'Lê Minh Hoàng' :
                        film.id === 'trai-tim-quai-vat' ? 'Tạ Nguyên Hiệp' :
-                       film.id === 'giao-lo-8675' ? 'Tân DS' : 'Đang cập nhật')}
+                       film.id === 'giao-lo-8675' ? 'Tân DS' : 'To be updated')}
                   </span>
                 </div>
                 <div className="flex flex-col sm:flex-row sm:justify-between gap-1 pb-1">
-                  <span className="text-wainscot-green uppercase tracking-wider font-semibold">Diễn viên:</span>
+                  <span className="text-wainscot-green uppercase tracking-wider font-semibold">Cast:</span>
                   <span className="text-solo font-medium text-left sm:text-right leading-relaxed max-w-xs">
                     {film.cast || (film.credits.find(c => c.label === "Starring")?.value ?? (
                       film.id === 'nham-mat-thay-mua-he' ? 'Phương Anh Đào, Takafumi Akutsu' :
                       film.id === 'troi-sang-roi-ta-ngu-di-thoi' ? 'Hà Quốc Hoàng, Trần Lê Thúy Vy' :
                       film.id === 'sai-gon-trong-con-mua' ? 'Avin Lu, Hồ Thu Anh' :
                       film.id === 'trai-tim-quai-vat' ? 'Hoàng Thùy Linh, B Trần, Hứa Vĩ Văn, Quang Trung' :
-                      film.id === 'giao-lo-8675' ? 'Isaac, Rocker Nguyễn, Lợi Trần, Emma Lê, La Thành' : 'Đang cập nhật'
+                      film.id === 'giao-lo-8675' ? 'Isaac, Rocker Nguyễn, Lợi Trần, Emma Lê, La Thành' : 'To be updated'
                     ))}
                   </span>
                 </div>

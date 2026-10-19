@@ -210,11 +210,6 @@ export const AboutSection: React.FC = () => {
                   <div className="p-6 sm:p-8">
                     <Clapperboard className="mb-7 h-9 w-9 text-hive-delight" />
                     <p className="font-playfair text-3xl font-black uppercase leading-tight text-solo sm:text-4xl">Lê Đặng<br /><span className="text-hive-delight">Đài Trang</span></p>
-                    <div className="mt-8 space-y-3 border-t border-deep-bronze/70 pt-5 font-mono text-[10px] uppercase tracking-widest text-wainscot-green">
-                      <div className="flex items-start justify-between gap-4"><span>Role</span><strong className="min-w-0 text-right leading-relaxed text-solo">{filmmakerContent.profile.role}</strong></div>
-                      <div className="flex justify-between"><span>Location</span><strong className="text-solo">Ho Chi Minh City</strong></div>
-                      <div className="flex justify-between"><span>Format</span><strong className="text-solo">Cinema · Digital</strong></div>
-                    </div>
                   </div>
                 </div>
               </button>
@@ -235,7 +230,12 @@ export const AboutSection: React.FC = () => {
                 <article className="dossier-reveal border border-deep-bronze/70 bg-noble-black/80 p-5">
                   <h4 className="flex items-center gap-2 font-montserrat text-xs font-bold uppercase tracking-widest text-hive-delight"><GraduationCap className="h-4 w-4" />Education</h4>
                   <ul className="mt-4 space-y-3 font-montserrat text-xs leading-relaxed text-solo/90">
-                    {filmmakerContent.aboutMeDetails.education.map((item) => <li key={item.institution} className="border-l border-stone-ground pl-3">{item.institution}</li>)}
+                    {filmmakerContent.aboutMeDetails.education.map((item) => (
+                      <li key={item.institution} className="border-l border-stone-ground pl-3">
+                        <span className="block">{item.institution}</span>
+                        {item.degree && <span className="mt-1 block font-semibold text-hive-delight">Major: {item.degree}</span>}
+                      </li>
+                    ))}
                   </ul>
                 </article>
                 <article className="dossier-reveal border border-deep-bronze/70 bg-noble-black/80 p-5">

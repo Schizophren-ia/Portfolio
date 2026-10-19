@@ -1,3 +1,5 @@
+const portfolioFont = ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', '"Liberation Mono"', '"Courier New"', 'monospace'];
+
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
@@ -16,11 +18,12 @@ export default {
         'deep-bronze': '#34506D',
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
-        serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
-        mono: ['Inter', 'system-ui', 'sans-serif'],
-        playfair: ['"Cormorant Garamond"', 'Georgia', 'serif'],
-        montserrat: ['Inter', 'system-ui', 'sans-serif'],
+        sans: portfolioFont,
+        serif: portfolioFont,
+        mono: portfolioFont,
+        playfair: portfolioFont,
+        montserrat: portfolioFont,
+        editorial: portfolioFont,
       },
       letterSpacing: {
         'cinema': '0.25em',

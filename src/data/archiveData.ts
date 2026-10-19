@@ -59,7 +59,7 @@ const seeds: ArchiveSeed[] = [
     duration: '1 Min 56 Sec',
     genre: 'Commercial Film',
     details: {
-      director: 'Đang cập nhật',
+      director: 'To be updated',
       cast: 'See official credits',
       logline: 'A short branded story about staying connected through phone calls.',
       synopsis: 'A FE CREDIT project published by QA Production in 2022. The original upload credits QA Production as the production house and lists the production, camera and post-production teams.',
@@ -77,10 +77,10 @@ const seeds: ArchiveSeed[] = [
     duration: '2 Min 5 Sec',
     genre: 'Commercial Film',
     details: {
-      director: 'Đang cập nhật',
-      cast: 'Chị Mùi · See official credits',
+      director: 'To be updated',
+      cast: 'Ms. Mùi · See official credits',
       logline: 'A short brand film about the dreams of women who make their living at sea.',
-      synopsis: 'QA Production tells the story of chị Mùi, one of the women working at sea along Vietnam’s coast. The original upload identifies FE CREDIT as the client and credits QA Production and the production team.',
+      synopsis: 'QA Production tells the story of Ms. Mùi, one of the women working at sea along Vietnam’s coast. The original upload identifies FE CREDIT as the client and credits QA Production and the production team.',
     },
   },
   {
@@ -120,7 +120,7 @@ const seeds: ArchiveSeed[] = [
     author: 'Fun Sport Game',
     duration: '1 Min 32 Sec',
     details: {
-      director: 'Đang cập nhật',
+      director: 'To be updated',
       cast: 'See official credits',
       logline: 'A World Cup 2022 campaign film encouraging people to pursue their passion for football.',
       synopsis: 'Published by Fun Sport Game for the Live Your Dream campaign during World Cup 2022. The original upload combines a brand-led campaign message with a promotional call to action.',

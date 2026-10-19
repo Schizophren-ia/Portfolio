@@ -40,14 +40,14 @@
 
 ### Typography
 
-- **Heading Font:** Cormorant Garamond
-- **Body Font:** Inter
-- **Mood:** soft, elegant, editorial, minimal, cinematic
-- **Google Fonts:** [Cormorant Garamond + Inter](https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap)
+- **User override (2026-10-19):** Use the reference's passport/production-label monospace for all website text, replacing the previous two-font pairing.
+- **Heading and Body Font:** Native UI monospace (Consolas on Windows; platform monospace fallbacks elsewhere).
+- **Mood:** precise, minimal, cinematic production dossier.
+- **Loading:** System fonts only; no external font requests.
 
-**CSS Import:**
+**Shared CSS token:**
 ```css
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
+--font-portfolio: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
 ```
 
 ### Spacing Variables

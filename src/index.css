@@ -9,13 +9,14 @@
   --color-olivia: #557392;
   --color-deep-bronze: #34506D;
 
-  --font-playfair: 'Cormorant Garamond', Georgia, serif;
-  --font-montserrat: 'Inter', system-ui, -apple-system, sans-serif;
-  --font-editorial: 'Cormorant Garamond', Georgia, serif;
-  --font-serif: 'Cormorant Garamond', Georgia, serif;
-  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
-  /* Legacy HUD/label utilities use the same UI font, not a third family. */
-  --font-mono: 'Inter', system-ui, -apple-system, sans-serif;
+  /* Match the reference's passport/production labels across every text style. */
+  --font-portfolio: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+  --font-playfair: var(--font-portfolio);
+  --font-montserrat: var(--font-portfolio);
+  --font-editorial: var(--font-portfolio);
+  --font-serif: var(--font-portfolio);
+  --font-sans: var(--font-portfolio);
+  --font-mono: var(--font-portfolio);
 }
 
 @layer utilities {
@@ -54,7 +55,7 @@
   html {
     background-color: #0A1B2E;
     color: #F2F6FB;
-    font-family: 'Inter', system-ui, sans-serif;
+    font-family: var(--font-portfolio);
     scroll-behavior: smooth;
     scroll-padding-top: var(--header-height);
     overflow-x: hidden;

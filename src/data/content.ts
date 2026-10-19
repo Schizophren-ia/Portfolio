@@ -49,18 +49,18 @@ export const filmmakerContent: FilmmakerContent = {
     education: [
       {
         institution: "The Stage - Movie University Of Ho Chi Minh City",
-        degree: "Trường Đại học Sân khấu - Điện ảnh TP.HCM",
-        note: "Specialized Film & Performing Arts Production"
+        degree: "Film Director",
+        note: "Film Directing"
       },
       {
         institution: "Hong Bang International University",
-        degree: "Đại học Quốc tế Hồng Bàng",
-        note: "Higher Education Degree"
+        degree: "Finance",
+        note: "Finance"
       }
     ],
     languages: [
       "English (Basic)",
-      "Vietnamese (Native)"
+      "Vietnamese"
     ],
     skills: [
       "Script writing",
@@ -253,7 +253,7 @@ export const filmmakerContent: FilmmakerContent = {
       synopsis: "A cinematic odyssey across Vietnam highlighting the martial arts heritage of Binh Dinh, bustling Saigon, and open roads of discovery.",
       credits: [
         { label: "Role", value: "Producer" },
-        { label: "Locations", value: "Bình Định, TP. Hồ Chí Minh & Regional Vietnam" },
+        { label: "Locations", value: "Binh Dinh, Ho Chi Minh City & Regional Vietnam" },
         { label: "Starring", value: "Isaac, Rocker Nguyễn, Lợi Trần, Emma Lê" },
         { label: "Release Year", value: "2023" }
       ],
@@ -310,11 +310,11 @@ export const filmmakerContent: FilmmakerContent = {
       period: "ACADEMIC FOUNDATION",
       role: "Film & Performing Arts Education",
       company: "The Stage - Movie University Of Ho Chi Minh City",
-      location: "TP. Hồ Chí Minh",
-      description: "Graduated from Vietnam's prestigious cinema university (Trường Đại học Sân khấu - Điện ảnh TP.HCM) with formal training in film production, scriptwriting, and directing aesthetics.",
+      location: "Ho Chi Minh City",
+      description: "Studied Film Directing at The Stage - Movie University Of Ho Chi Minh City, with training in film production, scriptwriting, and directing aesthetics.",
       achievements: [
         "Rigorous training in screenplay structure, film history, and cinema production leadership.",
-        "Complementary university degree at Hong Bang International University."
+        "Studied Finance at Hong Bang International University."
       ]
     }
   ],

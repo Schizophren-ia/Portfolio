@@ -35,7 +35,7 @@ const FilmCard: React.FC<{
     }}
     role="button"
     tabIndex={0}
-    aria-label={`Xem ${film.title}`}
+    aria-label={`View ${film.title}`}
     style={{ '--archive-aspect': previewAspectRatio(film) } as React.CSSProperties}
     className={`archive-card group relative min-w-0 cursor-pointer overflow-hidden border border-deep-bronze/60 bg-[#112A46] shadow-xl transition-colors duration-300 hover:border-hive-delight/80 focus-visible:border-hive-delight motion-reduce:transition-none ${className}`}
   >

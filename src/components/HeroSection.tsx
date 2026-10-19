@@ -138,7 +138,7 @@ export const HeroSection: React.FC = () => {
         {/* 1. Typography: LÊ ĐẶNG ĐÀI TRANG on 1 single line, unified golden Hive Delight */}
         <h1
           ref={headlineRef}
-          className="font-playfair font-black text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl uppercase tracking-tight text-hive-delight text-glow leading-none select-none whitespace-nowrap"
+          className="font-playfair font-black text-[clamp(1.5rem,6.4vw,6.5rem)] uppercase tracking-tight text-hive-delight text-glow leading-none select-none whitespace-nowrap"
         >
           <div className="overflow-hidden py-1">
             <span className="hero-reveal-line inline-block">
