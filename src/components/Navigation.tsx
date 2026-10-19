@@ -68,7 +68,7 @@ export const Navigation: React.FC<NavigationProps> = ({ activeSection }) => {
           <a
             href="#hero"
             onClick={(e) => scrollToSection(e, '#hero')}
-            className="font-playfair font-black tracking-[0.22em] text-sm sm:text-base uppercase text-solo hover:text-hive-delight transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-hive-delight"
+            className="inline-flex items-center font-playfair font-black tracking-[0.22em] text-sm sm:text-base uppercase text-solo hover:text-hive-delight transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-hive-delight"
             aria-label="Portfolio"
           >
             Portfolio
@@ -84,7 +84,7 @@ export const Navigation: React.FC<NavigationProps> = ({ activeSection }) => {
                     key={link.href}
                     href={link.href}
                     onClick={(e) => scrollToSection(e, link.href)}
-                    className={`relative py-1 font-montserrat text-xs tracking-widest uppercase transition-colors focus:outline-none focus-visible:ring-1 focus-visible:ring-hive-delight group ${
+                    className={`relative inline-flex items-center justify-center py-1 font-montserrat text-xs tracking-widest uppercase transition-colors focus:outline-none focus-visible:ring-1 focus-visible:ring-hive-delight group ${
                       isActive
                         ? 'text-hive-delight font-medium'
                         : 'text-wainscot-green hover:text-solo'
@@ -116,7 +116,7 @@ export const Navigation: React.FC<NavigationProps> = ({ activeSection }) => {
             <a
               href="#contact"
               onClick={(e) => scrollToSection(e, '#contact')}
-              className="px-4 py-1.5 text-xs font-montserrat font-medium tracking-wider uppercase rounded-sm border border-hive-delight/80 text-hive-delight hover:bg-hive-delight hover:text-noble-black transition-all duration-200 shadow-gold-glow/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-hive-delight"
+              className="inline-flex items-center justify-center px-4 py-1.5 text-xs font-montserrat font-medium tracking-wider uppercase rounded-sm border border-hive-delight/80 text-hive-delight hover:bg-hive-delight hover:text-noble-black transition-all duration-200 shadow-gold-glow/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-hive-delight"
             >
               INQUIRE
             </a>
@@ -132,7 +132,7 @@ export const Navigation: React.FC<NavigationProps> = ({ activeSection }) => {
             <button
               type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 text-solo hover:text-hive-delight focus:outline-none focus-visible:ring-2 focus-visible:ring-hive-delight"
+              className="inline-flex items-center justify-center p-2 text-solo hover:text-hive-delight focus:outline-none focus-visible:ring-2 focus-visible:ring-hive-delight"
               aria-expanded={mobileMenuOpen}
               aria-label="Toggle Mobile Menu"
             >

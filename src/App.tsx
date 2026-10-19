@@ -10,7 +10,6 @@ import { AboutSection } from './components/AboutSection';
 import { FilmmakingSection } from './components/FilmmakingSection';
 import { ExperienceSection } from './components/ExperienceSection';
 import { ContactSection } from './components/ContactSection';
-import { CustomCursor } from './components/CustomCursor';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -85,9 +84,6 @@ export function App() {
 
       {/* 35mm Analog Film Grain Overlay */}
       <div className="film-grain" aria-hidden="true" />
-
-      {/* Custom Trailing Cinematic Cursor */}
-      <CustomCursor />
 
       {/* Top Fixed Navigation & Timecode Tracker */}
       <Navigation activeSection={activeSection} />

@@ -59,7 +59,7 @@ const InlineVideo: React.FC<{ film: IndexedFilm; decorative: boolean }> = ({ fil
       preload="metadata"
       aria-label={decorative ? undefined : `Preview ${film.title}`}
       aria-hidden={decorative || undefined}
-      className="h-full w-full object-contain"
+      className="block h-full w-full object-cover"
     />
   );
 };
@@ -93,7 +93,7 @@ const FilmCard: React.FC<{
           key={film.id}
           film={film}
           decorative={decorative}
-          className="h-full w-full object-contain"
+          className="block h-full w-full object-cover"
         />
       )}
       <div className="absolute inset-0 bg-gradient-to-t from-noble-black via-noble-black/15 to-transparent" />
