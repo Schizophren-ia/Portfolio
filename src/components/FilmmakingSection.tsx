@@ -144,7 +144,7 @@ const AutoScrollShelf: React.FC<{
           {films.map((film) => (
             <div
               key={film.id}
-              className="archive-marquee-card"
+              className={`archive-marquee-card${film.mediaType === 'poster' ? ' archive-marquee-poster' : ''}`}
               style={{ '--archive-aspect': previewAspectRatio(film) } as React.CSSProperties}
             >
               <FilmCard

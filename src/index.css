@@ -257,7 +257,7 @@ a,
   flex: 0 0 auto;
   gap: var(--archive-gap);
   padding-inline-end: var(--archive-gap);
-  align-items: stretch;
+  align-items: center;
 }
 
 .archive-marquee-card {
@@ -270,6 +270,10 @@ a,
 .archive-card-media {
   width: 100%;
   aspect-ratio: var(--archive-aspect, 1.7777778);
+}
+
+.archive-marquee-poster {
+  width: clamp(15rem, 22vw, 20rem);
 }
 
 @media (min-width: 640px) {

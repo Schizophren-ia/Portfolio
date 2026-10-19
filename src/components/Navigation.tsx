@@ -63,20 +63,20 @@ export const Navigation: React.FC<NavigationProps> = ({ activeSection }) => {
             : 'bg-gradient-to-b from-noble-black/80 via-noble-black/30 to-transparent py-5 sm:py-6'
         }`}
       >
-        <div className="max-w-7xl mx-auto px-6 sm:px-8 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 flex items-center gap-6">
           {/* Brand link: "Portfolio" */}
           <a
             href="#hero"
             onClick={(e) => scrollToSection(e, '#hero')}
-            className="inline-flex items-center font-playfair font-black tracking-[0.22em] text-sm sm:text-base uppercase text-solo hover:text-hive-delight transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-hive-delight"
+            className="inline-flex shrink-0 items-center font-playfair font-black tracking-[0.22em] text-sm sm:text-base uppercase text-solo hover:text-hive-delight transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-hive-delight"
             aria-label="Portfolio"
           >
             Portfolio
           </a>
 
           {/* Desktop Navigation Links + Timecode Counter */}
-          <div className="hidden md:flex items-center gap-8">
-            <nav className="flex items-center gap-8" aria-label="Main Navigation">
+          <div className="ml-auto hidden lg:flex items-center justify-end gap-6 xl:gap-8">
+            <nav className="flex items-center justify-end gap-5 xl:gap-8" aria-label="Main Navigation">
               {navLinks.map((link) => {
                 const isActive = activeSection === link.href.substring(1);
                 return (
@@ -111,19 +111,10 @@ export const Navigation: React.FC<NavigationProps> = ({ activeSection }) => {
               <span className="text-wainscot-green text-[10px] uppercase font-montserrat tracking-widest">TC</span>
               <span className="text-hive-delight font-semibold tracking-wider">{currentTimecode}</span>
             </div>
-
-            {/* CTA Inquire */}
-            <a
-              href="#contact"
-              onClick={(e) => scrollToSection(e, '#contact')}
-              className="inline-flex h-11 shrink-0 items-center justify-center px-4 py-0 text-center text-xs leading-none font-montserrat font-medium tracking-wider uppercase rounded-sm border border-hive-delight/80 text-hive-delight hover:bg-hive-delight hover:text-noble-black transition-all duration-200 shadow-gold-glow/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-hive-delight"
-            >
-              <span className="block">INQUIRE</span>
-            </a>
           </div>
 
           {/* Mobile Right Controls: Timecode + Hamburger */}
-          <div className="md:hidden flex items-center gap-3">
+          <div className="ml-auto lg:hidden flex items-center gap-3">
             <div className="flex items-center gap-1.5 px-2 py-1 rounded bg-deep-bronze/50 border border-deep-bronze text-[10px] font-mono text-hive-delight">
               <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
               <span>{currentTimecode}</span>
@@ -143,7 +134,7 @@ export const Navigation: React.FC<NavigationProps> = ({ activeSection }) => {
 
         {/* Mobile Drawer Menu */}
         {mobileMenuOpen && (
-          <div className="md:hidden fixed inset-x-0 top-[60px] bg-noble-black/98 border-b border-deep-bronze/80 backdrop-blur-xl px-6 py-8 flex flex-col gap-6 shadow-2xl animate-in slide-in-from-top-4 duration-300">
+          <div className="lg:hidden fixed inset-x-0 top-[60px] bg-noble-black/98 border-b border-deep-bronze/80 backdrop-blur-xl px-6 py-8 flex flex-col gap-6 shadow-2xl animate-in slide-in-from-top-4 duration-300">
             <div className="flex flex-col gap-4">
               {navLinks.map((link) => {
                 const isActive = activeSection === link.href.substring(1);
