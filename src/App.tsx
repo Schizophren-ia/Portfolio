@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import Lenis from 'lenis';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { registerSmoothScroll } from './utils/smoothScroll';
 
 import { Preloader } from './components/Preloader';
 import { Navigation } from './components/Navigation';
@@ -29,7 +30,7 @@ export function App() {
       smoothWheel: true,
     });
 
-    (window as any).lenis = lenis;
+    const unregisterSmoothScroll = registerSmoothScroll(lenis);
 
     lenis.on('scroll', ScrollTrigger.update);
 
@@ -42,6 +43,7 @@ export function App() {
 
     return () => {
       gsap.ticker.remove(updateLenis);
+      unregisterSmoothScroll();
       lenis.destroy();
     };
   }, []);

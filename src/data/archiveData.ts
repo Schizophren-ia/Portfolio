@@ -15,6 +15,7 @@ type ArchiveSeed = {
   videoPath?: string;
   posterAspectRatio?: number;
   thumbnailAspectRatio?: number;
+  details?: Pick<FilmItem, 'director' | 'cast' | 'logline' | 'synopsis'>;
 };
 
 const seeds: ArchiveSeed[] = [
@@ -27,6 +28,21 @@ const seeds: ArchiveSeed[] = [
   { id: 'hoa-hong-no-muon', title: 'HOA HỒNG NỞ MUỘN', category: 'short-film', sourceUrl: 'https://www.youtube.com/watch?v=jZui_9c6UO8', image: 'short-hoa-hong-no-muon.jpg', year: '2022', youtubeId: 'jZui_9c6UO8', author: 'Ensure Gold Vietnam' },
   { id: 'me-ve-voi-con', title: 'MẸ VỀ VỚI CON', category: 'short-film', sourceUrl: 'https://www.youtube.com/watch?v=E6slLdeexSM', image: 'short-me-ve-voi-con.jpg', year: '2023', youtubeId: 'E6slLdeexSM', author: 'Ensure Gold Vietnam' },
   { id: 'minh-echoes-of-doves-wings', title: 'MINH — ECHOES OF DOVE’S WINGS', category: 'short-film', image: 'short-minh-poster.webp', posterAspectRatio: 3508 / 4724 },
+  {
+    id: 'vu-dieu-tinh-yeu',
+    title: 'VŨ ĐIỆU TÌNH YÊU',
+    category: 'short-film',
+    image: 'short-vu-dieu-tinh-yeu-poster.jpg',
+    posterAspectRatio: 1638 / 2048,
+    sourceUrl: 'https://vimeo.com/759819854',
+    author: '30 Pictures',
+    details: {
+      director: 'Đỗ Thái Tài',
+      cast: 'Hải Anh, Công Dương, Việt Hùng, MiA Nguyễn',
+      logline: 'A short film exploring love and unspoken emotions through dance.',
+      synopsis: 'Directed by Đỗ Thái Tài and produced by 30 Pictures, the film uses dance to evoke the tenderness and unresolved emotions of love in a rainy Saigon atmosphere. Featuring Hải Anh, Công Dương, Việt Hùng and MiA Nguyễn, with choreography by Andy Cường.',
+    },
+  },
 
   { id: 'khat-vong-viet-nam', title: 'KHÁT VỌNG VÌ MỘT VIỆT NAM MAI SAU', category: 'tvc', sourceUrl: 'https://www.youtube.com/watch?v=RYXggnG8alo', image: 'tvc-khat-vong-viet-nam.jpg', youtubeId: 'RYXggnG8alo', author: 'One Mount' },
   { id: 'hay-yeu-nhau-di', title: 'HÃY YÊU NHAU ĐI CHO ĐỜI NHƯ Ý', category: 'tvc', sourceUrl: 'https://www.youtube.com/watch?v=T0eUu5ILzx0', image: 'tvc-hay-yeu-nhau-di.jpg', youtubeId: 'T0eUu5ILzx0', author: 'Generali Vietnam' },
@@ -82,10 +98,10 @@ export const archiveFilms: FilmItem[] = seeds.map((item) => ({
   sourceUrl: item.sourceUrl,
   videoUrl: item.youtubeId ? `https://www.youtube.com/embed/${item.youtubeId}?autoplay=1&mute=0` : item.videoPath ? asset(item.videoPath) : undefined,
   mediaType: item.posterAspectRatio ? 'poster' : item.videoPath ? 'local-video' : 'youtube',
-  logline: `${item.title} — a selected work from the filmmaking archive.`,
-  synopsis: item.posterAspectRatio ? 'Short-film poster from the filmmaking archive.' : `Official work presented by ${item.author ?? 'the production team'}. Open the original source to watch the complete film and production details.`,
-  director: item.author ?? 'Production team',
-  cast: 'See official credits',
+  logline: item.details?.logline ?? `${item.title} — a selected work from the filmmaking archive.`,
+  synopsis: item.details?.synopsis ?? (item.posterAspectRatio ? 'Short-film poster from the filmmaking archive.' : `Official work presented by ${item.author ?? 'the production team'}. Open the original source to watch the complete film and production details.`),
+  director: item.details?.director ?? item.author ?? 'Production team',
+  cast: item.details?.cast ?? 'See official credits',
   credits: [],
   tools: [],
   laurel: item.author,
