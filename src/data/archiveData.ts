@@ -14,6 +14,7 @@ type ArchiveSeed = {
   youtubeId?: string;
   videoPath?: string;
   posterAspectRatio?: number;
+  thumbnailAspectRatio?: number;
 };
 
 const seeds: ArchiveSeed[] = [
@@ -43,7 +44,7 @@ const seeds: ArchiveSeed[] = [
   { id: 'muc-ha-vo-nhan', title: 'MỤC HẠ VÔ NHÂN', category: 'mv', sourceUrl: 'https://www.youtube.com/watch?v=FikdKWos-NQ', image: 'mv-muc-ha-vo-nhan.jpg', youtubeId: 'FikdKWos-NQ', author: 'SOOBIN · Binz · NSND Huỳnh Tú' },
   { id: 'yeu-thuong-tiep-noi', title: 'YÊU THƯƠNG TIẾP NỐI', category: 'mv', sourceUrl: 'https://www.youtube.com/watch?v=8fXOfDX2RZQ', image: 'mv-yeu-thuong-tiep-noi.jpg', year: '2022', youtubeId: '8fXOfDX2RZQ', author: 'Mỹ Tâm · Phan Mạnh Quỳnh · ZaloPay' },
 
-  { id: 'ai-film-260710', title: 'AI FILM — 260710', category: 'ai-film', image: 'ai-film-poster.svg', year: '2026', videoPath: '/videos/ai-film.mp4', author: 'Lê Đặng Đài Trang' },
+  { id: 'ai-film-260710', title: 'AI FILM — 260710', category: 'ai-film', image: 'ai-film-uc-poster.jpg', thumbnailAspectRatio: 1374 / 2048, year: '2026', videoPath: '/videos/ai-film.mp4', author: 'Lê Đặng Đài Trang' },
 ];
 
 const categoryGenre: Record<FilmCategory, string> = {
@@ -53,6 +54,15 @@ const categoryGenre: Record<FilmCategory, string> = {
   'house-rule': 'House Rule',
   mv: 'Music Video',
   'ai-film': 'AI Film',
+};
+
+// Remove letterboxing encoded into these source thumbnails, not CSS padding.
+const thumbnailScales: Partial<Record<string, number>> = {
+  'short-song-nhu-y-2020.jpg': 1.08,
+  'tvc-khat-vong-viet-nam.jpg': 1.35,
+  'tvc-song-nhu-y-bumper.jpg': 1.35,
+  'tvc-nivea-silver-protect.jpg': 1.01,
+  'mv-muc-ha-vo-nhan.jpg': 1.02,
 };
 
 export const archiveFilms: FilmItem[] = seeds.map((item) => ({
@@ -65,7 +75,8 @@ export const archiveFilms: FilmItem[] = seeds.map((item) => ({
   genre: categoryGenre[item.category],
   duration: item.posterAspectRatio ? 'Poster' : item.videoPath ? '50 Sec' : 'Watch online',
   aspectRatio: item.posterAspectRatio ? 'Portrait' : item.videoPath ? '3:4 Vertical' : '16:9',
-  thumbnailAspectRatio: item.posterAspectRatio,
+  thumbnailAspectRatio: item.thumbnailAspectRatio ?? item.posterAspectRatio,
+  thumbnailScale: thumbnailScales[item.image],
   thumbnail: asset(`/images/${item.image}`),
   youtubeUrl: item.youtubeId ? item.sourceUrl : undefined,
   sourceUrl: item.sourceUrl,

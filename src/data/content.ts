@@ -246,6 +246,7 @@ export const filmmakerContent: FilmmakerContent = {
       duration: "105 Min",
       aspectRatio: "2.39:1 CinemaScope",
       thumbnail: "https://img.youtube.com/vi/wrOLqdg54Bo/maxresdefault.jpg",
+      thumbnailScale: 1.34,
       youtubeUrl: "https://www.youtube.com/watch?v=wrOLqdg54Bo",
       videoUrl: "https://www.youtube.com/embed/wrOLqdg54Bo?autoplay=1&mute=0",
       logline: "Three interwoven journeys across scenic landscapes challenge a martial artist, a traveler, and a musician to confront crossroads defining their true destiny.",

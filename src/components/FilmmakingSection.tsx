@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import React, { useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { ArrowUpRight, Film, Image as ImageIcon, Play, Sparkles } from 'lucide-react';
 import { filmmakerContent } from '../data/content';
 import { archiveFilms } from '../data/archiveData';
@@ -17,54 +17,9 @@ const categories: { id: FilmCategory; label: string; note: string }[] = [
 
 type IndexedFilm = FilmItem & { archiveIndex: number };
 
+const MARQUEE_SPEED_PX_PER_SECOND = 40;
+
 const previewAspectRatio = (film: FilmItem) => film.thumbnailAspectRatio ?? (film.mediaType === 'local-video' ? 3 / 4 : 16 / 9);
-
-const InlineVideo: React.FC<{ film: IndexedFilm; decorative: boolean }> = ({ film, decorative }) => {
-  const videoRef = useRef<HTMLVideoElement>(null);
-
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-    let visible = false;
-    const updatePlayback = () => {
-      if (visible && !document.hidden && !reducedMotion.matches) {
-        void video.play().catch(() => { /* Keep the poster if autoplay is unavailable. */ });
-      } else {
-        video.pause();
-      }
-    };
-    const observer = new IntersectionObserver(([entry]) => {
-      visible = entry.isIntersecting;
-      updatePlayback();
-    });
-    observer.observe(video);
-    document.addEventListener('visibilitychange', updatePlayback);
-    reducedMotion.addEventListener('change', updatePlayback);
-    return () => {
-      observer.disconnect();
-      document.removeEventListener('visibilitychange', updatePlayback);
-      reducedMotion.removeEventListener('change', updatePlayback);
-      video.pause();
-    };
-  }, []);
-
-  return (
-    <video
-      ref={videoRef}
-      src={film.videoUrl}
-      poster={film.thumbnail}
-      autoPlay
-      muted
-      loop
-      playsInline
-      preload="metadata"
-      aria-label={decorative ? undefined : `Preview ${film.title}`}
-      aria-hidden={decorative || undefined}
-      className="block h-full w-full object-cover"
-    />
-  );
-};
 
 const FilmCard: React.FC<{
   film: IndexedFilm;
@@ -87,17 +42,13 @@ const FilmCard: React.FC<{
     className={`archive-card group relative cursor-pointer overflow-hidden border border-deep-bronze/60 bg-[#112A46] shadow-xl transition-colors duration-300 hover:border-hive-delight/80 focus-within:border-hive-delight ${className}`}
   >
     <div className="archive-card-media relative overflow-hidden bg-black">
-      {film.mediaType === 'local-video' && film.videoUrl ? (
-        <InlineVideo film={film} decorative={decorative} />
-      ) : (
-        <FilmThumbnail
-          key={film.id}
-          film={film}
-          decorative={decorative}
-          className="absolute inset-0 block h-full w-full object-cover"
-        />
-      )}
-      {film.mediaType !== 'poster' && <div className="absolute inset-0 bg-gradient-to-t from-noble-black via-noble-black/15 to-transparent" />}
+      <FilmThumbnail
+        key={film.id}
+        film={film}
+        decorative={decorative}
+        className="absolute inset-0 block h-full w-full object-cover"
+      />
+      {film.mediaType !== 'poster' && film.category !== 'ai-film' && <div className="absolute inset-0 bg-gradient-to-t from-noble-black via-noble-black/15 to-transparent" />}
       <span className="absolute left-2.5 top-2.5 border border-deep-bronze/80 bg-noble-black/90 px-2 py-1 font-mono text-[10px] text-hive-delight">
         {film.index}
       </span>
@@ -126,15 +77,15 @@ const FilmCard: React.FC<{
 const AutoScrollShelf: React.FC<{
   films: IndexedFilm[];
   onOpen: (archiveIndex: number) => void;
-  cycleDurationSeconds?: number;
-}> = ({ films, onOpen, cycleDurationSeconds = 30 }) => {
+  speedPixelsPerSecond?: number;
+}> = ({ films, onOpen, speedPixelsPerSecond = MARQUEE_SPEED_PX_PER_SECOND }) => {
   const viewportRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const groupRef = useRef<HTMLDivElement>(null);
   const sequenceRef = useRef<HTMLDivElement>(null);
   const previousDistanceRef = useRef(0);
   const [repeats, setRepeats] = useState(1);
-  const duration = Number.isFinite(cycleDurationSeconds) && cycleDurationSeconds > 0 ? cycleDurationSeconds : 30;
+  const speed = Number.isFinite(speedPixelsPerSecond) && speedPixelsPerSecond > 0 ? speedPixelsPerSecond : MARQUEE_SPEED_PX_PER_SECOND;
 
   useLayoutEffect(() => {
     const viewport = viewportRef.current;
@@ -155,6 +106,8 @@ const AutoScrollShelf: React.FC<{
       // Both groups have the same children; the track itself has no gap/padding.
       const distance = group.getBoundingClientRect().width;
       if (!distance) return;
+      // Equal physical velocity for all shelves, regardless of their loop length.
+      const duration = distance / speed;
       const previousDistance = previousDistanceRef.current;
       const animation = track.getAnimations()[0];
       const elapsed = Number(animation?.currentTime ?? 0);
@@ -177,7 +130,7 @@ const AutoScrollShelf: React.FC<{
     observer.observe(sequence);
     observer.observe(group);
     return () => observer.disconnect();
-  }, [films.length, repeats, duration]);
+  }, [films.length, repeats, speed]);
 
   const renderGroup = (copy: boolean) => (
     <div ref={!copy ? groupRef : undefined} className="archive-marquee-group" aria-hidden={copy || undefined}>

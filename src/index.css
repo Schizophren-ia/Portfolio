@@ -228,6 +228,7 @@ a,
 }
 
 .archive-static-gallery {
+  --archive-media-height: clamp(20rem, 50vw, 28rem);
   display: flex;
   flex-wrap: wrap;
   gap: var(--archive-gap);
@@ -267,7 +268,7 @@ a,
 }
 
 .archive-card-media {
-  height: var(--archive-media-height);
+  width: 100%;
   aspect-ratio: var(--archive-aspect, 1.7777778);
 }
 

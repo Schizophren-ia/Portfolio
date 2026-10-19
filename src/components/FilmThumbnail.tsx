@@ -29,6 +29,7 @@ export function FilmThumbnail({ film, decorative = false, className }: FilmThumb
       // Identical URLs reuse the browser cache rather than waiting for lazy loading.
       loading="eager"
       decoding="async"
+      style={sourceIndex === 0 && film.thumbnailScale ? { transform: `scale(${film.thumbnailScale})` } : undefined}
       onError={tryNextSource}
       onLoad={(event) => {
         const image = event.currentTarget;

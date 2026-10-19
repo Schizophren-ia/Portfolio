@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Clapperboard, Globe2, GraduationCap, Heart, Languages, Sparkles } from 'lucide-react';
@@ -7,36 +7,58 @@ import { ambientSound } from '../utils/ambientAudio';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const StatCounter: React.FC<{ targetValue: number; active: boolean; index: number }> = ({ targetValue, active, index }) => {
+const StatCounter: React.FC<{ targetValue: number; index: number }> = ({ targetValue, index }) => {
   const spanRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
-    if (!spanRef.current || !active) return;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      spanRef.current.textContent = targetValue.toString();
+    const span = spanRef.current;
+    if (!span) return;
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (reducedMotion.matches) {
+      span.textContent = targetValue.toString();
       return;
     }
 
-    const counter = { value: 0 };
-    const tween = gsap.to(counter, {
-      value: targetValue,
-      duration: 2.3,
-      delay: index * 0.08,
-      ease: 'power2.out',
-      onUpdate: () => {
-        if (spanRef.current) spanRef.current.textContent = Math.floor(counter.value).toString();
-      },
-      onComplete: () => {
-        if (spanRef.current) spanRef.current.textContent = targetValue.toString();
-      },
-    });
+    span.textContent = '0';
+    let tween: gsap.core.Tween | undefined;
+    // Start when the statistic itself is visible, not the dossier above it.
+    const observer = new IntersectionObserver((entries) => {
+      if (!entries.some((entry) => entry.isIntersecting && entry.intersectionRatio >= 0.25)) return;
+      observer.disconnect();
+      const counter = { value: 0 };
+      tween = gsap.to(counter, {
+        value: targetValue,
+        duration: 2,
+        delay: index * 0.1,
+        ease: 'power1.out',
+        onUpdate: () => { span.textContent = Math.floor(counter.value).toString(); },
+        onComplete: () => { span.textContent = targetValue.toString(); },
+      });
+    }, { threshold: 0.25, rootMargin: '0px 0px -8% 0px' });
+    observer.observe(span.closest('[data-stat]') ?? span);
+
+    const handleReducedMotion = () => {
+      if (!reducedMotion.matches) return;
+      observer.disconnect();
+      tween?.kill();
+      span.textContent = targetValue.toString();
+    };
+    reducedMotion.addEventListener('change', handleReducedMotion);
 
     return () => {
-      tween.kill();
+      observer.disconnect();
+      reducedMotion.removeEventListener('change', handleReducedMotion);
+      tween?.kill();
     };
-  }, [active, index, targetValue]);
+  }, [index, targetValue]);
 
-  return <span ref={spanRef}>0</span>;
+  return (
+    <span className="relative inline-grid tabular-nums">
+      <span className="invisible col-start-1 row-start-1" aria-hidden="true">{targetValue}</span>
+      <span ref={spanRef} className="col-start-1 row-start-1" aria-hidden="true">0</span>
+      <span className="sr-only">{targetValue}</span>
+    </span>
+  );
 };
 
 export const AboutSection: React.FC = () => {
@@ -44,7 +66,6 @@ export const AboutSection: React.FC = () => {
   const bioRef = useRef<HTMLDivElement>(null);
   const dossierRef = useRef<HTMLDivElement>(null);
   const clapRef = useRef<HTMLDivElement>(null);
-  const [statsActive, setStatsActive] = useState(false);
   const lastSoundTimeRef = useRef(0);
 
   const bioWords = filmmakerContent.bio.paragraphs.join(' ').split(' ');
@@ -77,7 +98,6 @@ export const AboutSection: React.FC = () => {
             start: 'top 78%',
             once: true,
             onEnter: () => {
-              setStatsActive(true);
               if (!prefersReducedMotion) playClap();
             },
           },
@@ -201,8 +221,8 @@ export const AboutSection: React.FC = () => {
 
               <div className="mt-5 grid grid-cols-2 gap-px bg-deep-bronze/60">
                 {filmmakerContent.stats.map((stat, index) => (
-                  <div key={stat.label} className={`bg-[#0A1B2E] p-4 sm:p-5 ${index === filmmakerContent.stats.length - 1 && filmmakerContent.stats.length % 2 !== 0 ? 'col-span-2' : ''}`}>
-                    <div className="font-playfair text-3xl font-black text-hive-delight sm:text-4xl"><StatCounter targetValue={stat.value} active={statsActive} index={index} /><span className="text-stone-ground">{stat.suffix}</span></div>
+                  <div key={stat.label} data-stat={stat.label} className={`bg-[#0A1B2E] p-4 sm:p-5 ${index === filmmakerContent.stats.length - 1 && filmmakerContent.stats.length % 2 !== 0 ? 'col-span-2' : ''}`}>
+                    <div className="font-playfair text-3xl font-black text-hive-delight sm:text-4xl"><StatCounter targetValue={stat.value} index={index} /><span className="text-stone-ground">{stat.suffix}</span></div>
                     <p className="mt-1 font-montserrat text-[10px] font-semibold uppercase tracking-wider text-solo">{stat.label}</p>
                     <p className="mt-1 text-[9px] text-wainscot-green">{stat.description}</p>
                   </div>
