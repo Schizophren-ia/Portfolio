@@ -15,6 +15,8 @@ type ArchiveSeed = {
   videoPath?: string;
   posterAspectRatio?: number;
   thumbnailAspectRatio?: number;
+  duration?: string;
+  genre?: string;
   details?: Pick<FilmItem, 'director' | 'cast' | 'logline' | 'synopsis'>;
 };
 
@@ -44,6 +46,61 @@ const seeds: ArchiveSeed[] = [
     },
   },
 
+  // Narrative brand films; classification is based on format, not the client.
+  {
+    id: 'goi-noi-nho-vao-nhung-cuoc-goi',
+    title: 'GÓI NỖI NHỚ VÀO NHỮNG CUỘC GỌI',
+    category: 'short-film',
+    sourceUrl: 'https://www.youtube.com/watch?v=pFWxcBzKaJU',
+    youtubeId: 'pFWxcBzKaJU',
+    image: 'short-goi-noi-nho-cuoc-goi.jpg',
+    year: '2022',
+    author: 'QA Production · FE CREDIT',
+    duration: '1 Min 56 Sec',
+    genre: 'Branded Short Film',
+    details: {
+      director: 'Đang cập nhật',
+      cast: 'See official credits',
+      logline: 'A short branded story about staying connected through phone calls.',
+      synopsis: 'A FE CREDIT project published by QA Production in 2022. The original upload credits QA Production as the production house and lists the production, camera and post-production teams.',
+    },
+  },
+  {
+    id: 'con-thuyen-cho-ca-uoc-mo',
+    title: 'CON THUYỀN CHỞ CẢ ƯỚC MƠ',
+    category: 'short-film',
+    sourceUrl: 'https://www.youtube.com/watch?v=txXKJtxJA_Y',
+    youtubeId: 'txXKJtxJA_Y',
+    image: 'short-con-thuyen-cho-ca-uoc-mo.jpg',
+    year: '2022',
+    author: 'QA Production · FE CREDIT',
+    duration: '2 Min 5 Sec',
+    genre: 'Branded Short Film',
+    details: {
+      director: 'Đang cập nhật',
+      cast: 'Chị Mùi · See official credits',
+      logline: 'A short brand film about the dreams of women who make their living at sea.',
+      synopsis: 'QA Production tells the story of chị Mùi, one of the women working at sea along Vietnam’s coast. The original upload identifies FE CREDIT as the client and credits QA Production and the production team.',
+    },
+  },
+  {
+    id: 'nguoi-nha-viettel-tammi',
+    title: 'NGƯỜI NHÀ — VIETTEL TAMMI',
+    category: 'short-film',
+    sourceUrl: 'https://www.youtube.com/watch?v=cK6-HjNpTm8&t=5s',
+    youtubeId: 'cK6-HjNpTm8',
+    image: 'short-nguoi-nha-viettel-tammi.jpg',
+    year: '2026',
+    author: 'Viettel Tammi',
+    duration: '5 Min 47 Sec',
+    details: {
+      director: 'Lê Huy Anh',
+      cast: 'See official credits',
+      logline: 'A family story about distance, everyday care and finding time to reconnect.',
+      synopsis: 'A short film released by Viettel Tammi in 2026, directed by Lê Huy Anh and written by Hằng Chu. The story centers on family connections and the small acts of care that keep loved ones close when they cannot always be together.',
+    },
+  },
+
   { id: 'khat-vong-viet-nam', title: 'KHÁT VỌNG VÌ MỘT VIỆT NAM MAI SAU', category: 'tvc', sourceUrl: 'https://www.youtube.com/watch?v=RYXggnG8alo', image: 'tvc-khat-vong-viet-nam.jpg', youtubeId: 'RYXggnG8alo', author: 'One Mount' },
   { id: 'hay-yeu-nhau-di', title: 'HÃY YÊU NHAU ĐI CHO ĐỜI NHƯ Ý', category: 'tvc', sourceUrl: 'https://www.youtube.com/watch?v=T0eUu5ILzx0', image: 'tvc-hay-yeu-nhau-di.jpg', youtubeId: 'T0eUu5ILzx0', author: 'Generali Vietnam' },
   { id: 'song-nhu-y-bumper', title: 'SỐNG NHƯ Ý — BUMPER ADS', category: 'tvc', sourceUrl: 'https://www.youtube.com/watch?v=pXUtNmJS4vs', image: 'tvc-song-nhu-y-bumper.jpg', youtubeId: 'pXUtNmJS4vs', author: '30 Pictures' },
@@ -52,6 +109,23 @@ const seeds: ArchiveSeed[] = [
   { id: 'vita-dau-tu-nhu-y', title: 'VITA — ĐẦU TƯ NHƯ Ý', category: 'tvc', sourceUrl: 'https://www.youtube.com/watch?v=n_LU8pyX_cQ', image: 'tvc-vita-dau-tu-nhu-y.jpg', youtubeId: 'n_LU8pyX_cQ', author: 'Generali Vietnam' },
   { id: 'hack-tet-mon-ngon', title: 'HACK TẾT — MÓN NGON LÀM GỌN', category: 'tvc', sourceUrl: 'https://www.youtube.com/watch?v=o1fJXQAl6cs', image: 'tvc-hack-tet-mon-ngon.jpg', year: '2023', youtubeId: 'o1fJXQAl6cs', author: 'Miu Lê Official' },
   { id: 'hack-tet-truyen-thong', title: 'HACK TẾT — MÓN TRUYỀN THỐNG, SỐNG HIỆN ĐẠI', category: 'tvc', sourceUrl: 'https://www.youtube.com/watch?v=l2ZkuSeBp_I', image: 'tvc-hack-tet-truyen-thong.jpg', year: '2023', youtubeId: 'l2ZkuSeBp_I', author: 'Miu Lê Official' },
+  {
+    id: 'fun-sport-live-your-dream-world-cup-2022',
+    title: 'FUN SPORT — LIVE YOUR DREAM CÙNG WORLD CUP 2022',
+    category: 'tvc',
+    sourceUrl: 'https://www.youtube.com/watch?v=SVl43eHuFVg',
+    youtubeId: 'SVl43eHuFVg',
+    image: 'tvc-fun-sport-world-cup-2022.jpg',
+    year: '2022',
+    author: 'Fun Sport Game',
+    duration: '1 Min 32 Sec',
+    details: {
+      director: 'Đang cập nhật',
+      cast: 'See official credits',
+      logline: 'A World Cup 2022 campaign film encouraging people to pursue their passion for football.',
+      synopsis: 'Published by Fun Sport Game for the Live Your Dream campaign during World Cup 2022. The original upload combines a brand-led campaign message with a promotional call to action.',
+    },
+  },
 
   { id: 'bay-ngot-ngao-house-rules', title: 'BẪY NGỌT NGÀO — HOUSE RULES', category: 'house-rule', sourceUrl: 'https://www.youtube.com/watch?v=ibLDjoFT8zk', image: 'house-rule-bay-ngot-ngao.jpg', year: '2022', youtubeId: 'ibLDjoFT8zk', author: 'CJ ENM Vietnam' },
   { id: 'bo-gia-house-rule', title: 'BỐ GIÀ — HOUSE RULE', category: 'house-rule', sourceUrl: 'https://www.youtube.com/watch?v=omw7O1X4CNA', image: 'house-rule-bo-gia.jpg', year: '2021', youtubeId: 'omw7O1X4CNA', author: 'Galaxy Studio' },
@@ -79,6 +153,7 @@ const thumbnailScales: Partial<Record<string, number>> = {
   'tvc-song-nhu-y-bumper.jpg': 1.35,
   'tvc-nivea-silver-protect.jpg': 1.01,
   'mv-muc-ha-vo-nhan.jpg': 1.02,
+  'tvc-fun-sport-world-cup-2022.jpg': 1.02,
 };
 
 export const archiveFilms: FilmItem[] = seeds.map((item) => ({
@@ -88,8 +163,8 @@ export const archiveFilms: FilmItem[] = seeds.map((item) => ({
   category: item.category,
   year: item.year ?? 'Archive',
   role: 'Line Producer',
-  genre: categoryGenre[item.category],
-  duration: item.posterAspectRatio ? 'Poster' : item.videoPath ? '50 Sec' : 'Watch online',
+  genre: item.genre ?? categoryGenre[item.category],
+  duration: item.duration ?? (item.posterAspectRatio ? 'Poster' : item.videoPath ? '50 Sec' : 'Watch online'),
   aspectRatio: item.posterAspectRatio ? 'Portrait' : item.videoPath ? '3:4 Vertical' : '16:9',
   thumbnailAspectRatio: item.thumbnailAspectRatio ?? item.posterAspectRatio,
   thumbnailScale: thumbnailScales[item.image],
