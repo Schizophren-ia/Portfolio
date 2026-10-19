@@ -41,7 +41,6 @@ const StatCounter: React.FC<{ targetValue: number; active: boolean; index: numbe
 
 export const AboutSection: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
-  const portraitRef = useRef<HTMLImageElement>(null);
   const bioRef = useRef<HTMLDivElement>(null);
   const dossierRef = useRef<HTMLDivElement>(null);
   const clapRef = useRef<HTMLDivElement>(null);
@@ -63,13 +62,6 @@ export const AboutSection: React.FC = () => {
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const ctx = gsap.context(() => {
-      if (!prefersReducedMotion && portraitRef.current) {
-        gsap.fromTo(portraitRef.current, { clipPath: 'inset(100% 0 0 0)', y: 24 }, {
-          clipPath: 'inset(0% 0 0 0)', y: 0, duration: 1.1, ease: 'power3.out',
-          scrollTrigger: { trigger: portraitRef.current, start: 'top 82%' },
-        });
-      }
-
       if (!prefersReducedMotion && bioRef.current) {
         gsap.fromTo(bioRef.current.querySelectorAll('.bio-word'), { color: '#7A8CA6', opacity: 0.42 }, {
           color: '#F2F6FB', opacity: 1, stagger: 0.025,
@@ -108,7 +100,7 @@ export const AboutSection: React.FC = () => {
         <div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-12 lg:gap-16">
           <div className="lg:col-span-5 flex flex-col items-center">
             <div className="group relative mx-auto aspect-[4/5] max-h-[500px] w-full max-w-md overflow-hidden border border-deep-bronze/90 bg-black shadow-2xl">
-              <img ref={portraitRef} src={filmmakerContent.profile.portraitImage} alt={`${filmmakerContent.profile.fullName} portrait`} className="h-full w-full object-cover object-[center_15%] transition-transform duration-700 group-hover:scale-[1.025]" />
+              <img src={filmmakerContent.profile.portraitImage} alt={`${filmmakerContent.profile.fullName} portrait`} className="h-full w-full object-cover object-[center_15%] transition-transform duration-500 ease-out motion-safe:group-hover:scale-[1.025] motion-reduce:transition-none" />
               <div className="absolute inset-0 bg-gradient-to-t from-noble-black/80 via-transparent to-noble-black/10" />
               <div className="absolute inset-4 border border-solo/15" />
               <div className="absolute right-6 top-6 flex items-center gap-2 bg-noble-black/80 px-2 py-1 font-mono text-[9px] text-solo">

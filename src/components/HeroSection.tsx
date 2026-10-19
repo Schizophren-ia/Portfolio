@@ -188,7 +188,6 @@ export const HeroSection: React.FC = () => {
           <a
             href="#filmmaking"
             className="px-8 py-3.5 bg-hive-delight text-noble-black font-montserrat font-bold text-xs tracking-widest uppercase rounded-sm hover:bg-stone-ground transition-all duration-300 shadow-gold-glow hover:shadow-gold-glow-lg flex items-center gap-2"
-            data-cursor="PLAY"
           >
             <Play className="w-3.5 h-3.5 fill-current" />
             VIEW MY WORK

@@ -85,7 +85,6 @@ const FilmCard: React.FC<{
     aria-label={decorative ? undefined : `Xem ${film.title}`}
     aria-hidden={decorative || undefined}
     className={`archive-card group relative cursor-pointer overflow-hidden border border-deep-bronze/60 bg-[#112A46] shadow-xl transition-colors duration-300 hover:border-hive-delight/80 focus-within:border-hive-delight ${className}`}
-    data-cursor="PLAY"
   >
     <div className="archive-card-media relative overflow-hidden bg-black">
       {film.mediaType === 'local-video' && film.videoUrl ? (
