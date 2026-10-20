@@ -260,12 +260,10 @@ a,
   aspect-ratio: 3 / 4;
 }
 
-.archive-short-film-posters .archive-card > div:last-child {
-  min-height: 8rem;
-}
-
+/* Match the compact Movie captions while retaining equal-height poster cards. */
+.archive-short-film-posters .archive-card > div:last-child,
 .archive-short-film-posters .archive-card h4 {
-  min-height: 3.75rem;
+  min-height: 0;
 }
 
 .archive-grid.archive-ai-film-gallery {
