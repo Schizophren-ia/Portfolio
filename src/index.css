@@ -315,6 +315,14 @@ a,
   background: #112A46;
 }
 
+/* Fill the fixed poster frames without letterboxing or stretching the artwork. */
+.archive-short-film-posters [data-film-id="vu-dieu-tinh-yeu"] .archive-card-media img,
+.movie-carousel-poster[data-poster-id="doi-gi-mo-di"] img,
+.movie-carousel-poster[data-poster-id="trai-tim-quai-vat"] img {
+  object-fit: cover;
+  object-position: center;
+}
+
 .movie-carousel-arrow {
   transform: translate(-50%, -50%);
 }
