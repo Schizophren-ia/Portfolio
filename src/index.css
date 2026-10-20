@@ -239,6 +239,11 @@ a,
   align-items: start;
 }
 
+.archive-short-film-posters {
+  justify-content: center;
+  margin-bottom: 3rem;
+}
+
 @media (min-width: 640px) {
   .archive-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));

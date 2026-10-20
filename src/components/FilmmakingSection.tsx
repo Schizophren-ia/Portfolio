@@ -17,6 +17,13 @@ const categories: { id: FilmCategory; label: string; note: string }[] = [
 
 type IndexedFilm = FilmItem & { archiveIndex: number };
 
+const getCategoryFilms = (films: IndexedFilm[], category: FilmCategory | undefined) => {
+  const selected = films.filter((film) => film.category === category);
+  if (category !== 'short-film') return selected;
+  const priority = (film: IndexedFilm) => film.id === 'vu-dieu-tinh-yeu' ? 0 : film.id === 'minh-echoes-of-doves-wings' ? 1 : 2;
+  return selected.sort((a, b) => priority(a) - priority(b));
+};
+
 const previewAspectRatio = (film: FilmItem) => film.thumbnailAspectRatio ?? (film.mediaType === 'local-video' ? 3 / 4 : 16 / 9);
 
 const FilmCard: React.FC<{
@@ -76,12 +83,15 @@ const ArchiveGrid: React.FC<{
   films: IndexedFilm[];
   onOpen: (archiveIndex: number) => void;
   portrait?: boolean;
-}> = ({ films, onOpen, portrait = false }) => (
-  <div className={`archive-grid${portrait ? ' archive-grid-portrait' : ''}`}>
+  className?: string;
+  startIndex?: number;
+  total?: number;
+}> = ({ films, onOpen, portrait = false, className = '', startIndex = 0, total = films.length }) => (
+  <div className={`archive-grid${portrait ? ' archive-grid-portrait' : ''} ${className}`}>
     {films.map((film, index) => (
       <FilmCard
         key={film.id}
-        film={{ ...film, index: `${String(index + 1).padStart(2, '0')}/${String(films.length).padStart(2, '0')}` }}
+        film={{ ...film, index: `${String(startIndex + index + 1).padStart(2, '0')}/${String(total).padStart(2, '0')}` }}
         onOpen={() => onOpen(film.archiveIndex)}
       />
     ))}
@@ -105,8 +115,7 @@ export const FilmmakingSection: React.FC = () => {
   const handleNextFilm = () => {
     if (activeFilmIndex === null) return;
     const currentFilm = allFilms[activeFilmIndex];
-    const categoryIndexes = allFilms
-      .filter((film) => film.category === currentFilm.category && (film.mediaType === 'poster') === (currentFilm.mediaType === 'poster'))
+    const categoryIndexes = getCategoryFilms(allFilms, currentFilm.category)
       .map((film) => film.archiveIndex);
     const current = categoryIndexes.indexOf(activeFilmIndex);
     setActiveFilmIndex(categoryIndexes[(current + 1) % categoryIndexes.length]);
@@ -142,8 +151,9 @@ export const FilmmakingSection: React.FC = () => {
 
         <div className="relative z-10 space-y-16 sm:space-y-20">
           {categories.map((category, categoryIndex) => {
-            const categoryFilms = allFilms.filter((film) => film.category === category.id && film.mediaType !== 'poster');
-            const posters = allFilms.filter((film) => film.category === category.id && film.mediaType === 'poster');
+            const categoryFilms = getCategoryFilms(allFilms, category.id);
+            const posters = categoryFilms.filter((film) => film.mediaType === 'poster');
+            const videos = categoryFilms.filter((film) => film.mediaType !== 'poster');
 
             return (
               <section key={category.id} aria-labelledby={`archive-${category.id}`}>
@@ -159,28 +169,30 @@ export const FilmmakingSection: React.FC = () => {
                 </div>
 
                 <div className="portfolio-container">
+                  {posters.length > 0 && (
+                    <ArchiveGrid
+                      films={posters}
+                      onOpen={setActiveFilmIndex}
+                      portrait
+                      className={category.id === 'short-film' ? 'archive-short-film-posters' : ''}
+                      total={categoryFilms.length}
+                    />
+                  )}
                   {categoryFilms.length === 0 ? (
                     <div className="flex min-h-48 flex-col items-center justify-center border border-dashed border-deep-bronze/80 bg-[#112A46]/70 text-center">
                       <Sparkles className="mb-4 h-6 w-6 text-hive-delight" />
                       <p className="font-playfair text-2xl uppercase text-solo">New work in development</p>
                       <span className="mt-2 font-montserrat text-[10px] uppercase tracking-cinema text-wainscot-green">Coming soon</span>
                     </div>
-                  ) : (
-                    <ArchiveGrid films={categoryFilms} onOpen={setActiveFilmIndex} portrait={category.id === 'ai-film'} />
-                  )}
-
-                  {posters.length > 0 && (
-                    <section className="mt-12 border-t border-deep-bronze/40 pt-8 sm:mt-16" aria-labelledby={`archive-${category.id}-posters`}>
-                      <div className="mb-6 flex items-end justify-between gap-4">
-                        <div>
-                          <h3 id={`archive-${category.id}-posters`} className="font-playfair text-2xl font-bold uppercase text-solo sm:text-3xl">Short Film Posters</h3>
-                          <p className="mt-1 font-montserrat text-[10px] uppercase tracking-widest text-wainscot-green">MINH & Vũ điệu tình yêu · Poster collection</p>
-                        </div>
-                        <span className="shrink-0 font-montserrat text-xs tabular-nums text-hive-delight">{String(posters.length).padStart(2, '0')} POSTERS</span>
-                      </div>
-                      <ArchiveGrid films={posters} onOpen={setActiveFilmIndex} portrait />
-                    </section>
-                  )}
+                  ) : videos.length > 0 ? (
+                    <ArchiveGrid
+                      films={videos}
+                      onOpen={setActiveFilmIndex}
+                      portrait={category.id === 'ai-film'}
+                      startIndex={posters.length}
+                      total={categoryFilms.length}
+                    />
+                  ) : null}
                 </div>
               </section>
             );
