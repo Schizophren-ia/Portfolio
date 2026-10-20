@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { ArrowUpRight, Film, Image as ImageIcon, Play, Sparkles } from 'lucide-react';
+import { ArrowUpRight, ChevronLeft, ChevronRight, Film, Image as ImageIcon, Play, Sparkles } from 'lucide-react';
 import { filmmakerContent } from '../data/content';
 import { archiveFilms } from '../data/archiveData';
 import type { FilmCategory, FilmItem } from '../data/types';
@@ -30,7 +30,8 @@ const FilmCard: React.FC<{
   film: IndexedFilm;
   onOpen: () => void;
   className?: string;
-}> = ({ film, onOpen, className = '' }) => (
+  posterPreview?: boolean;
+}> = ({ film, onOpen, className = '', posterPreview = false }) => (
   <article
     data-film-id={film.id}
     onClick={onOpen}
@@ -43,17 +44,17 @@ const FilmCard: React.FC<{
     role="button"
     tabIndex={0}
     aria-label={`View ${film.title}`}
-    style={{ '--archive-aspect': previewAspectRatio(film) } as React.CSSProperties}
+    style={{ '--archive-aspect': posterPreview ? 2 / 3 : previewAspectRatio(film) } as React.CSSProperties}
     className={`archive-card group relative min-w-0 cursor-pointer overflow-hidden border border-deep-bronze/60 bg-[#112A46] shadow-xl transition-colors duration-300 hover:border-hive-delight/80 focus-visible:border-hive-delight motion-reduce:transition-none ${className}`}
   >
     <div className="archive-card-media relative overflow-hidden bg-black">
       <FilmThumbnail
         key={film.id}
-        film={film}
-        loading="lazy"
-        className={`absolute inset-0 block h-full w-full ${film.mediaType === 'poster' ? 'object-contain' : 'object-cover'}`}
+        film={posterPreview ? { ...film, thumbnail: film.posterImage ?? film.thumbnail, thumbnailScale: undefined } : film}
+        loading={posterPreview ? 'eager' : 'lazy'}
+        className={`absolute inset-0 block h-full w-full ${posterPreview || film.mediaType === 'poster' ? 'object-contain' : 'object-cover'}`}
       />
-      {film.mediaType !== 'poster' && film.category !== 'ai-film' && <div className="absolute inset-0 bg-gradient-to-t from-noble-black via-noble-black/15 to-transparent" />}
+      {!posterPreview && film.mediaType !== 'poster' && film.category !== 'ai-film' && <div className="absolute inset-0 bg-gradient-to-t from-noble-black via-noble-black/15 to-transparent" />}
       <span className="absolute left-2.5 top-2.5 border border-deep-bronze/80 bg-noble-black/90 px-2 py-1 font-mono text-[10px] text-hive-delight">
         {film.index}
       </span>
@@ -79,6 +80,67 @@ const FilmCard: React.FC<{
   </article>
 );
 
+const MovieCarousel: React.FC<{
+  films: IndexedFilm[];
+  onOpen: (archiveIndex: number) => void;
+}> = ({ films, onOpen }) => {
+  const [position, setPosition] = useState(0);
+  const current = films.length ? position % films.length : 0;
+  const film = films[current];
+  if (!film) return null;
+
+  const move = (step: number) => setPosition((index) => (index + step + films.length) % films.length);
+
+  return (
+    <div
+      className="movie-carousel relative mx-auto w-full max-w-[26rem]"
+      role="region"
+      aria-roledescription="carousel"
+      aria-label="Movie collection"
+      onKeyDown={(event) => {
+        if (event.altKey || event.ctrlKey || event.metaKey) return;
+        if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+          event.preventDefault();
+          move(event.key === 'ArrowLeft' ? -1 : 1);
+        }
+      }}
+    >
+      <div id="movie-carousel-slide" role="group" aria-roledescription="slide" aria-label={`${current + 1} of ${films.length}: ${film.title}`}>
+        <FilmCard
+          film={{ ...film, index: `${String(current + 1).padStart(2, '0')}/${String(films.length).padStart(2, '0')}` }}
+          onOpen={() => onOpen(film.archiveIndex)}
+          posterPreview
+        />
+      </div>
+      {films.length > 1 && (
+        <div className="pointer-events-none absolute inset-x-0 top-0 aspect-[2/3]">
+          <button
+            type="button"
+            onClick={() => move(-1)}
+            aria-label="Previous movie"
+            aria-controls="movie-carousel-slide"
+            className="pointer-events-auto absolute left-2 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 cursor-pointer items-center justify-center border border-stone-ground/70 bg-noble-black/90 text-solo transition-colors hover:bg-hive-delight hover:text-noble-black focus-visible:ring-2 focus-visible:ring-hive-delight motion-reduce:transition-none sm:-left-14"
+          >
+            <ChevronLeft className="h-6 w-6" aria-hidden="true" />
+          </button>
+          <button
+            type="button"
+            onClick={() => move(1)}
+            aria-label="Next movie"
+            aria-controls="movie-carousel-slide"
+            className="pointer-events-auto absolute right-2 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 cursor-pointer items-center justify-center border border-stone-ground/70 bg-noble-black/90 text-solo transition-colors hover:bg-hive-delight hover:text-noble-black focus-visible:ring-2 focus-visible:ring-hive-delight motion-reduce:transition-none sm:-right-14"
+          >
+            <ChevronRight className="h-6 w-6" aria-hidden="true" />
+          </button>
+        </div>
+      )}
+      <p role="status" aria-live="polite" aria-atomic="true" className="mt-4 text-center font-montserrat text-xs leading-relaxed text-wainscot-green">
+        Movie {current + 1} of {films.length}: {film.title}
+      </p>
+    </div>
+  );
+};
+
 const ArchiveGrid: React.FC<{
   films: IndexedFilm[];
   onOpen: (archiveIndex: number) => void;
@@ -103,7 +165,11 @@ export const FilmmakingSection: React.FC = () => {
 
   const allFilms = useMemo<IndexedFilm[]>(() => {
     const combined: FilmItem[] = [
-      ...filmmakerContent.films.map((film) => ({ ...film, category: 'movie' as const })),
+      ...filmmakerContent.films.map((film, index, films) => ({
+        ...film,
+        index: `${String(index + 1).padStart(2, '0')}/${String(films.length).padStart(2, '0')}`,
+        category: 'movie' as const,
+      })),
       ...archiveFilms,
     ];
 
@@ -184,11 +250,14 @@ export const FilmmakingSection: React.FC = () => {
                       <p className="font-playfair text-2xl uppercase text-solo">New work in development</p>
                       <span className="mt-2 font-montserrat text-[10px] uppercase tracking-cinema text-wainscot-green">Coming soon</span>
                     </div>
+                  ) : category.id === 'movie' ? (
+                    <MovieCarousel films={categoryFilms} onOpen={setActiveFilmIndex} />
                   ) : videos.length > 0 ? (
                     <ArchiveGrid
                       films={videos}
                       onOpen={setActiveFilmIndex}
                       portrait={category.id === 'ai-film'}
+                      className={category.id === 'ai-film' ? 'archive-ai-film-gallery' : ''}
                       startIndex={posters.length}
                       total={categoryFilms.length}
                     />

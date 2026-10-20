@@ -241,7 +241,31 @@ a,
 
 .archive-short-film-posters {
   justify-content: center;
+  align-items: stretch;
   margin-bottom: 3rem;
+}
+
+/* A shared frame keeps the two short-film posters and their captions aligned. */
+.archive-short-film-posters .archive-card-media {
+  aspect-ratio: 3 / 4;
+}
+
+.archive-short-film-posters .archive-card > div:last-child {
+  min-height: 8rem;
+}
+
+.archive-short-film-posters .archive-card h4 {
+  min-height: 3.75rem;
+}
+
+.archive-grid.archive-ai-film-gallery {
+  grid-template-columns: minmax(0, 22rem);
+  justify-content: center;
+}
+
+/* Keep manual movie navigation stable as titles and genres change. */
+.movie-carousel .archive-card > div:last-child {
+  min-height: 9rem;
 }
 
 @media (min-width: 640px) {

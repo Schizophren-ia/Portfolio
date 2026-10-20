@@ -8,6 +8,7 @@ export interface FilmItem {
   duration: string;
   aspectRatio: string;
   thumbnail: string;
+  posterImage?: string;
   videoUrl?: string;
   youtubeUrl?: string;
   sourceUrl?: string;
