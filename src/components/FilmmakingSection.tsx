@@ -31,7 +31,8 @@ const FilmCard: React.FC<{
   onOpen: () => void;
   className?: string;
   posterPreview?: boolean;
-}> = ({ film, onOpen, className = '', posterPreview = false }) => (
+  renderThumbnail?: boolean;
+}> = ({ film, onOpen, className = '', posterPreview = false, renderThumbnail = true }) => (
   <article
     data-film-id={film.id}
     onClick={onOpen}
@@ -48,12 +49,12 @@ const FilmCard: React.FC<{
     className={`archive-card group relative min-w-0 cursor-pointer overflow-hidden border border-deep-bronze/60 bg-[#112A46] shadow-xl transition-colors duration-300 hover:border-hive-delight/80 focus-visible:border-hive-delight motion-reduce:transition-none ${className}`}
   >
     <div className="archive-card-media relative overflow-hidden bg-black">
-      <FilmThumbnail
+      {renderThumbnail && <FilmThumbnail
         key={film.id}
         film={posterPreview ? { ...film, thumbnail: film.posterImage ?? film.thumbnail, thumbnailScale: undefined } : film}
         loading={posterPreview ? 'eager' : 'lazy'}
         className={`absolute inset-0 block h-full w-full ${posterPreview || film.mediaType === 'poster' ? 'object-contain' : 'object-cover'}`}
-      />
+      />}
       {!posterPreview && film.mediaType !== 'poster' && film.category !== 'ai-film' && <div className="absolute inset-0 bg-gradient-to-t from-noble-black via-noble-black/15 to-transparent" />}
       <span className="absolute left-2.5 top-2.5 border border-deep-bronze/80 bg-noble-black/90 px-2 py-1 font-mono text-[10px] text-hive-delight">
         {film.index}
@@ -86,21 +87,24 @@ const MovieCarousel: React.FC<{
   isModalOpen: boolean;
 }> = ({ films, onOpen, isModalOpen }) => {
   const carouselRef = useRef<HTMLDivElement>(null);
+  const postersRef = useRef<HTMLDivElement>(null);
   const [position, setPosition] = useState(0);
   const [paused, setPaused] = useState(false);
-  const [hovered, setHovered] = useState(false);
   const [focused, setFocused] = useState(false);
   const [visible, setVisible] = useState(false);
   const [pageHidden, setPageHidden] = useState(() => document.hidden);
   const [reducedMotion, setReducedMotion] = useState(() => window.matchMedia('(prefers-reduced-motion: reduce)').matches);
-  const autoplayAllowed = !paused && !hovered && !focused && !pageHidden && !reducedMotion && visible && !isModalOpen;
+  const autoplayAllowed = !paused && !focused && !pageHidden && !reducedMotion && visible && !isModalOpen;
 
   useEffect(() => {
     const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
     const updateMotion = () => setReducedMotion(preference.matches);
     const updateVisibility = () => setPageHidden(document.hidden);
-    const observer = new IntersectionObserver(([entry]) => setVisible(entry.isIntersecting), { threshold: 0.1 });
-    if (carouselRef.current) observer.observe(carouselRef.current);
+    // Start only once the actual posters are substantially in view, below the navbar.
+    const observer = new IntersectionObserver(([entry]) => {
+      setVisible(entry.isIntersecting && entry.intersectionRatio >= 0.45);
+    }, { threshold: [0, 0.45], rootMargin: '-80px 0px -5% 0px' });
+    if (postersRef.current) observer.observe(postersRef.current);
     preference.addEventListener('change', updateMotion);
     document.addEventListener('visibilitychange', updateVisibility);
     return () => {
@@ -119,8 +123,6 @@ const MovieCarousel: React.FC<{
   const current = films.length ? position % films.length : 0;
   const film = films[current];
   if (!film) return null;
-  const previous = films[(current - 1 + films.length) % films.length];
-  const next = films[(current + 1) % films.length];
   const move = (step: number) => setPosition((index) => (index + step + films.length) % films.length);
 
   return (
@@ -130,8 +132,6 @@ const MovieCarousel: React.FC<{
       role="region"
       aria-roledescription="carousel"
       aria-label="Movie collection"
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
       onFocusCapture={() => setFocused(true)}
       onBlurCapture={(event) => {
         if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setFocused(false);
@@ -145,31 +145,48 @@ const MovieCarousel: React.FC<{
       }}
     >
       <div className="movie-carousel-stage relative isolate overflow-hidden">
-        {films.length > 1 && [previous, next].map((preview, index) => (
-          <div key={index} aria-hidden="true" className={`movie-carousel-preview movie-carousel-preview--${index === 0 ? 'previous' : 'next'}`}>
-            <FilmThumbnail
-              key={preview.id}
-              film={{ ...preview, thumbnail: preview.posterImage ?? preview.thumbnail, thumbnailScale: undefined }}
-              decorative
-              className="h-full w-full object-contain"
-            />
-          </div>
-        ))}
+        <div ref={postersRef} className="movie-carousel-posters" aria-hidden="true">
+          {films.map((poster, index) => {
+            let offset = (index - current + films.length) % films.length;
+            if (offset > films.length / 2) offset -= films.length;
+            return (
+              <div
+                key={poster.id}
+                data-poster-id={poster.id}
+                data-position={offset}
+                className="movie-carousel-poster"
+                style={{
+                  transform: `translate3d(${-50 + offset * 65}%, 0, 0) scale(${offset === 0 ? 1 : 0.82})`,
+                  opacity: offset === 0 ? 1 : Math.abs(offset) === 1 ? 0.35 : 0,
+                  zIndex: offset === 0 ? 3 : Math.abs(offset) === 1 ? 2 : 0,
+                }}
+              >
+                <FilmThumbnail
+                  film={{ ...poster, thumbnail: poster.posterImage ?? poster.thumbnail, thumbnailScale: undefined }}
+                  decorative
+                  className="block h-full w-full object-contain"
+                />
+              </div>
+            );
+          })}
+        </div>
         <div id="movie-carousel-slide" className="movie-carousel-current relative z-20 mx-auto" role="group" aria-roledescription="slide" aria-label={`${current + 1} of ${films.length}: ${film.title}`}>
           <FilmCard
             film={{ ...film, index: `${String(current + 1).padStart(2, '0')}/${String(films.length).padStart(2, '0')}` }}
             onOpen={() => onOpen(film.archiveIndex)}
             posterPreview
+            renderThumbnail={false}
           />
         </div>
-        {films.length > 1 && (
+      </div>
+      {films.length > 1 && (
         <div className="movie-carousel-controls pointer-events-none absolute left-1/2 top-0 z-30 aspect-[2/3] -translate-x-1/2">
           <button
             type="button"
             onClick={() => move(-1)}
             aria-label="Previous movie"
             aria-controls="movie-carousel-slide"
-            className="pointer-events-auto absolute -left-4 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full border border-stone-ground/70 bg-noble-black/90 text-solo shadow-lg backdrop-blur-sm transition-colors hover:bg-hive-delight hover:text-noble-black focus-visible:ring-2 focus-visible:ring-hive-delight motion-reduce:transition-none sm:-left-16"
+            className="movie-carousel-arrow movie-carousel-arrow--previous pointer-events-auto absolute top-1/2 z-10 flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-stone-ground/70 bg-noble-black/90 text-solo shadow-lg backdrop-blur-sm transition-colors hover:bg-hive-delight hover:text-noble-black focus-visible:ring-2 focus-visible:ring-hive-delight motion-reduce:transition-none"
           >
             <ChevronLeft className="h-6 w-6" aria-hidden="true" />
           </button>
@@ -178,27 +195,25 @@ const MovieCarousel: React.FC<{
             onClick={() => move(1)}
             aria-label="Next movie"
             aria-controls="movie-carousel-slide"
-            className="pointer-events-auto absolute -right-4 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full border border-stone-ground/70 bg-noble-black/90 text-solo shadow-lg backdrop-blur-sm transition-colors hover:bg-hive-delight hover:text-noble-black focus-visible:ring-2 focus-visible:ring-hive-delight motion-reduce:transition-none sm:-right-16"
+            className="movie-carousel-arrow movie-carousel-arrow--next pointer-events-auto absolute top-1/2 z-10 flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-stone-ground/70 bg-noble-black/90 text-solo shadow-lg backdrop-blur-sm transition-colors hover:bg-hive-delight hover:text-noble-black focus-visible:ring-2 focus-visible:ring-hive-delight motion-reduce:transition-none"
           >
             <ChevronRight className="h-6 w-6" aria-hidden="true" />
           </button>
         </div>
-        )}
-      </div>
+      )}
       <div className="mt-4 flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
         <p role="status" aria-live={autoplayAllowed ? 'off' : 'polite'} aria-atomic="true" className="text-center font-montserrat text-xs leading-relaxed text-wainscot-green">
           Movie {current + 1} of {films.length}: {film.title}
         </p>
-        {films.length > 1 && (
+        {films.length > 1 && !reducedMotion && (
           <button
             type="button"
-            disabled={reducedMotion}
             onClick={() => setPaused((value) => !value)}
-            aria-label={reducedMotion ? 'Autoplay disabled for reduced motion' : paused ? 'Play movie slideshow' : 'Pause movie slideshow'}
+            aria-label={paused ? 'Play movie slideshow' : 'Pause movie slideshow'}
             className="inline-flex min-h-11 items-center gap-2 rounded-full border border-deep-bronze/70 px-3 text-xs text-wainscot-green transition-colors hover:border-hive-delight hover:text-solo disabled:cursor-default disabled:opacity-60 motion-reduce:transition-none"
           >
-            {paused || reducedMotion ? <Play className="h-3.5 w-3.5" aria-hidden="true" /> : <Pause className="h-3.5 w-3.5" aria-hidden="true" />}
-            <span>{reducedMotion ? 'Manual' : paused ? 'Play' : 'Pause'}</span>
+            {paused ? <Play className="h-3.5 w-3.5" aria-hidden="true" /> : <Pause className="h-3.5 w-3.5" aria-hidden="true" />}
+            <span>{paused ? 'Play' : 'Pause'}</span>
           </button>
         )}
       </div>

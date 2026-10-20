@@ -274,48 +274,74 @@ a,
 }
 
 /* One central poster with two decorative, softened neighboring posters. */
-.movie-carousel-stage {
+.movie-carousel {
   --movie-card-width: min(26rem, 72%);
 }
 
 .movie-carousel-current,
-.movie-carousel-preview,
+.movie-carousel-posters,
 .movie-carousel-controls {
   width: var(--movie-card-width);
 }
 
-.movie-carousel-preview {
+.movie-carousel-posters {
   pointer-events: none;
   position: absolute;
   top: 0;
   left: 50%;
   aspect-ratio: 2 / 3;
+  transform: translateX(-50%);
+}
+
+/* Stable image nodes glide between slots instead of being replaced each cycle. */
+.movie-carousel-poster {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 100%;
+  height: 100%;
   border: 1px solid var(--color-deep-bronze);
-  background: var(--color-noble-black);
-  opacity: 0.35;
-  filter: blur(1px) saturate(0.65);
+  background: #000;
+  will-change: transform, opacity;
+  transition: transform 900ms cubic-bezier(0.22, 0.61, 0.36, 1), opacity 700ms ease;
 }
 
-.movie-carousel-preview--previous {
-  transform: translateX(-115%) scale(0.82);
+.movie-carousel-current .archive-card,
+.movie-carousel-current .archive-card-media {
+  background: transparent;
 }
 
-.movie-carousel-preview--next {
-  transform: translateX(15%) scale(0.82);
+.movie-carousel-current .archive-card > div:last-child {
+  background: #112A46;
 }
 
-@keyframes moviePosterReveal {
-  from { opacity: 0.4; transform: translate3d(0.75rem, 0, 0); }
-  to { opacity: 1; transform: translate3d(0, 0, 0); }
+.movie-carousel-arrow {
+  transform: translate(-50%, -50%);
 }
 
-.movie-carousel-current .archive-card-media img {
-  animation: moviePosterReveal 0.42s ease-out both;
+.movie-carousel-arrow--previous {
+  left: -0.5rem;
+}
+
+.movie-carousel-arrow--next {
+  left: calc(100% + 0.5rem);
+}
+
+/* Quarter-page centers on desktop; keep arrows near the poster on small screens. */
+@media (min-width: 1024px) {
+  .movie-carousel-arrow--previous {
+    left: calc(50% - 25vw);
+  }
+
+  .movie-carousel-arrow--next {
+    left: calc(50% + 25vw);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .movie-carousel-current .archive-card-media img {
-    animation: none;
+  .movie-carousel-poster {
+    transition: none;
+    will-change: auto;
   }
 }
 
