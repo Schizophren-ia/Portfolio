@@ -353,9 +353,10 @@ a,
   }
 }
 
-/* Keep the central frame stable as titles and genres change. */
-.movie-carousel .archive-card > div:last-child {
-  min-height: 9rem;
+/* Let Movie captions hug their text instead of reserving an empty footer. */
+.movie-carousel .archive-card > div:last-child,
+.movie-carousel .archive-card h4 {
+  min-height: 0;
 }
 
 /* Center incomplete TVC and House Rule rows without enlarging their cards. */
