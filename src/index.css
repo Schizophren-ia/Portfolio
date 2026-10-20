@@ -358,14 +358,14 @@ a,
   min-height: 9rem;
 }
 
-/* Center incomplete TVC rows without enlarging their cards. */
-.archive-grid.archive-tvc-gallery {
+/* Center incomplete TVC and House Rule rows without enlarging their cards. */
+.archive-grid.archive-centered-gallery {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
 }
 
-.archive-tvc-gallery > .archive-card {
+.archive-centered-gallery > .archive-card {
   flex: 0 0 100%;
 }
 
@@ -378,7 +378,7 @@ a,
     grid-template-columns: repeat(2, minmax(0, 22rem));
   }
 
-  .archive-tvc-gallery > .archive-card {
+  .archive-centered-gallery > .archive-card {
     flex-basis: calc((100% - 1.5rem) / 2);
   }
 }
@@ -388,7 +388,7 @@ a,
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
-  .archive-tvc-gallery > .archive-card {
+  .archive-centered-gallery > .archive-card {
     flex-basis: calc((100% - 3rem) / 3);
   }
 }
