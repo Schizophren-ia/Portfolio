@@ -81,6 +81,16 @@
     padding: 0;
   }
 
+  h1, h2, h3, h4, h5, h6 {
+    text-wrap: balance;
+    overflow-wrap: break-word;
+  }
+
+  p {
+    text-wrap: pretty;
+    word-break: normal;
+  }
+
   /* Custom Cinema Scrollbar */
   ::-webkit-scrollbar {
     width: 6px;
@@ -190,7 +200,7 @@ a,
 .about-bio-copy {
   text-align: justify;
   text-justify: inter-word;
-  hyphens: auto;
+  hyphens: none;
 }
 
 /* Subtle Cinematic Dust & Optical HUD Animations */
@@ -263,9 +273,66 @@ a,
   justify-content: center;
 }
 
-/* Keep manual movie navigation stable as titles and genres change. */
+/* One central poster with two decorative, softened neighboring posters. */
+.movie-carousel-stage {
+  --movie-card-width: min(26rem, 72%);
+}
+
+.movie-carousel-current,
+.movie-carousel-preview,
+.movie-carousel-controls {
+  width: var(--movie-card-width);
+}
+
+.movie-carousel-preview {
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  aspect-ratio: 2 / 3;
+  border: 1px solid var(--color-deep-bronze);
+  background: var(--color-noble-black);
+  opacity: 0.35;
+  filter: blur(1px) saturate(0.65);
+}
+
+.movie-carousel-preview--previous {
+  transform: translateX(-115%) scale(0.82);
+}
+
+.movie-carousel-preview--next {
+  transform: translateX(15%) scale(0.82);
+}
+
+@keyframes moviePosterReveal {
+  from { opacity: 0.4; transform: translate3d(0.75rem, 0, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+.movie-carousel-current .archive-card-media img {
+  animation: moviePosterReveal 0.42s ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .movie-carousel-current .archive-card-media img {
+    animation: none;
+  }
+}
+
+/* Keep the central frame stable as titles and genres change. */
 .movie-carousel .archive-card > div:last-child {
   min-height: 9rem;
+}
+
+/* Center incomplete TVC rows without enlarging their cards. */
+.archive-grid.archive-tvc-gallery {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.archive-tvc-gallery > .archive-card {
+  flex: 0 0 100%;
 }
 
 @media (min-width: 640px) {
@@ -276,11 +343,19 @@ a,
   .archive-grid-portrait {
     grid-template-columns: repeat(2, minmax(0, 22rem));
   }
+
+  .archive-tvc-gallery > .archive-card {
+    flex-basis: calc((100% - 1.5rem) / 2);
+  }
 }
 
 @media (min-width: 1024px) {
   .archive-grid:not(.archive-grid-portrait) {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .archive-tvc-gallery > .archive-card {
+    flex-basis: calc((100% - 3rem) / 3);
   }
 }
 

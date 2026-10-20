@@ -3,6 +3,7 @@ export interface FilmItem {
   index: string;
   title: string;
   year: string;
+  releaseDate?: string;
   role: string;
   genre: string;
   duration: string;

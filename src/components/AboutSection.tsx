@@ -160,7 +160,7 @@ export const AboutSection: React.FC = () => {
             <h2 className="border-b border-deep-bronze/50 pb-6 font-playfair text-4xl font-black uppercase leading-none tracking-tight text-solo sm:text-6xl">
               ABOUT <span className="text-hive-delight">ME</span>
             </h2>
-            <div ref={bioRef} className="about-bio-copy mt-8 font-montserrat text-base font-light leading-relaxed sm:text-lg md:text-xl">
+            <div ref={bioRef} className="about-bio-copy mt-8 font-montserrat text-base font-light leading-relaxed sm:text-lg">
               {bioWords.map((word, index) => {
                 const highlighted = filmmakerContent.bio.highlightWords.some((item) => word.toLowerCase().includes(item.toLowerCase()));
                 return (

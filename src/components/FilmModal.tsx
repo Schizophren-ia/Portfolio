@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
-import { X, ArrowRight, Award, Film as FilmIcon, Clock, ExternalLink } from 'lucide-react';
+import { X, ArrowRight, Film as FilmIcon, Clock, ExternalLink } from 'lucide-react';
 import gsap from 'gsap';
 import type { FilmItem } from '../data/types';
 import { FilmThumbnail } from './FilmThumbnail';
@@ -203,9 +203,9 @@ export const FilmModal: React.FC<FilmModalProps> = ({ film, onClose, onNext }) =
         {/* Project Meta & Dossier */}
         <div className="p-6 sm:p-8 md:p-10 space-y-8">
           {/* Header Row: Index, Title, Year */}
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-deep-bronze/40 pb-6">
-            <div>
-              <div className="flex items-center gap-3 text-xs font-montserrat tracking-cinema text-wainscot-green uppercase mb-2">
+          <div className="film-modal-heading grid grid-cols-1 items-end gap-5 border-b border-deep-bronze/40 pb-6 lg:grid-cols-[minmax(0,1fr)_max-content]">
+            <div className="min-w-0">
+              <div className="mb-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs font-montserrat tracking-cinema text-wainscot-green uppercase">
                 <span className="text-hive-delight font-bold">{film.index}</span>
                 <span>•</span>
                 <span>{film.year}</span>
@@ -214,15 +214,15 @@ export const FilmModal: React.FC<FilmModalProps> = ({ film, onClose, onNext }) =
               </div>
               <h2
                 id="modal-film-title"
-                className="font-playfair font-black text-3xl sm:text-4xl md:text-5xl text-solo tracking-tight uppercase"
+                className="font-playfair font-bold text-[clamp(1.25rem,2.8vw,2.125rem)] leading-snug text-solo tracking-tight uppercase"
               >
                 {film.title}
               </h2>
             </div>
 
             {/* Quick Specs & YouTube Action */}
-            <div className="flex flex-wrap items-center gap-3">
-              <div className="flex items-center gap-4 text-xs font-montserrat text-wainscot-green bg-noble-black/70 px-4 py-2 rounded border border-deep-bronze/60">
+            <div className="film-modal-actions flex w-full flex-col items-end justify-self-end gap-3 lg:w-auto">
+              <div className="flex max-w-full items-center gap-3 whitespace-nowrap text-[10px] font-montserrat text-wainscot-green bg-noble-black/70 px-3 py-2 rounded border border-deep-bronze/60 sm:gap-4 sm:px-4 sm:text-xs">
                 <div className="flex items-center gap-1.5">
                   <Clock className="w-3.5 h-3.5 text-hive-delight" />
                   <span>{film.duration}</span>
@@ -239,7 +239,7 @@ export const FilmModal: React.FC<FilmModalProps> = ({ film, onClose, onNext }) =
                   href={film.sourceUrl || film.youtubeUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 text-xs font-montserrat font-semibold px-4 py-2 rounded bg-deep-bronze/80 hover:bg-hive-delight text-solo hover:text-noble-black border border-olivia/40 hover:border-hive-delight transition-all duration-300"
+                  className="inline-flex max-w-full items-center justify-end gap-2 whitespace-nowrap text-xs font-montserrat font-semibold px-4 py-2 rounded bg-deep-bronze/80 hover:bg-hive-delight text-solo hover:text-noble-black border border-olivia/40 hover:border-hive-delight transition-all duration-300"
                 >
                   <span>WATCH AT OFFICIAL SOURCE</span>
                   <ExternalLink className="w-3.5 h-3.5" />
@@ -248,34 +248,18 @@ export const FilmModal: React.FC<FilmModalProps> = ({ film, onClose, onNext }) =
             </div>
           </div>
 
-          {/* Laurel badge if present */}
-          {film.laurel && (
-            <div className="inline-flex items-center gap-3 px-4 py-2 bg-deep-bronze/40 border border-olivia/50 rounded-sm text-hive-delight text-xs sm:text-sm font-montserrat tracking-wide">
-              <Award className="w-4 h-4 text-hive-delight shrink-0" />
-              <span>{film.laurel}</span>
-            </div>
-          )}
-
-          {/* Logline & Synopsis */}
+          {/* Logline and production credits */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
             <div className="lg:col-span-7 space-y-4">
               <div>
                 <h3 className="text-xs font-montserrat uppercase tracking-cinema text-wainscot-green mb-1.5">
                   LOGLINE
                 </h3>
-                <p className="font-playfair text-lg sm:text-xl text-solo italic leading-relaxed">
+                <p className="font-playfair text-base sm:text-lg text-solo italic leading-relaxed">
                   "{film.logline}"
                 </p>
               </div>
 
-              <div>
-                <h3 className="text-xs font-montserrat uppercase tracking-cinema text-wainscot-green mb-1.5">
-                  DIRECTOR’S INTENT
-                </h3>
-                <p className="font-montserrat text-sm text-solo/80 leading-relaxed font-light">
-                  {film.synopsis}
-                </p>
-              </div>
             </div>
 
             {/* Credits Panel: Thể loại, Đạo diễn, Diễn viên */}
@@ -289,6 +273,14 @@ export const FilmModal: React.FC<FilmModalProps> = ({ film, onClose, onNext }) =
                   <span className="text-wainscot-green uppercase tracking-wider font-semibold">Genre:</span>
                   <span className="text-solo font-medium text-left sm:text-right">{film.genre}</span>
                 </div>
+                {film.releaseDate && (
+                  <div className="flex flex-col sm:flex-row sm:justify-between gap-1 border-b border-deep-bronze/30 pb-2.5">
+                    <span className="text-wainscot-green uppercase tracking-wider font-semibold">Release date:</span>
+                    <time dateTime={film.releaseDate} className="text-solo font-medium text-left sm:text-right">
+                      {film.releaseDate.split('-').reverse().join('.')}
+                    </time>
+                  </div>
+                )}
                 <div className="flex flex-col sm:flex-row sm:justify-between gap-1 border-b border-deep-bronze/30 pb-2.5">
                   <span className="text-wainscot-green uppercase tracking-wider font-semibold">Director:</span>
                   <span className="text-hive-delight font-semibold text-left sm:text-right">
@@ -317,7 +309,7 @@ export const FilmModal: React.FC<FilmModalProps> = ({ film, onClose, onNext }) =
           </div>
 
           {/* Modal Footer: Return or Next Project button */}
-          <div className="flex items-center justify-between pt-6 border-t border-deep-bronze/50">
+          <div className="flex flex-wrap items-center justify-between gap-3 pt-6 border-t border-deep-bronze/50">
             <button
               type="button"
               onClick={handleAnimatedClose}
@@ -329,7 +321,7 @@ export const FilmModal: React.FC<FilmModalProps> = ({ film, onClose, onNext }) =
             <button
               type="button"
               onClick={() => { if (!closingRef.current) onNext(); }}
-              className="px-6 py-2.5 bg-hive-delight text-noble-black font-montserrat font-bold text-xs tracking-widest uppercase rounded-sm hover:bg-stone-ground transition-colors flex items-center gap-2 shadow-gold-glow"
+              className="px-6 py-2.5 bg-hive-delight text-noble-black font-montserrat font-bold text-xs tracking-widest uppercase whitespace-nowrap rounded-sm hover:bg-stone-ground transition-colors flex items-center gap-2 shadow-gold-glow"
             >
               <span>NEXT REEL</span>
               <ArrowRight className="w-3.5 h-3.5" />
