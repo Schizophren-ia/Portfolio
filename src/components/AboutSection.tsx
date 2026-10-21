@@ -202,7 +202,7 @@ export const AboutSection: React.FC = () => {
 
           <div className="relative grid grid-cols-1 gap-7 lg:grid-cols-12 lg:gap-9">
             <div className="dossier-reveal lg:col-span-5">
-              <button type="button" onClick={playClap} className="group block w-full text-left" aria-label={t('Animate clapperboard')}>
+              <button type="button" onClick={playClap} className="group block w-full text-left" aria-label={t('Animate clapperboard')} aria-describedby="clapperboard-quote">
                 <div ref={clapRef} className="clapper-top origin-bottom-left border-2 border-solo/80 bg-solo p-2 shadow-xl">
                   <div className="h-12 border border-noble-black/40 bg-[repeating-linear-gradient(135deg,#1e2524_0,#1e2524_38px,#ccd4d0_38px,#ccd4d0_72px)] transition-transform group-hover:-translate-y-0.5" />
                 </div>
@@ -214,7 +214,14 @@ export const AboutSection: React.FC = () => {
                   </div>
                   <div className="p-6 sm:p-8">
                     <Clapperboard className="mb-7 h-9 w-9 text-hive-delight" />
-                    <p className="font-playfair text-3xl font-black uppercase leading-tight text-solo sm:text-4xl">{filmmakerContent.profile.firstName}<br /><span className="text-hive-delight">{filmmakerContent.profile.lastName}</span></p>
+                    <figure id="clapperboard-quote" className="m-0">
+                      <blockquote className="font-playfair text-base font-medium leading-relaxed text-solo [text-wrap:pretty] sm:text-lg">
+                        <p>“{t('Doing what you like is freedom. Liking what you do is happiness.')}”</p>
+                      </blockquote>
+                      <figcaption className="mt-4 font-montserrat text-xs font-semibold tracking-wide text-hive-delight sm:text-sm">
+                        — Frank Tyger
+                      </figcaption>
+                    </figure>
                   </div>
                 </div>
               </button>

@@ -30,6 +30,7 @@ export const vietnameseText: Record<string, string> = {
   'Behind the': 'Phía sau', 'Clapperboard': 'Bảng clapper',
   'Scene 02 · Take 01': 'Cảnh 02 · Lần quay 01',
   'Animate clapperboard': 'Bấm bảng clapper',
+  'Doing what you like is freedom. Liking what you do is happiness.': 'Làm điều bạn thích là tự do. Yêu thích điều bạn làm là hạnh phúc.',
   'Prod. Portfolio': 'Hồ sơ sản xuất', 'Roll 02': 'Cuộn 02', 'Take 01': 'Lần quay 01',
   'Education': 'Học vấn', 'Major:': 'Chuyên ngành:', 'Languages': 'Ngôn ngữ',
   'Skills': 'Kỹ năng', 'Passport': 'Dấu chân quốc tế', 'Hobbies': 'Sở thích',
