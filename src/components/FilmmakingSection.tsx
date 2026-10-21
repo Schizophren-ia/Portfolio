@@ -68,7 +68,7 @@ const FilmCard: React.FC<{
 
     <div className="p-3.5 sm:p-4">
       <div className="mb-2 flex min-w-0 flex-wrap items-center justify-between gap-x-3 gap-y-1 font-montserrat text-[10px] uppercase tracking-wider text-wainscot-green">
-        <span className="whitespace-nowrap">{film.year} · {film.role}</span>
+        <span className="whitespace-nowrap">{film.year}</span>
         <span>{film.genre}</span>
       </div>
       <div className="flex items-start justify-between gap-3">
