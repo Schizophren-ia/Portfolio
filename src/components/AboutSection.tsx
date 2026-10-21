@@ -214,7 +214,7 @@ export const AboutSection: React.FC = () => {
                   </div>
                   <div className="p-6 sm:p-8">
                     <Clapperboard className="mb-7 h-9 w-9 text-hive-delight" />
-                    <p className="font-playfair text-3xl font-black uppercase leading-tight text-solo sm:text-4xl">Lê Đặng<br /><span className="text-hive-delight">Đài Trang</span></p>
+                    <p className="font-playfair text-3xl font-black uppercase leading-tight text-solo sm:text-4xl">{filmmakerContent.profile.firstName}<br /><span className="text-hive-delight">{filmmakerContent.profile.lastName}</span></p>
                   </div>
                 </div>
               </button>

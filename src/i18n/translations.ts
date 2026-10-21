@@ -1,6 +1,8 @@
+import { withoutVietnameseDiacritics } from '../utils/englishText';
+
 export type Language = 'en' | 'vi';
 
-// English keys preserve the original copy exactly; Vietnamese is an additive layer.
+// Vietnamese keys preserve the original copy; English display names are romanized.
 export const vietnameseText: Record<string, string> = {
   'ABOUT': 'GIỚI THIỆU',
   'FILMMAKING': 'TÁC PHẨM',
@@ -122,6 +124,6 @@ export const vietnameseText: Record<string, string> = {
 };
 
 export function translateText(language: Language, text: string, values: Record<string, string | number> = {}) {
-  const translated = language === 'vi' ? vietnameseText[text] ?? text : text;
+  const translated = language === 'vi' ? vietnameseText[text] ?? text : withoutVietnameseDiacritics(text);
   return translated.replace(/\{(\w+)\}/g, (match, key: string) => String(values[key] ?? match));
 }
