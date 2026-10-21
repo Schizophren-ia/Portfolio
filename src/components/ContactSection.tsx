@@ -1,8 +1,9 @@
 import React, { useState, useRef } from 'react';
 import { ArrowUp, Copy, Check, Send, ArrowUpRight, Mail, Phone, MapPin } from 'lucide-react';
-import { filmmakerContent } from '../data/content';
+import { useLanguage } from '../i18n/useLanguage';
 
 export const ContactSection: React.FC = () => {
+  const { content: filmmakerContent, t } = useLanguage();
   const [copied, setCopied] = useState(false);
   const [formState, setFormState] = useState({
     name: '',
@@ -24,9 +25,9 @@ export const ContactSection: React.FC = () => {
     e.preventDefault();
     if (!formState.name || !formState.email || !formState.message) return;
 
-    const mailtoSubject = encodeURIComponent(`[Film Collaboration] ${formState.name}`);
+    const mailtoSubject = encodeURIComponent(t('[Film Collaboration] {name}', { name: formState.name }));
     const mailtoBody = encodeURIComponent(
-      `Hello Lê Đặng Đài Trang,\n\n${formState.message}\n\nFrom: ${formState.name} (${formState.email})`
+      t('Hello Lê Đặng Đài Trang,\n\n{message}\n\nFrom: {name} ({email})', formState)
     );
     window.location.href = `mailto:${profile.email}?subject=${mailtoSubject}&body=${mailtoBody}`;
     setFormSubmitted(true);
@@ -57,13 +58,13 @@ export const ContactSection: React.FC = () => {
     <section
       id="contact"
       className="relative pt-28 sm:pt-36 pb-16 px-6 sm:px-10 lg:px-16 bg-noble-black border-t border-deep-bronze/40 overflow-hidden flex flex-col justify-between"
-      aria-label="Ending Credits and Contact"
+      aria-label={t('Ending Credits and Contact')}
     >
       <div className="max-w-7xl mx-auto w-full">
         {/* Act Header */}
         <div className="flex items-center gap-3 mb-6">
           <span className="font-montserrat text-xs tracking-cinema uppercase text-wainscot-green font-semibold">
-            ACT IV — CONTACT · ENDING CREDITS
+            {t('ACT IV — CONTACT · ENDING CREDITS')}
           </span>
           <div className="w-12 h-[1px] bg-olivia/50" />
         </div>
@@ -71,9 +72,9 @@ export const ContactSection: React.FC = () => {
         {/* Large Rolling Statement: Playfair Display */}
         <div className="mb-20 sm:mb-24 text-center max-w-4xl mx-auto">
           <h2 className="font-playfair font-black text-4xl sm:text-6xl md:text-7xl lg:text-8xl uppercase tracking-tight text-solo leading-[0.95]">
-            LET'S MAKE SOMETHING{' '}
+            {t("LET'S MAKE SOMETHING")}{' '}
             <span className="text-hive-delight text-glow block sm:inline">
-              UNFORGETTABLE
+              {t('UNFORGETTABLE')}
             </span>
           </h2>
           <div className="mt-6 flex flex-col items-center gap-2">
@@ -81,7 +82,7 @@ export const ContactSection: React.FC = () => {
               {creditsClosing.subtitle}
             </p>
             <p className="font-montserrat text-xs sm:text-sm text-wainscot-green font-light max-w-xl text-center tracking-wide">
-              Currently coordinating feature films, independent cinema, and creative productions based in Ho Chi Minh City, Vietnam.
+              {t('Currently coordinating feature films, independent cinema, and creative productions based in Ho Chi Minh City, Vietnam.')}
             </p>
           </div>
         </div>
@@ -93,7 +94,7 @@ export const ContactSection: React.FC = () => {
             {/* Direct Email */}
             <div className="space-y-2">
               <span className="font-montserrat text-[10px] tracking-cinema text-wainscot-green uppercase block">
-                DIRECT INQUIRY
+                {t('DIRECT INQUIRY')}
               </span>
               <div className="flex items-center gap-3">
                 <a
@@ -106,8 +107,8 @@ export const ContactSection: React.FC = () => {
                   type="button"
                   onClick={handleCopyEmail}
                   className="p-2 rounded border border-deep-bronze/80 text-solo hover:text-hive-delight hover:border-hive-delight transition-colors shrink-0"
-                  aria-label="Copy email address"
-                  title="Copy email"
+                  aria-label={t('Copy email address')}
+                  title={t('Copy email')}
                 >
                   {copied ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4" />}
                 </button>
@@ -117,7 +118,7 @@ export const ContactSection: React.FC = () => {
             {/* Direct Phone */}
             <div className="space-y-1">
               <span className="font-montserrat text-[10px] tracking-cinema text-wainscot-green uppercase block">
-                TELEPHONE / AGENT
+                {t('TELEPHONE / AGENT')}
               </span>
               <a
                 href={`tel:${profile.phone.replace(/[^0-9+]/g, '')}`}
@@ -132,7 +133,7 @@ export const ContactSection: React.FC = () => {
             {/* Studio Base / Availability */}
             <div className="space-y-1">
               <span className="font-montserrat text-[10px] tracking-cinema text-wainscot-green uppercase block">
-                PRODUCTION BASES
+                {t('PRODUCTION BASES')}
               </span>
               <p className="font-montserrat text-sm text-solo flex items-center gap-2">
                 <MapPin className="w-4 h-4 text-hive-delight" />
@@ -146,7 +147,7 @@ export const ContactSection: React.FC = () => {
             {/* Social Links with Hover Micro-Animations in Hive Delight */}
             <div className="space-y-3 pt-4 border-t border-deep-bronze/40">
               <span className="font-montserrat text-[10px] tracking-cinema text-wainscot-green uppercase block">
-                CHANNELS & NETWORKS
+                {t('CHANNELS & NETWORKS')}
               </span>
               <div className="flex flex-wrap gap-3">
                 {socials.map((social) => (
@@ -168,33 +169,35 @@ export const ContactSection: React.FC = () => {
           {/* Contact Form with Deep Bronze inputs, Solo text, Hive Delight focus (7 cols) */}
           <div className="lg:col-span-7 p-8 sm:p-10 rounded-sm border border-deep-bronze/80 bg-deep-bronze/20 shadow-bronze-surface">
             <h3 className="font-playfair font-black text-2xl text-solo uppercase tracking-tight mb-2">
-              INITIATE COLLABORATION
+              {t('INITIATE COLLABORATION')}
             </h3>
             <p className="font-montserrat text-xs text-wainscot-green mb-8">
-              Send a project brief, treatment, or inquiry. All correspondence is held in artistic confidence.
+              {t('Send a project brief, treatment, or inquiry. All correspondence is held in artistic confidence.')}
             </p>
 
             <form onSubmit={handleSubmit} className="space-y-5">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <div>
-                  <label className="block font-montserrat text-[10px] tracking-widest text-wainscot-green uppercase mb-2">
-                    YOUR NAME *
+                  <label htmlFor="contact-name" className="block font-montserrat text-[10px] tracking-widest text-wainscot-green uppercase mb-2">
+                    {t('YOUR NAME *')}
                   </label>
                   <input
+                    id="contact-name"
                     type="text"
                     required
                     value={formState.name}
                     onChange={(e) => setFormState({ ...formState, name: e.target.value })}
-                    placeholder="Jane Doe"
+                    placeholder={t('Jane Doe')}
                     className="w-full px-4 py-3 rounded-sm border border-deep-bronze bg-noble-black text-solo text-sm focus:outline-none focus:border-hive-delight focus:ring-1 focus:ring-hive-delight transition-colors placeholder:text-wainscot-green/50"
                   />
                 </div>
 
                 <div>
-                  <label className="block font-montserrat text-[10px] tracking-widest text-wainscot-green uppercase mb-2">
-                    EMAIL ADDRESS *
+                  <label htmlFor="contact-email" className="block font-montserrat text-[10px] tracking-widest text-wainscot-green uppercase mb-2">
+                    {t('EMAIL ADDRESS *')}
                   </label>
                   <input
+                    id="contact-email"
                     type="email"
                     required
                     value={formState.email}
@@ -206,15 +209,16 @@ export const ContactSection: React.FC = () => {
               </div>
 
               <div>
-                <label className="block font-montserrat text-[10px] tracking-widest text-wainscot-green uppercase mb-2">
-                  SYNOPSIS / COLLABORATION NOTES *
+                <label htmlFor="contact-message" className="block font-montserrat text-[10px] tracking-widest text-wainscot-green uppercase mb-2">
+                  {t('SYNOPSIS / COLLABORATION NOTES *')}
                 </label>
                 <textarea
+                  id="contact-message"
                   rows={4}
                   required
                   value={formState.message}
                   onChange={(e) => setFormState({ ...formState, message: e.target.value })}
-                  placeholder="Outline the vision, timeline, production locations, or envisioned aesthetic..."
+                  placeholder={t('Outline the vision, timeline, production locations, or envisioned aesthetic...')}
                   className="w-full px-4 py-3 rounded-sm border border-deep-bronze bg-noble-black text-solo text-sm focus:outline-none focus:border-hive-delight focus:ring-1 focus:ring-hive-delight transition-colors resize-none placeholder:text-wainscot-green/50"
                 />
               </div>
@@ -222,7 +226,7 @@ export const ContactSection: React.FC = () => {
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-3">
                 <span className="font-montserrat text-[10px] text-wainscot-green flex items-center gap-1.5">
                   <Mail className="w-3 h-3 text-stone-ground" />
-                  <span>DISPATCHED VIA SECURE MAIL CLIENT</span>
+                  <span>{t('DISPATCHED VIA SECURE MAIL CLIENT')}</span>
                 </span>
 
                 {/* Large Magnetic Send Message Button */}
@@ -234,13 +238,13 @@ export const ContactSection: React.FC = () => {
                   className="relative px-8 py-3.5 bg-hive-delight text-noble-black font-montserrat font-bold text-xs tracking-widest uppercase rounded-sm hover:bg-stone-ground transition-all duration-200 shadow-gold-glow flex items-center gap-2 select-none"
                 >
                   <Send className="w-3.5 h-3.5" />
-                  <span>SEND MESSAGE</span>
+                  <span>{t('SEND MESSAGE')}</span>
                 </button>
               </div>
 
               {formSubmitted && (
                 <div className="p-3 bg-hive-delight/15 border border-hive-delight/40 rounded text-xs font-montserrat text-hive-delight">
-                  Draft prepared in your email client. Looking forward to our artistic journey.
+                  {t('Draft prepared in your email client. Looking forward to our artistic journey.')}
                 </div>
               )}
             </form>
@@ -254,16 +258,16 @@ export const ContactSection: React.FC = () => {
             <span className="font-playfair font-bold text-solo text-sm">
               © 2026 {profile.fullName}.
             </span>
-            <span className="text-[10px] uppercase tracking-wider">All rights reserved.</span>
+            <span className="text-[10px] uppercase tracking-wider">{t('All rights reserved.')}</span>
           </div>
 
           {/* Center Cinematic "THE END" Stamp */}
           <div className="text-center">
             <span className="font-playfair italic text-solo/60 text-lg tracking-widest">
-              — THE END —
+              {t('— THE END —')}
             </span>
             <span className="block text-[9px] uppercase tracking-ultra text-wainscot-green/60 mt-0.5">
-              THE END CROWNS THE WORK
+              {t('THE END CROWNS THE WORK')}
             </span>
           </div>
 
@@ -273,7 +277,7 @@ export const ContactSection: React.FC = () => {
             onClick={scrollToTop}
             className="flex items-center gap-2 uppercase font-montserrat text-[11px] tracking-widest text-solo hover:text-hive-delight transition-colors group"
           >
-            <span>BACK TO TOP</span>
+            <span>{t('BACK TO TOP')}</span>
             <ArrowUp className="w-3.5 h-3.5 text-stone-ground group-hover:-translate-y-1 transition-transform" />
           </button>
         </div>

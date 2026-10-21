@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { ArrowUpRight, ChevronLeft, ChevronRight, Film, Image as ImageIcon, Pause, Play, Sparkles } from 'lucide-react';
-import { filmmakerContent } from '../data/content';
-import { archiveFilms } from '../data/archiveData';
+import { useLanguage } from '../i18n/useLanguage';
 import type { FilmCategory, FilmItem } from '../data/types';
 import { FilmModal } from './FilmModal';
 import { FilmThumbnail } from './FilmThumbnail';
@@ -32,7 +31,9 @@ const FilmCard: React.FC<{
   className?: string;
   posterPreview?: boolean;
   renderThumbnail?: boolean;
-}> = ({ film, onOpen, className = '', posterPreview = false, renderThumbnail = true }) => (
+}> = ({ film, onOpen, className = '', posterPreview = false, renderThumbnail = true }) => {
+  const { t } = useLanguage();
+  return (
   <article
     data-film-id={film.id}
     onClick={onOpen}
@@ -44,7 +45,7 @@ const FilmCard: React.FC<{
     }}
     role="button"
     tabIndex={0}
-    aria-label={`View ${film.title}`}
+    aria-label={t('View {title}', { title: film.title })}
     style={{ '--archive-aspect': posterPreview ? 2 / 3 : previewAspectRatio(film) } as React.CSSProperties}
     className={`archive-card group relative min-w-0 cursor-pointer overflow-hidden border border-deep-bronze/60 bg-[#112A46] shadow-xl transition-colors duration-300 hover:border-hive-delight/80 focus-visible:border-hive-delight motion-reduce:transition-none ${className}`}
   >
@@ -79,13 +80,15 @@ const FilmCard: React.FC<{
       </div>
     </div>
   </article>
-);
+  );
+};
 
 const MovieCarousel: React.FC<{
   films: IndexedFilm[];
   onOpen: (archiveIndex: number) => void;
   isModalOpen: boolean;
 }> = ({ films, onOpen, isModalOpen }) => {
+  const { t } = useLanguage();
   const carouselRef = useRef<HTMLDivElement>(null);
   const postersRef = useRef<HTMLDivElement>(null);
   const [position, setPosition] = useState(0);
@@ -130,8 +133,8 @@ const MovieCarousel: React.FC<{
       ref={carouselRef}
       className="movie-carousel relative mx-auto w-full max-w-5xl"
       role="region"
-      aria-roledescription="carousel"
-      aria-label="Movie collection"
+      aria-roledescription={t('carousel')}
+      aria-label={t('Movie collection')}
       onFocusCapture={() => setFocused(true)}
       onBlurCapture={(event) => {
         if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setFocused(false);
@@ -170,7 +173,7 @@ const MovieCarousel: React.FC<{
             );
           })}
         </div>
-        <div id="movie-carousel-slide" className="movie-carousel-current relative z-20 mx-auto" role="group" aria-roledescription="slide" aria-label={`${current + 1} of ${films.length}: ${film.title}`}>
+        <div id="movie-carousel-slide" className="movie-carousel-current relative z-20 mx-auto" role="group" aria-roledescription={t('slide')} aria-label={t('{current} of {total}: {title}', { current: current + 1, total: films.length, title: film.title })}>
           <FilmCard
             film={{ ...film, index: `${String(current + 1).padStart(2, '0')}/${String(films.length).padStart(2, '0')}` }}
             onOpen={() => onOpen(film.archiveIndex)}
@@ -184,7 +187,7 @@ const MovieCarousel: React.FC<{
           <button
             type="button"
             onClick={() => move(-1)}
-            aria-label="Previous movie"
+            aria-label={t('Previous movie')}
             aria-controls="movie-carousel-slide"
             className="movie-carousel-arrow movie-carousel-arrow--previous pointer-events-auto absolute top-1/2 z-10 flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-stone-ground/70 bg-noble-black/90 text-solo shadow-lg backdrop-blur-sm transition-colors hover:bg-hive-delight hover:text-noble-black focus-visible:ring-2 focus-visible:ring-hive-delight motion-reduce:transition-none"
           >
@@ -193,7 +196,7 @@ const MovieCarousel: React.FC<{
           <button
             type="button"
             onClick={() => move(1)}
-            aria-label="Next movie"
+            aria-label={t('Next movie')}
             aria-controls="movie-carousel-slide"
             className="movie-carousel-arrow movie-carousel-arrow--next pointer-events-auto absolute top-1/2 z-10 flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-stone-ground/70 bg-noble-black/90 text-solo shadow-lg backdrop-blur-sm transition-colors hover:bg-hive-delight hover:text-noble-black focus-visible:ring-2 focus-visible:ring-hive-delight motion-reduce:transition-none"
           >
@@ -203,17 +206,17 @@ const MovieCarousel: React.FC<{
       )}
       <div className="mt-4 flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
         <p role="status" aria-live={autoplayAllowed ? 'off' : 'polite'} aria-atomic="true" className="text-center font-montserrat text-xs leading-relaxed text-wainscot-green">
-          Movie {current + 1} of {films.length}: {film.title}
+          {t('Movie {current} of {total}: {title}', { current: current + 1, total: films.length, title: film.title })}
         </p>
         {films.length > 1 && !reducedMotion && (
           <button
             type="button"
             onClick={() => setPaused((value) => !value)}
-            aria-label={paused ? 'Play movie slideshow' : 'Pause movie slideshow'}
+            aria-label={t(paused ? 'Play movie slideshow' : 'Pause movie slideshow')}
             className="inline-flex min-h-11 items-center gap-2 rounded-full border border-deep-bronze/70 px-3 text-xs text-wainscot-green transition-colors hover:border-hive-delight hover:text-solo disabled:cursor-default disabled:opacity-60 motion-reduce:transition-none"
           >
             {paused ? <Play className="h-3.5 w-3.5" aria-hidden="true" /> : <Pause className="h-3.5 w-3.5" aria-hidden="true" />}
-            <span>{paused ? 'Play' : 'Pause'}</span>
+            <span>{t(paused ? 'Play' : 'Pause')}</span>
           </button>
         )}
       </div>
@@ -241,6 +244,7 @@ const ArchiveGrid: React.FC<{
 );
 
 export const FilmmakingSection: React.FC = () => {
+  const { content: filmmakerContent, archive: archiveFilms, t } = useLanguage();
   const [activeFilmIndex, setActiveFilmIndex] = useState<number | null>(null);
 
   const allFilms = useMemo<IndexedFilm[]>(() => {
@@ -254,7 +258,7 @@ export const FilmmakingSection: React.FC = () => {
     ];
 
     return combined.map((film, archiveIndex) => ({ ...film, archiveIndex }));
-  }, []);
+  }, [filmmakerContent.films, archiveFilms]);
 
   const activeFilm = activeFilmIndex === null ? null : allFilms[activeFilmIndex];
 
@@ -269,29 +273,29 @@ export const FilmmakingSection: React.FC = () => {
 
   return (
     <>
-      <section id="filmmaking" className="relative overflow-hidden border-t border-deep-bronze/30 bg-noble-black py-20 sm:py-28" aria-label="Filmmaking Works Portfolio">
+      <section id="filmmaking" className="relative overflow-hidden border-t border-deep-bronze/30 bg-noble-black py-20 sm:py-28" aria-label={t('Filmmaking Works Portfolio')}>
         <div aria-hidden="true" className="pointer-events-none absolute left-0 top-12 whitespace-nowrap font-playfair text-[18vw] font-black uppercase tracking-widest text-solo opacity-[0.025]">
-          CINEMA ARCHIVE · CINEMA ARCHIVE
+          {t('CINEMA ARCHIVE')} · {t('CINEMA ARCHIVE')}
         </div>
 
         <header className="portfolio-container relative z-10 mb-14">
           <div className="flex flex-col gap-5 border-b border-deep-bronze/40 pb-7 sm:flex-row sm:items-end sm:justify-between">
             <div className="min-w-0">
               <div className="mb-3 flex items-center gap-3">
-                <span className="font-montserrat text-xs font-semibold uppercase tracking-cinema text-wainscot-green">ACT II — FILMMAKING</span>
+                <span className="font-montserrat text-xs font-semibold uppercase tracking-cinema text-wainscot-green">{t('ACT II — FILMMAKING')}</span>
                 <span className="h-px w-12 bg-olivia/50" />
               </div>
               <h2 className="font-playfair text-4xl font-black uppercase tracking-tight text-solo sm:text-6xl">
-                FILMMAKING <span className="text-hive-delight">ARCHIVE</span>
+                {t('FILMMAKING')} <span className="text-hive-delight">{t('ARCHIVE')}</span>
               </h2>
             </div>
             <div className="flex w-fit max-w-full items-center gap-3 border border-deep-bronze/70 bg-deep-bronze/20 px-4 py-2 font-montserrat text-xs uppercase tracking-widest text-wainscot-green">
               <Film className="h-4 w-4 shrink-0 text-hive-delight" aria-hidden="true" />
-              <span>{allFilms.length} selected works</span>
+              <span>{t('{count} selected works', { count: allFilms.length })}</span>
             </div>
           </div>
           <p className="mt-5 max-w-2xl font-montserrat text-sm leading-relaxed text-wainscot-green text-justify">
-            A curated collection of feature films, short-form storytelling, commercials and music videos. Explore every selected work below.
+            {t('A curated collection of feature films, short-form storytelling, commercials and music videos. Explore every selected work below.')}
           </p>
         </header>
 
@@ -307,11 +311,11 @@ export const FilmmakingSection: React.FC = () => {
                   <div className="flex min-w-0 items-baseline gap-3 sm:gap-5">
                     <span className="shrink-0 font-mono text-xs text-stone-ground">0{categoryIndex + 1}</span>
                     <div className="min-w-0">
-                      <h3 id={`archive-${category.id}`} className="font-playfair text-2xl font-black uppercase tracking-tight text-solo sm:text-4xl">{category.label}</h3>
-                      <p className="mt-1 font-montserrat text-[10px] uppercase tracking-widest text-wainscot-green">{category.note}</p>
+                      <h3 id={`archive-${category.id}`} className="font-playfair text-2xl font-black uppercase tracking-tight text-solo sm:text-4xl">{t(category.label)}</h3>
+                      <p className="mt-1 font-montserrat text-[10px] uppercase tracking-widest text-wainscot-green">{t(category.note)}</p>
                     </div>
                   </div>
-                  <span className="shrink-0 whitespace-nowrap text-right font-mono text-xs text-hive-delight">{String(categoryFilms.length).padStart(2, '0')} WORKS</span>
+                  <span className="shrink-0 whitespace-nowrap text-right font-mono text-xs text-hive-delight">{String(categoryFilms.length).padStart(2, '0')} {t('WORKS')}</span>
                 </div>
 
                 <div className="portfolio-container">
@@ -327,8 +331,8 @@ export const FilmmakingSection: React.FC = () => {
                   {categoryFilms.length === 0 ? (
                     <div className="flex min-h-48 flex-col items-center justify-center border border-dashed border-deep-bronze/80 bg-[#112A46]/70 text-center">
                       <Sparkles className="mb-4 h-6 w-6 text-hive-delight" />
-                      <p className="font-playfair text-2xl uppercase text-solo">New work in development</p>
-                      <span className="mt-2 font-montserrat text-[10px] uppercase tracking-cinema text-wainscot-green">Coming soon</span>
+                      <p className="font-playfair text-2xl uppercase text-solo">{t('New work in development')}</p>
+                      <span className="mt-2 font-montserrat text-[10px] uppercase tracking-cinema text-wainscot-green">{t('Coming soon')}</span>
                     </div>
                   ) : category.id === 'movie' ? (
                     <MovieCarousel films={categoryFilms} onOpen={setActiveFilmIndex} isModalOpen={activeFilmIndex !== null} />

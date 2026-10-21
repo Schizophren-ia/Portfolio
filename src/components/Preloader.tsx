@@ -1,11 +1,13 @@
 import React, { useEffect, useState, useRef } from 'react';
 import gsap from 'gsap';
+import { useLanguage } from '../i18n/useLanguage';
 
 interface PreloaderProps {
   onComplete: () => void;
 }
 
 export const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
+  const { t } = useLanguage();
   const [count, setCount] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
   const topBarRef = useRef<HTMLDivElement>(null);
@@ -70,7 +72,7 @@ export const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
     <div
       ref={containerRef}
       className="fixed inset-0 z-[100000] flex flex-col justify-between pointer-events-auto bg-transparent select-none"
-      aria-label="Cinematic Film Loading Screen"
+      aria-label={t('Cinematic Film Loading Screen')}
       role="dialog"
       aria-modal="true"
     >

@@ -2,11 +2,12 @@ import React, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { MapPin } from 'lucide-react';
-import { journeyYears } from '../data/journeyData';
+import { useLanguage } from '../i18n/useLanguage';
 
 gsap.registerPlugin(ScrollTrigger);
 
 export const ExperienceSection: React.FC = () => {
+  const { journey: journeyYears, language, t } = useLanguage();
   const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -30,22 +31,22 @@ export const ExperienceSection: React.FC = () => {
       id="experiences"
       ref={sectionRef}
       className="relative overflow-hidden border-t border-deep-bronze/30 bg-noble-black py-20 sm:py-28"
-      aria-label="Journey through the years"
+      aria-label={t('Journey through the years')}
     >
       <div className="portfolio-container">
         <header className="mb-14 flex flex-col gap-8 border-b border-deep-bronze/40 pb-8 sm:mb-20 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-2xl">
             <div className="mb-4 flex items-center gap-3">
               <span className="font-montserrat text-xs font-semibold uppercase tracking-cinema text-wainscot-green">
-                ACT III — JOURNEY
+                {t('ACT III — JOURNEY')}
               </span>
               <span className="h-px w-12 bg-olivia/50" aria-hidden="true" />
             </div>
             <h2 className="font-playfair text-4xl font-black uppercase tracking-tight text-solo sm:text-6xl">
-              MY <span className="text-hive-delight">JOURNEY</span>
+              {language === 'vi' ? 'HÀNH TRÌNH' : 'MY'} <span className="text-hive-delight">{language === 'vi' ? 'CỦA TÔI' : 'JOURNEY'}</span>
             </h2>
             <p className="mt-4 font-montserrat text-sm leading-relaxed text-wainscot-green">
-              Places, moments and memories, collected along the way.
+              {t('Places, moments and memories, collected along the way.')}
             </p>
           </div>
         </header>

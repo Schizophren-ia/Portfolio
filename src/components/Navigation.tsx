@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 import { formatSMPTETimecode } from '../utils/timecode';
+import { useLanguage } from '../i18n/useLanguage';
+import { LanguageSwitch } from './LanguageSwitch';
 
 interface NavigationProps {
   activeSection: string;
 }
 
 export const Navigation: React.FC<NavigationProps> = ({ activeSection }) => {
+  const { t } = useLanguage();
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
@@ -63,7 +66,7 @@ export const Navigation: React.FC<NavigationProps> = ({ activeSection }) => {
             : 'bg-gradient-to-b from-noble-black/80 via-noble-black/30 to-transparent py-5 sm:py-6'
         }`}
       >
-        <div className="max-w-7xl mx-auto px-6 sm:px-8 flex items-center gap-6">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 flex items-center gap-4 lg:gap-6">
           {/* Brand link: "Portfolio" */}
           <a
             href="#hero"
@@ -76,7 +79,7 @@ export const Navigation: React.FC<NavigationProps> = ({ activeSection }) => {
 
           {/* Desktop Navigation Links + Timecode Counter */}
           <div className="ml-auto hidden lg:flex items-center justify-end gap-6 xl:gap-8">
-            <nav className="flex items-center justify-end gap-5 xl:gap-8" aria-label="Main Navigation">
+            <nav className="flex items-center justify-end gap-5 xl:gap-8" aria-label={t('Main Navigation')}>
               {navLinks.map((link) => {
                 const isActive = activeSection === link.href.substring(1);
                 return (
@@ -90,7 +93,7 @@ export const Navigation: React.FC<NavigationProps> = ({ activeSection }) => {
                         : 'text-wainscot-green hover:text-solo'
                     }`}
                   >
-                    <span>{link.label}</span>
+                    <span>{t(link.label)}</span>
                     {/* Animated Hive Delight underline on hover & active */}
                     <span
                       className={`absolute bottom-0 left-0 h-[1.5px] bg-gradient-to-r from-stone-ground to-hive-delight transition-all duration-300 ease-out ${
@@ -105,27 +108,29 @@ export const Navigation: React.FC<NavigationProps> = ({ activeSection }) => {
             {/* Timecode counter display in nav bar */}
             <div
               className="flex items-center gap-2 px-3 py-1.5 rounded-sm bg-deep-bronze/40 border border-deep-bronze/70 text-[11px] font-mono select-none"
-              title="Current Film Playhead Timecode"
+              title={t('Current Film Playhead Timecode')}
             >
               <span className="w-2 h-2 rounded-full bg-red-600 animate-pulse shadow-[0_0_8px_rgba(220,38,38,0.8)]" />
               <span className="text-wainscot-green text-[10px] uppercase font-montserrat tracking-widest">TC</span>
               <span className="text-hive-delight font-semibold tracking-wider">{currentTimecode}</span>
             </div>
+            <LanguageSwitch className="inline-flex" />
           </div>
 
           {/* Mobile Right Controls: Timecode + Hamburger */}
-          <div className="ml-auto lg:hidden flex items-center gap-3">
+          <div className="ml-auto lg:hidden flex items-center gap-1.5 sm:gap-3">
             <div className="flex items-center gap-1.5 px-2 py-1 rounded bg-deep-bronze/50 border border-deep-bronze text-[10px] font-mono text-hive-delight">
               <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
               <span>{currentTimecode}</span>
             </div>
 
+            <LanguageSwitch className="hidden min-[375px]:inline-flex" />
             <button
               type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="inline-flex items-center justify-center p-2 text-solo hover:text-hive-delight focus:outline-none focus-visible:ring-2 focus-visible:ring-hive-delight"
               aria-expanded={mobileMenuOpen}
-              aria-label="Toggle Mobile Menu"
+              aria-label={t('Toggle Mobile Menu')}
             >
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
@@ -134,7 +139,11 @@ export const Navigation: React.FC<NavigationProps> = ({ activeSection }) => {
 
         {/* Mobile Drawer Menu */}
         {mobileMenuOpen && (
-          <div className="lg:hidden fixed inset-x-0 top-[60px] bg-noble-black/98 border-b border-deep-bronze/80 backdrop-blur-xl px-6 py-8 flex flex-col gap-6 shadow-2xl animate-in slide-in-from-top-4 duration-300">
+          <div className="lg:hidden absolute inset-x-0 top-full max-h-[calc(100dvh-5rem)] overflow-y-auto bg-noble-black/98 border-b border-deep-bronze/80 backdrop-blur-xl px-6 py-8 flex flex-col gap-6 shadow-2xl animate-in slide-in-from-top-4 duration-300">
+            <div className="flex items-center justify-between gap-4">
+              <span className="text-xs uppercase tracking-widest text-wainscot-green">{t('Language')}</span>
+              <LanguageSwitch className="inline-flex" />
+            </div>
             <div className="flex flex-col gap-4">
               {navLinks.map((link) => {
                 const isActive = activeSection === link.href.substring(1);
@@ -147,8 +156,8 @@ export const Navigation: React.FC<NavigationProps> = ({ activeSection }) => {
                       isActive ? 'text-hive-delight font-semibold' : 'text-solo'
                     }`}
                   >
-                    <span>{link.label}</span>
-                    <span className="text-[10px] text-wainscot-green tracking-widest">{link.act}</span>
+                    <span>{t(link.label)}</span>
+                    <span className="text-[10px] text-wainscot-green tracking-widest">{t(link.act)}</span>
                   </a>
                 );
               })}
@@ -159,7 +168,7 @@ export const Navigation: React.FC<NavigationProps> = ({ activeSection }) => {
               onClick={(e) => scrollToSection(e, '#contact')}
               className="w-full text-center py-3 bg-hive-delight text-noble-black font-montserrat font-semibold text-xs tracking-widest uppercase rounded-sm shadow-gold-glow"
             >
-              LET'S COLLABORATE
+              {t("LET'S COLLABORATE")}
             </a>
           </div>
         )}

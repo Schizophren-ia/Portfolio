@@ -5,6 +5,7 @@ import gsap from 'gsap';
 import type { FilmItem } from '../data/types';
 import { FilmThumbnail } from './FilmThumbnail';
 import { getSmoothScroll } from '../utils/smoothScroll';
+import { useLanguage } from '../i18n/useLanguage';
 
 interface FilmModalProps {
   film: FilmItem | null;
@@ -13,6 +14,7 @@ interface FilmModalProps {
 }
 
 export const FilmModal: React.FC<FilmModalProps> = ({ film, onClose, onNext }) => {
+  const { t } = useLanguage();
   const modalRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const closeBtnRef = useRef<HTMLButtonElement>(null);
@@ -154,7 +156,7 @@ export const FilmModal: React.FC<FilmModalProps> = ({ film, onClose, onNext }) =
         type="button"
         onClick={handleAnimatedClose}
         className="fixed top-6 right-6 z-50 p-3 rounded-full bg-deep-bronze/70 hover:bg-hive-delight hover:text-noble-black text-solo border border-olivia/40 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-hive-delight shadow-xl"
-        aria-label="Close project lightbox"
+        aria-label={t('Close project lightbox')}
       >
         <X className="w-5 h-5" />
       </button>
@@ -177,7 +179,7 @@ export const FilmModal: React.FC<FilmModalProps> = ({ film, onClose, onNext }) =
               playsInline
               preload="metadata"
             >
-              Your browser does not support HTML5 video.
+              {t('Your browser does not support HTML5 video.')}
             </video>
           ) : film.videoUrl ? (
             <iframe
@@ -192,7 +194,7 @@ export const FilmModal: React.FC<FilmModalProps> = ({ film, onClose, onNext }) =
               <FilmThumbnail key={film.id} film={film} className="w-full h-full object-cover opacity-70" />
               <div className="absolute inset-0 bg-gradient-to-t from-noble-black via-transparent to-transparent flex items-end justify-center p-8">
                 <a href={film.sourceUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-5 py-3 bg-hive-delight text-noble-black font-montserrat font-bold text-xs tracking-widest uppercase">
-                  <span>Watch at official source</span>
+                  <span>{t('Watch at official source')}</span>
                   <ExternalLink className="w-4 h-4" />
                 </a>
               </div>
@@ -241,7 +243,7 @@ export const FilmModal: React.FC<FilmModalProps> = ({ film, onClose, onNext }) =
                   rel="noopener noreferrer"
                   className="inline-flex max-w-full items-center justify-end gap-2 whitespace-nowrap text-xs font-montserrat font-semibold px-4 py-2 rounded bg-deep-bronze/80 hover:bg-hive-delight text-solo hover:text-noble-black border border-olivia/40 hover:border-hive-delight transition-all duration-300"
                 >
-                  <span>WATCH AT OFFICIAL SOURCE</span>
+                  <span>{t('WATCH AT OFFICIAL SOURCE')}</span>
                   <ExternalLink className="w-3.5 h-3.5" />
                 </a>
               )}
@@ -253,7 +255,7 @@ export const FilmModal: React.FC<FilmModalProps> = ({ film, onClose, onNext }) =
             <div className="lg:col-span-7 space-y-4">
               <div>
                 <h3 className="text-xs font-montserrat uppercase tracking-cinema text-wainscot-green mb-1.5">
-                  LOGLINE
+                  {t('LOGLINE')}
                 </h3>
                 <p className="font-playfair text-base sm:text-lg text-solo italic leading-relaxed">
                   "{film.logline}"
@@ -266,41 +268,41 @@ export const FilmModal: React.FC<FilmModalProps> = ({ film, onClose, onNext }) =
             <div className="lg:col-span-5 bg-noble-black/90 p-5 sm:p-6 rounded-sm border border-deep-bronze/80 space-y-4">
               <h4 className="text-xs font-montserrat uppercase tracking-cinema text-hive-delight font-bold border-b border-deep-bronze/60 pb-3 flex items-center gap-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-hive-delight" />
-                <span>FILM DETAILS</span>
+                <span>{t('FILM DETAILS')}</span>
               </h4>
               <div className="space-y-4 text-xs font-montserrat">
                 <div className="flex flex-col sm:flex-row sm:justify-between gap-1 border-b border-deep-bronze/30 pb-2.5">
-                  <span className="text-wainscot-green uppercase tracking-wider font-semibold">Genre:</span>
+                  <span className="text-wainscot-green uppercase tracking-wider font-semibold">{t('Genre:')}</span>
                   <span className="text-solo font-medium text-left sm:text-right">{film.genre}</span>
                 </div>
                 {film.releaseDate && (
                   <div className="flex flex-col sm:flex-row sm:justify-between gap-1 border-b border-deep-bronze/30 pb-2.5">
-                    <span className="text-wainscot-green uppercase tracking-wider font-semibold">Release date:</span>
+                    <span className="text-wainscot-green uppercase tracking-wider font-semibold">{t('Release date:')}</span>
                     <time dateTime={film.releaseDate} className="text-solo font-medium text-left sm:text-right">
                       {film.releaseDate.split('-').reverse().join('.')}
                     </time>
                   </div>
                 )}
                 <div className="flex flex-col sm:flex-row sm:justify-between gap-1 border-b border-deep-bronze/30 pb-2.5">
-                  <span className="text-wainscot-green uppercase tracking-wider font-semibold">Director:</span>
+                  <span className="text-wainscot-green uppercase tracking-wider font-semibold">{t('Director:')}</span>
                   <span className="text-hive-delight font-semibold text-left sm:text-right">
                     {film.director ||
                       (film.id === 'nham-mat-thay-mua-he' ? 'Cao Thúy Nhi' :
                        film.id === 'troi-sang-roi-ta-ngu-di-thoi' ? 'Chung Chí Công' :
                        film.id === 'sai-gon-trong-con-mua' ? 'Lê Minh Hoàng' :
                        film.id === 'trai-tim-quai-vat' ? 'Tạ Nguyên Hiệp' :
-                       film.id === 'giao-lo-8675' ? 'Tân DS' : 'To be updated')}
+                       film.id === 'giao-lo-8675' ? 'Tân DS' : t('To be updated'))}
                   </span>
                 </div>
                 <div className="flex flex-col sm:flex-row sm:justify-between gap-1 pb-1">
-                  <span className="text-wainscot-green uppercase tracking-wider font-semibold">Cast:</span>
+                  <span className="text-wainscot-green uppercase tracking-wider font-semibold">{t('Cast:')}</span>
                   <span className="text-solo font-medium text-left sm:text-right leading-relaxed max-w-xs">
                     {film.cast || (film.credits.find(c => c.label === "Starring")?.value ?? (
                       film.id === 'nham-mat-thay-mua-he' ? 'Phương Anh Đào, Takafumi Akutsu' :
                       film.id === 'troi-sang-roi-ta-ngu-di-thoi' ? 'Hà Quốc Hoàng, Trần Lê Thúy Vy' :
                       film.id === 'sai-gon-trong-con-mua' ? 'Avin Lu, Hồ Thu Anh' :
                       film.id === 'trai-tim-quai-vat' ? 'Hoàng Thùy Linh, B Trần, Hứa Vĩ Văn, Quang Trung' :
-                      film.id === 'giao-lo-8675' ? 'Isaac, Rocker Nguyễn, Lợi Trần, Emma Lê, La Thành' : 'To be updated'
+                      film.id === 'giao-lo-8675' ? 'Isaac, Rocker Nguyễn, Lợi Trần, Emma Lê, La Thành' : t('To be updated')
                     ))}
                   </span>
                 </div>
@@ -315,7 +317,7 @@ export const FilmModal: React.FC<FilmModalProps> = ({ film, onClose, onNext }) =
               onClick={handleAnimatedClose}
               className="text-xs font-montserrat tracking-widest text-wainscot-green hover:text-solo uppercase"
             >
-              ← RETURN TO ARCHIVE
+              {t('← RETURN TO ARCHIVE')}
             </button>
 
             <button
@@ -323,7 +325,7 @@ export const FilmModal: React.FC<FilmModalProps> = ({ film, onClose, onNext }) =
               onClick={() => { if (!closingRef.current) onNext(); }}
               className="px-6 py-2.5 bg-hive-delight text-noble-black font-montserrat font-bold text-xs tracking-widest uppercase whitespace-nowrap rounded-sm hover:bg-stone-ground transition-colors flex items-center gap-2 shadow-gold-glow"
             >
-              <span>NEXT REEL</span>
+              <span>{t('NEXT REEL')}</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </button>
           </div>

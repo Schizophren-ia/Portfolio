@@ -2,11 +2,12 @@ import React, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Play } from 'lucide-react';
-import { filmmakerContent } from '../data/content';
+import { useLanguage } from '../i18n/useLanguage';
 
 gsap.registerPlugin(ScrollTrigger);
 
 export const HeroSection: React.FC = () => {
+  const { content: filmmakerContent, t } = useLanguage();
   const heroWrapperRef = useRef<HTMLDivElement>(null);
   const videoBgRef = useRef<HTMLVideoElement>(null);
   const headlineRef = useRef<HTMLHeadingElement>(null);
@@ -90,7 +91,7 @@ export const HeroSection: React.FC = () => {
       id="hero"
       ref={heroWrapperRef}
       className="relative w-full min-h-screen bg-noble-black overflow-hidden flex items-center justify-center px-4 sm:px-6 md:px-8"
-      aria-label="Cinematic Hero Presentation"
+      aria-label={t('Cinematic Hero Presentation')}
     >
       {/* Full-Bleed Looping Muted Video Background with Poster Fallback */}
       <div className="absolute inset-0 w-full h-full overflow-hidden bg-noble-black pointer-events-none">
@@ -190,14 +191,14 @@ export const HeroSection: React.FC = () => {
             className="px-8 py-3.5 bg-hive-delight text-noble-black font-montserrat font-bold text-xs tracking-widest uppercase rounded-sm hover:bg-stone-ground transition-all duration-300 shadow-gold-glow hover:shadow-gold-glow-lg flex items-center gap-2"
           >
             <Play className="w-3.5 h-3.5 fill-current" />
-            VIEW MY WORK
+            {t('VIEW MY WORK')}
           </a>
 
           <a
             href="#contact"
             className="px-8 py-3.5 border border-solo text-solo font-montserrat font-medium text-xs tracking-widest uppercase rounded-sm hover:border-stone-ground hover:bg-stone-ground hover:text-noble-black transition-all duration-300 backdrop-blur-sm"
           >
-            GET IN TOUCH
+            {t('GET IN TOUCH')}
           </a>
         </div>
       </div>
@@ -208,7 +209,7 @@ export const HeroSection: React.FC = () => {
         className="absolute bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-1.5 pointer-events-none select-none text-wainscot-green"
       >
         <span className="font-montserrat text-[9px] sm:text-[10px] tracking-cinema uppercase text-wainscot-green/80">
-          SCROLL TO BEGIN
+          {t('SCROLL TO BEGIN')}
         </span>
         <div className="w-[1.5px] h-5 sm:h-6 bg-gradient-to-b from-hive-delight via-stone-ground to-transparent animate-pulse" />
       </div>
