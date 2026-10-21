@@ -67,13 +67,13 @@ const FilmCard: React.FC<{
       </div>
     </div>
 
-    <div className="p-3.5 sm:p-4">
+    <div className="archive-caption p-3.5 sm:p-4">
       <div className="mb-2 flex min-w-0 flex-wrap items-center justify-between gap-x-3 gap-y-1 font-montserrat text-[10px] uppercase tracking-wider text-wainscot-green">
         <span className="whitespace-nowrap">{film.year}</span>
         <span>{film.genre}</span>
       </div>
       <div className="flex items-start justify-between gap-3">
-        <h4 className="min-h-[2.5rem] font-playfair text-base font-bold uppercase leading-snug text-solo transition-colors group-hover:text-hive-delight sm:text-lg">
+        <h4 className="archive-title min-w-0 min-h-[2.5rem] font-playfair font-bold uppercase leading-snug text-solo transition-colors group-hover:text-hive-delight">
           {film.title}
         </h4>
         <ArrowUpRight className="mt-0.5 h-4 w-4 shrink-0 text-stone-ground transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
@@ -279,13 +279,13 @@ export const FilmmakingSection: React.FC = () => {
         </div>
 
         <header className="portfolio-container relative z-10 mb-14">
-          <div className="flex flex-col gap-5 border-b border-deep-bronze/40 pb-7 sm:flex-row sm:items-end sm:justify-between">
+          <div className="flex flex-col gap-5 border-b border-deep-bronze/40 pb-7 xl:flex-row xl:items-end xl:justify-between">
             <div className="min-w-0">
               <div className="mb-3 flex items-center gap-3">
                 <span className="font-montserrat text-xs font-semibold uppercase tracking-cinema text-wainscot-green">{t('ACT II — FILMMAKING')}</span>
                 <span className="h-px w-12 bg-olivia/50" />
               </div>
-              <h2 className="font-playfair text-4xl font-black uppercase tracking-tight text-solo sm:text-6xl">
+              <h2 className="section-heading font-playfair font-black uppercase tracking-tight text-solo">
                 {t('FILMMAKING')} <span className="text-hive-delight">{t('ARCHIVE')}</span>
               </h2>
             </div>
@@ -311,7 +311,7 @@ export const FilmmakingSection: React.FC = () => {
                   <div className="flex min-w-0 items-baseline gap-3 sm:gap-5">
                     <span className="shrink-0 font-mono text-xs text-stone-ground">0{categoryIndex + 1}</span>
                     <div className="min-w-0">
-                      <h3 id={`archive-${category.id}`} className="font-playfair text-2xl font-black uppercase tracking-tight text-solo sm:text-4xl">{t(category.label)}</h3>
+                      <h3 id={`archive-${category.id}`} className="archive-category-title font-playfair font-black uppercase tracking-tight text-solo">{t(category.label)}</h3>
                       <p className="mt-1 font-montserrat text-[10px] uppercase tracking-widest text-wainscot-green">{t(category.note)}</p>
                     </div>
                   </div>

@@ -83,7 +83,8 @@
 
   h1, h2, h3, h4, h5, h6 {
     text-wrap: balance;
-    overflow-wrap: break-word;
+    word-break: normal;
+    hyphens: none;
   }
 
   p {
@@ -201,6 +202,109 @@ a,
   text-align: justify;
   text-justify: inter-word;
   hyphens: none;
+}
+
+/* Let copy use the available width before wrapping; never clip or truncate it. */
+.section-heading {
+  font-size: clamp(1.75rem, 4vw, 3rem);
+  line-height: 1.2;
+}
+
+.hero-role {
+  letter-spacing: clamp(0.025em, 0.2vw, 0.14em);
+  text-wrap: pretty;
+  line-height: 1.6;
+}
+
+.hero-story {
+  max-width: 100%;
+  text-wrap: pretty;
+}
+
+.profile-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+}
+
+.profile-row dt {
+  flex-shrink: 0;
+}
+
+.profile-row dd {
+  flex: 1 1 12rem;
+  min-width: 0;
+  text-wrap: pretty;
+}
+
+.dossier-pair {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+}
+
+.dossier-details h4 svg {
+  flex-shrink: 0;
+}
+
+.dossier-details h4,
+.dossier-details li,
+.dossier-details li span,
+.dossier-details li strong {
+  text-wrap: pretty;
+}
+
+.contact-heading {
+  font-size: clamp(1.5rem, 4.25vw, 3.5rem);
+}
+
+.contact-email-row,
+.contact-form-panel,
+.archive-caption {
+  container-type: inline-size;
+}
+
+.contact-email {
+  font-size: 1rem;
+  font-size: clamp(1rem, 4.25cqi, 1.375rem);
+  overflow-wrap: anywhere;
+}
+
+.contact-form-title {
+  font-size: 1.125rem;
+  font-size: clamp(1rem, 4.5cqi, 1.5rem);
+}
+
+.archive-title {
+  font-size: 1rem;
+  font-size: clamp(0.9375rem, 4.5cqi, 1.125rem);
+  letter-spacing: -0.025em;
+  text-wrap: pretty;
+}
+
+.archive-caption > div:first-child > span:last-child {
+  text-wrap: balance;
+}
+
+.archive-category-title {
+  font-size: clamp(1.125rem, 3vw, 2rem);
+  line-height: 1.25;
+}
+
+/* Avoid a wide action column squeezing the title into a narrow text strip. */
+#modal-film-title {
+  text-wrap: pretty;
+}
+
+@media (max-width: 639px) {
+  #filmmaking section[aria-labelledby] > .portfolio-container:first-child {
+    flex-wrap: wrap;
+    align-items: baseline;
+  }
+
+  #filmmaking section[aria-labelledby] > .portfolio-container:first-child > div {
+    flex: 1 1 11rem;
+  }
 }
 
 /* Subtle Cinematic Dust & Optical HUD Animations */

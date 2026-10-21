@@ -141,19 +141,19 @@ export const AboutSection: React.FC = () => {
                 <span className="h-1.5 w-1.5 rounded-full bg-hive-delight" />
               </div>
 
-              <div className="w-full rounded border border-deep-bronze/60 bg-[#112A46]/35 p-5 shadow-lg backdrop-blur-sm sm:p-6">
+              <div className="profile-details w-full rounded border border-deep-bronze/60 bg-[#112A46]/35 p-5 shadow-lg backdrop-blur-sm sm:p-6">
                 <dl className="space-y-4 font-montserrat text-xs sm:text-sm">
-                  <div className="grid min-h-8 grid-cols-[minmax(7rem,auto)_minmax(0,1fr)] items-center gap-4 border-b border-deep-bronze/40 pb-4">
+                  <div className="profile-row min-h-8 border-b border-deep-bronze/40 pb-4">
                     <dt className="flex items-center gap-2 text-left uppercase tracking-wider text-wainscot-green">
                       <span className="text-hive-delight">•</span> {t('Name:')}
                     </dt>
-                    <dd className="break-words text-right font-semibold leading-relaxed text-solo">{language === 'vi' ? 'Lê Đặng Đài Trang' : 'Le Dang Dai Trang'}</dd>
+                    <dd className="text-right font-semibold leading-relaxed text-solo">{language === 'vi' ? 'Lê Đặng Đài Trang' : 'Le Dang Dai Trang'}</dd>
                   </div>
-                  <div className="grid min-h-8 grid-cols-[minmax(7rem,auto)_minmax(0,1fr)] items-center gap-4 pt-0.5">
+                  <div className="profile-row min-h-8 pt-0.5">
                     <dt className="flex items-center gap-2 text-left uppercase tracking-wider text-wainscot-green">
                       <span className="text-hive-delight">•</span> {t('Occupation:')}
                     </dt>
-                    <dd className="break-words text-right font-semibold leading-relaxed text-solo">{filmmakerContent.profile.role}</dd>
+                    <dd className="text-right font-semibold leading-relaxed text-solo">{filmmakerContent.profile.role}</dd>
                   </div>
                 </dl>
               </div>
@@ -162,7 +162,7 @@ export const AboutSection: React.FC = () => {
 
           <div className="lg:col-span-7">
             <p className="mb-3 font-montserrat text-[10px] font-semibold uppercase tracking-cinema text-stone-ground">{t('Get to know me')}</p>
-            <h2 className="border-b border-deep-bronze/50 pb-6 font-playfair text-4xl font-black uppercase leading-none tracking-tight text-solo sm:text-6xl">
+            <h2 className="section-heading border-b border-deep-bronze/50 pb-6 font-playfair font-black uppercase leading-tight tracking-tight text-solo">
               {language === 'vi' ? 'VỀ' : 'ABOUT'} <span className="text-hive-delight">{language === 'vi' ? 'TÔI' : 'ME'}</span>
             </h2>
             <div ref={bioRef} className="about-bio-copy mt-8 font-montserrat text-base font-light leading-relaxed sm:text-lg">
@@ -195,7 +195,7 @@ export const AboutSection: React.FC = () => {
           <div className="dossier-reveal relative mb-8 flex flex-col gap-3 border-b border-deep-bronze/50 pb-6 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <p className="font-montserrat text-[10px] uppercase tracking-cinema text-stone-ground">{t('Production dossier')}</p>
-              <h3 className="mt-2 font-playfair text-3xl font-black uppercase text-solo sm:text-5xl">{t('Behind the')} <span className="text-hive-delight">{t('Clapperboard')}</span></h3>
+              <h3 className="section-heading mt-2 font-playfair font-black uppercase text-solo">{t('Behind the')} <span className="text-hive-delight">{t('Clapperboard')}</span></h3>
             </div>
             <span className="font-mono text-[10px] uppercase tracking-widest text-wainscot-green">{t('Scene 02 · Take 01')}</span>
           </div>
@@ -230,8 +230,8 @@ export const AboutSection: React.FC = () => {
               </div>
             </div>
 
-            <div className="space-y-5 lg:col-span-7">
-              <div className="grid gap-5 sm:grid-cols-2">
+            <div className="dossier-details min-w-0 space-y-5 lg:col-span-7">
+              <div className="dossier-pair grid gap-5">
                 <article className="dossier-reveal border border-deep-bronze/70 bg-noble-black/80 p-5">
                   <h4 className="flex items-center gap-2 font-montserrat text-xs font-bold uppercase tracking-widest text-hive-delight"><GraduationCap className="h-4 w-4" />{t('Education')}</h4>
                   <ul className="mt-4 space-y-3 font-montserrat text-xs leading-relaxed text-solo/90">
@@ -254,7 +254,7 @@ export const AboutSection: React.FC = () => {
                 <div className="mt-4 flex flex-wrap gap-2">{filmmakerContent.aboutMeDetails.skills.map((item) => <span key={item} className="border border-olivia/50 bg-deep-bronze/40 px-3 py-1.5 font-montserrat text-xs text-solo transition-colors hover:border-hive-delight hover:text-hive-delight">{item}</span>)}</div>
               </article>
 
-              <div className="grid gap-5 sm:grid-cols-2">
+              <div className="dossier-pair grid gap-5">
                 <article className="dossier-reveal border border-deep-bronze/70 bg-noble-black/80 p-5">
                   <h4 className="flex items-center gap-2 font-montserrat text-xs font-bold uppercase tracking-widest text-hive-delight"><Globe2 className="h-4 w-4" />{t('Passport')}</h4>
                   <div className="mt-4 flex flex-wrap gap-2">{filmmakerContent.aboutMeDetails.passport.map((item) => <span key={item} className="font-mono text-[10px] uppercase tracking-wider text-solo">· {item}</span>)}</div>

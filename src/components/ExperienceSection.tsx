@@ -42,7 +42,7 @@ export const ExperienceSection: React.FC = () => {
               </span>
               <span className="h-px w-12 bg-olivia/50" aria-hidden="true" />
             </div>
-            <h2 className="font-playfair text-4xl font-black uppercase tracking-tight text-solo sm:text-6xl">
+            <h2 className="section-heading font-playfair font-black uppercase tracking-tight text-solo">
               {language === 'vi' ? 'HÀNH TRÌNH' : 'MY'} <span className="text-hive-delight">{language === 'vi' ? 'CỦA TÔI' : 'JOURNEY'}</span>
             </h2>
             <p className="mt-4 font-montserrat text-sm leading-relaxed text-wainscot-green">

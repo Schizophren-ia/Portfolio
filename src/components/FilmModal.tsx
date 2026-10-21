@@ -205,7 +205,7 @@ export const FilmModal: React.FC<FilmModalProps> = ({ film, onClose, onNext }) =
         {/* Project Meta & Dossier */}
         <div className="p-6 sm:p-8 md:p-10 space-y-8">
           {/* Header Row: Index, Title, Year */}
-          <div className="film-modal-heading grid grid-cols-1 items-end gap-5 border-b border-deep-bronze/40 pb-6 lg:grid-cols-[minmax(0,1fr)_max-content]">
+          <div className="film-modal-heading grid grid-cols-1 items-end gap-5 border-b border-deep-bronze/40 pb-6">
             <div className="min-w-0">
               <div className="mb-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs font-montserrat tracking-cinema text-wainscot-green uppercase">
                 <span className="text-hive-delight font-bold">{film.index}</span>
@@ -223,7 +223,7 @@ export const FilmModal: React.FC<FilmModalProps> = ({ film, onClose, onNext }) =
             </div>
 
             {/* Quick Specs & YouTube Action */}
-            <div className="film-modal-actions flex w-full flex-col items-end justify-self-end gap-3 lg:w-auto">
+            <div className="film-modal-actions flex w-full flex-wrap items-center justify-end justify-self-end gap-3">
               <div className="flex max-w-full items-center gap-3 whitespace-nowrap text-[10px] font-montserrat text-wainscot-green bg-noble-black/70 px-3 py-2 rounded border border-deep-bronze/60 sm:gap-4 sm:px-4 sm:text-xs">
                 <div className="flex items-center gap-1.5">
                   <Clock className="w-3.5 h-3.5 text-hive-delight" />
@@ -272,19 +272,19 @@ export const FilmModal: React.FC<FilmModalProps> = ({ film, onClose, onNext }) =
               </h4>
               <div className="space-y-4 text-xs font-montserrat">
                 <div className="flex flex-col sm:flex-row sm:justify-between gap-1 border-b border-deep-bronze/30 pb-2.5">
-                  <span className="text-wainscot-green uppercase tracking-wider font-semibold">{t('Genre:')}</span>
+                  <span className="shrink-0 text-wainscot-green uppercase tracking-wider font-semibold">{t('Genre:')}</span>
                   <span className="text-solo font-medium text-left sm:text-right">{film.genre}</span>
                 </div>
                 {film.releaseDate && (
                   <div className="flex flex-col sm:flex-row sm:justify-between gap-1 border-b border-deep-bronze/30 pb-2.5">
-                    <span className="text-wainscot-green uppercase tracking-wider font-semibold">{t('Release date:')}</span>
+                    <span className="shrink-0 text-wainscot-green uppercase tracking-wider font-semibold">{t('Release date:')}</span>
                     <time dateTime={film.releaseDate} className="text-solo font-medium text-left sm:text-right">
                       {film.releaseDate.split('-').reverse().join('.')}
                     </time>
                   </div>
                 )}
                 <div className="flex flex-col sm:flex-row sm:justify-between gap-1 border-b border-deep-bronze/30 pb-2.5">
-                  <span className="text-wainscot-green uppercase tracking-wider font-semibold">{t('Director:')}</span>
+                  <span className="shrink-0 text-wainscot-green uppercase tracking-wider font-semibold">{t('Director:')}</span>
                   <span className="text-hive-delight font-semibold text-left sm:text-right">
                     {film.director ||
                       (film.id === 'nham-mat-thay-mua-he' ? 'Cao Thúy Nhi' :
@@ -295,7 +295,7 @@ export const FilmModal: React.FC<FilmModalProps> = ({ film, onClose, onNext }) =
                   </span>
                 </div>
                 <div className="flex flex-col sm:flex-row sm:justify-between gap-1 pb-1">
-                  <span className="text-wainscot-green uppercase tracking-wider font-semibold">{t('Cast:')}</span>
+                  <span className="shrink-0 text-wainscot-green uppercase tracking-wider font-semibold">{t('Cast:')}</span>
                   <span className="text-solo font-medium text-left sm:text-right leading-relaxed max-w-xs">
                     {film.cast || (film.credits.find(c => c.label === "Starring")?.value ?? (
                       film.id === 'nham-mat-thay-mua-he' ? 'Phương Anh Đào, Takafumi Akutsu' :

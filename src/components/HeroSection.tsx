@@ -151,7 +151,7 @@ export const HeroSection: React.FC = () => {
         {/* 2. PRODUCER */}
         <p
           ref={subtitleRef}
-          className="mt-4 sm:mt-5 font-montserrat font-bold text-sm sm:text-base md:text-lg tracking-[0.3em] uppercase text-hive-delight"
+          className="hero-role mt-4 sm:mt-5 max-w-full font-montserrat font-bold text-sm sm:text-base md:text-lg uppercase text-hive-delight"
         >
           {filmmakerContent.profile.role}
         </p>
@@ -171,7 +171,7 @@ export const HeroSection: React.FC = () => {
         >
           {filmmakerContent.profile.storyPillars.map((story, idx) => (
             <React.Fragment key={story}>
-              <span className="px-3.5 py-1 rounded bg-deep-bronze/50 border border-deep-bronze text-solo hover:text-hive-delight transition-colors">
+              <span className="hero-story px-3.5 py-1 rounded bg-deep-bronze/50 border border-deep-bronze text-solo hover:text-hive-delight transition-colors">
                 {story}
               </span>
               {idx < filmmakerContent.profile.storyPillars.length - 1 && (

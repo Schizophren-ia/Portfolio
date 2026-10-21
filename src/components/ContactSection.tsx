@@ -71,9 +71,9 @@ export const ContactSection: React.FC = () => {
 
         {/* Large Rolling Statement: Playfair Display */}
         <div className="mb-20 sm:mb-24 text-center max-w-4xl mx-auto">
-          <h2 className="font-playfair font-black text-4xl sm:text-6xl md:text-7xl lg:text-8xl uppercase tracking-tight text-solo leading-[0.95]">
+          <h2 className="contact-heading font-playfair font-black uppercase tracking-tight text-solo leading-tight">
             {t("LET'S MAKE SOMETHING")}{' '}
-            <span className="text-hive-delight text-glow block sm:inline">
+            <span className="text-hive-delight text-glow">
               {t('UNFORGETTABLE')}
             </span>
           </h2>
@@ -96,10 +96,10 @@ export const ContactSection: React.FC = () => {
               <span className="font-montserrat text-[10px] tracking-cinema text-wainscot-green uppercase block">
                 {t('DIRECT INQUIRY')}
               </span>
-              <div className="flex items-center gap-3">
+              <div className="contact-email-row flex min-w-0 flex-wrap items-center gap-3">
                 <a
                   href={`mailto:${profile.email}`}
-                  className="font-playfair font-bold text-2xl sm:text-3xl text-solo hover:text-hive-delight transition-colors break-all"
+                  className="contact-email min-w-0 font-playfair font-bold text-solo hover:text-hive-delight transition-colors"
                 >
                   {profile.email}
                 </a>
@@ -167,8 +167,8 @@ export const ContactSection: React.FC = () => {
           </div>
 
           {/* Contact Form with Deep Bronze inputs, Solo text, Hive Delight focus (7 cols) */}
-          <div className="lg:col-span-7 p-8 sm:p-10 rounded-sm border border-deep-bronze/80 bg-deep-bronze/20 shadow-bronze-surface">
-            <h3 className="font-playfair font-black text-2xl text-solo uppercase tracking-tight mb-2">
+          <div className="contact-form-panel min-w-0 lg:col-span-7 p-5 sm:p-8 rounded-sm border border-deep-bronze/80 bg-deep-bronze/20 shadow-bronze-surface">
+            <h3 className="contact-form-title font-playfair font-black text-solo uppercase tracking-tight mb-2">
               {t('INITIATE COLLABORATION')}
             </h3>
             <p className="font-montserrat text-xs text-wainscot-green mb-8">
@@ -254,7 +254,7 @@ export const ContactSection: React.FC = () => {
         {/* Footer: Film End Credits Style */}
         <div className="pt-16 border-t border-deep-bronze/40 flex flex-col md:flex-row items-center justify-between gap-6 text-xs font-montserrat text-wainscot-green">
           {/* Copyright */}
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center justify-center gap-3 text-center md:justify-start md:text-left">
             <span className="font-playfair font-bold text-solo text-sm">
               © 2026 {profile.fullName}.
             </span>
