@@ -210,12 +210,6 @@ a,
   line-height: 1.2;
 }
 
-.hero-role {
-  letter-spacing: clamp(0.025em, 0.2vw, 0.14em);
-  text-wrap: pretty;
-  line-height: 1.6;
-}
-
 .hero-story {
   max-width: 100%;
   text-wrap: pretty;

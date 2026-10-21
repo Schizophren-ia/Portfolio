@@ -11,7 +11,6 @@ export const HeroSection: React.FC = () => {
   const heroWrapperRef = useRef<HTMLDivElement>(null);
   const videoBgRef = useRef<HTMLVideoElement>(null);
   const headlineRef = useRef<HTMLHeadingElement>(null);
-  const subtitleRef = useRef<HTMLParagraphElement>(null);
   const locationRef = useRef<HTMLParagraphElement>(null);
   const taglineRef = useRef<HTMLDivElement>(null);
   const ctaGroupRef = useRef<HTMLDivElement>(null);
@@ -37,12 +36,6 @@ export const HeroSection: React.FC = () => {
           { yPercent: 120, opacity: 0 },
           { yPercent: 0, opacity: 1, duration: 1.1, stagger: 0.15, ease: 'power3.out' },
           '-=0.7'
-        )
-        .fromTo(
-          subtitleRef.current,
-          { opacity: 0, y: 15 },
-          { opacity: 1, y: 0, duration: 0.7, ease: 'power2.out' },
-          '-=0.5'
         )
         .fromTo(
           locationRef.current,
@@ -148,15 +141,7 @@ export const HeroSection: React.FC = () => {
           </div>
         </h1>
 
-        {/* 2. PRODUCER */}
-        <p
-          ref={subtitleRef}
-          className="hero-role mt-4 sm:mt-5 max-w-full font-montserrat font-bold text-sm sm:text-base md:text-lg uppercase text-hive-delight"
-        >
-          {filmmakerContent.profile.role}
-        </p>
-
-        {/* 3. HO CHI MINH CITY, VIETNAM */}
+        {/* 2. HO CHI MINH CITY, VIETNAM */}
         <p
           ref={locationRef}
           className="mt-2 font-montserrat font-medium text-xs sm:text-sm tracking-[0.22em] uppercase text-wainscot-green"
@@ -164,7 +149,7 @@ export const HeroSection: React.FC = () => {
           {filmmakerContent.profile.location}
         </p>
 
-        {/* 4. Story Pillars: Story about me · Story about film · Story about dream */}
+        {/* 3. Story Pillars: Story about me · Story about film · Story about dream */}
         <div
           ref={taglineRef}
           className="mt-5 sm:mt-6 flex flex-wrap items-center justify-center gap-2.5 sm:gap-4 font-montserrat text-xs sm:text-sm text-solo/90 tracking-widest uppercase"
@@ -181,7 +166,7 @@ export const HeroSection: React.FC = () => {
           ))}
         </div>
 
-        {/* 5. Two CTAs: View my work & Get in touch */}
+        {/* 4. Two CTAs: View my work & Get in touch */}
         <div
           ref={ctaGroupRef}
           className="mt-7 sm:mt-9 flex flex-wrap items-center justify-center gap-4 sm:gap-6"

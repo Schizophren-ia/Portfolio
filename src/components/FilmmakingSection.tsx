@@ -18,9 +18,19 @@ type IndexedFilm = FilmItem & { archiveIndex: number };
 
 const getCategoryFilms = (films: IndexedFilm[], category: FilmCategory | undefined) => {
   const selected = films.filter((film) => film.category === category);
-  if (category !== 'short-film') return selected;
-  const priority = (film: IndexedFilm) => film.id === 'vu-dieu-tinh-yeu' ? 0 : film.id === 'minh-echoes-of-doves-wings' ? 1 : 2;
-  return selected.sort((a, b) => priority(a) - priority(b));
+  if (category !== 'short-film' && category !== 'tvc') return selected;
+
+  const priority = (film: IndexedFilm) => {
+    if (category === 'short-film') {
+      return film.id === 'vu-dieu-tinh-yeu' ? 0 : film.id === 'minh-echoes-of-doves-wings' ? 1 : 2;
+    }
+    // Keep both Miu Lê campaigns at the end, regardless of their release year.
+    return film.id === 'hack-tet-mon-ngon' || film.id === 'hack-tet-truyen-thong' ? 1 : 0;
+  };
+
+  // Same-year works retain their existing order; undated works follow dated ones.
+  // This shared order also drives Next Reel in the film details.
+  return selected.sort((a, b) => priority(a) - priority(b) || (Number(b.year) || 0) - (Number(a.year) || 0));
 };
 
 const previewAspectRatio = (film: FilmItem) => film.thumbnailAspectRatio ?? (film.mediaType === 'local-video' ? 3 / 4 : 16 / 9);
