@@ -9,7 +9,7 @@ gsap.registerPlugin(ScrollTrigger);
 export const HeroSection: React.FC = () => {
   const { content: filmmakerContent, t } = useLanguage();
   const heroWrapperRef = useRef<HTMLDivElement>(null);
-  const videoBgRef = useRef<HTMLVideoElement>(null);
+  const backgroundRef = useRef<HTMLImageElement>(null);
   const headlineRef = useRef<HTMLHeadingElement>(null);
   const locationRef = useRef<HTMLParagraphElement>(null);
   const taglineRef = useRef<HTMLDivElement>(null);
@@ -63,7 +63,7 @@ export const HeroSection: React.FC = () => {
         );
 
       // 2. Smooth parallax camera zoom as user scrolls into the next section (no pinning, no empty gap)
-      gsap.to(videoBgRef.current, {
+      gsap.to(backgroundRef.current, {
         yPercent: 15,
         scale: 1.12,
         ease: 'none',
@@ -86,19 +86,19 @@ export const HeroSection: React.FC = () => {
       className="relative w-full min-h-screen bg-noble-black overflow-hidden flex items-center justify-center px-4 sm:px-6 md:px-8"
       aria-label={t('Cinematic Hero Presentation')}
     >
-      {/* Full-Bleed Looping Muted Video Background with Poster Fallback */}
-      <div className="absolute inset-0 w-full h-full overflow-hidden bg-noble-black pointer-events-none">
-        <video
-          ref={videoBgRef}
-          autoPlay
-          loop
-          muted
-          playsInline
-          poster={filmmakerContent.profile.heroPoster}
+      {/* Use the corrected local clapper photo, never the unrelated sample video. */}
+      <div aria-hidden="true" className="absolute inset-0 w-full h-full overflow-hidden bg-noble-black pointer-events-none">
+        <img
+          ref={backgroundRef}
+          src={filmmakerContent.profile.heroPoster}
+          alt=""
+          width={1526}
+          height={1031}
+          fetchPriority="high"
+          decoding="async"
+          loading="eager"
           className="w-full h-full object-cover origin-center opacity-40 will-change-transform"
-        >
-          <source src={filmmakerContent.profile.heroVideo} type="video/mp4" />
-        </video>
+        />
 
         {/* Master Noble Black Gradient Overlay for High Contrast Text Readability */}
         <div className="absolute inset-0 bg-gradient-to-t from-noble-black via-noble-black/60 to-noble-black/75" />

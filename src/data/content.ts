@@ -15,8 +15,8 @@ export const filmmakerContent: FilmmakerContent = {
     availability: "Available for Film Productions & Creative Collaborations",
     email: "ledangdaitrang@gmail.com",
     phone: "+84 935 958 358",
-    heroVideo: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
-    heroPoster: "https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=2000&q=85",
+    heroVideo: "",
+    heroPoster: getAssetUrl("/images/hero-clapper-le-dang-dai-trang.jpg"),
     portraitImage: getAssetUrl("/images/profile-portrait.jpg"),
     storyPillars: [
       "Story about me",
