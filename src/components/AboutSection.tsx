@@ -190,13 +190,13 @@ export const AboutSection: React.FC = () => {
               <article id="about-philosophy" className="min-w-0 border border-deep-bronze/60 bg-[#112A46] p-5 sm:p-6" aria-labelledby="about-philosophy-title">
                 <h3 id="about-philosophy-title" className="font-playfair text-lg font-bold text-hive-delight">{t('My Philosophy')}</h3>
                 <div className="mt-3 space-y-3 font-montserrat text-sm leading-relaxed text-wainscot-green [text-wrap:pretty]">
-                  <p>{t('Connect creativity with honest emotion so every frame carries meaning beyond the screen.')} {t('For me, filmmaking begins with listening: to the story, to the people behind it, and to the small details that make an experience feel real. I want each creative decision to serve that emotional connection, from the first idea to the final frame.')}</p>
-                  <p>{t('A meaningful film grows through collaboration. I value clear communication, thoughtful preparation, and respect for every member of the team. When imagination is supported by a practical production process, there is room to explore, solve challenges together, and protect the heart of the story throughout the journey.')}</p>
+                  <p>{t('Connect creativity with honest emotion so every frame carries meaning beyond the screen.')} {t('Filmmaking begins with listening to stories, people, and the details that make an experience feel real. Each creative decision should nurture that connection, from the first idea to the final frame.')}</p>
+                  <p>{t('I value close collaboration, clear communication, and respect for every member of the team. Careful preparation creates space for ideas to grow, while thoughtful production helps us respond to challenges together. By bringing creative and practical perspectives into the same conversation, we can preserve the heart of the story from the first discussion to the final frame.')}</p>
                 </div>
               </article>
               <article id="about-mission" className="min-w-0 border border-deep-bronze/60 bg-[#112A46] p-5 sm:p-6" aria-labelledby="about-mission-title">
                 <h3 id="about-mission-title" className="font-playfair text-lg font-bold text-hive-delight">{t('The Mission')}</h3>
-                <p className="mt-3 font-montserrat text-sm leading-relaxed text-wainscot-green [text-wrap:pretty]">{t('Transform ideas on paper into vivid films that reach audiences through the language of cinema.')} {t('My aim is to bring creative people and thoughtful production together, giving each project the care it needs to become a complete work. Across films, commercials, and new technologies, I keep looking for ways to tell stories with clarity, curiosity, and a human perspective, creating experiences that stay with the audience after the screen goes dark.')}</p>
+                <p className="mt-3 font-montserrat text-sm leading-relaxed text-wainscot-green [text-wrap:pretty]">{t('Transform ideas on paper into vivid films that reach audiences through the language of cinema.')} {t('I bring creative people and thoughtful production together to turn each project into a complete work. Across cinema, commercials, and new technologies, I seek clear, human stories that stay with the audience.')}</p>
               </article>
             </div>
           </div>
