@@ -33,6 +33,29 @@ Theo yêu cầu được cập nhật ngày 23.10.2026, mọi thay đổi tuân 
 
 ## 3. Nhật Ký Thay Đổi (Changelog)
 
+### [2026-10-23 — Đồng bộ chữ nhấn mạnh navy, giữ nguyên gạch chân]
+
+**Phê duyệt:** Người dùng duyệt phương án dùng navy đậm `#0A1B2E` cho tên, tiêu đề và chữ nhấn mạnh trên nền sáng; sau đó làm rõ chỉ bỏ highlight bằng màu chữ khác, không bỏ gạch chân.
+
+**Thay đổi đã triển khai:**
+
+- Token nhấn mạnh trong `.section-light` dùng cùng navy `#0A1B2E` với chữ chính, thay Storm Blue; áp dụng đồng nhất cho tiêu đề About, Journey, Contact, tên nhóm nghề, nhãn nhấn mạnh và các tiêu đề hồ sơ.
+- Phần tiểu sử dùng một màu navy cố định; bỏ hiệu ứng đổi màu từng từ khi cuộn để không tạo lại sự khác biệt màu chữ.
+- Giữ nguyên điều kiện nhấn mạnh, gạch chân và độ đậm hiện có; màu gạch chân kế thừa màu chữ. Không đổi nội dung, hai font, bố cục, nền sáng/navy, video hay carousel.
+- Hero, điều hướng, Filmmaking, modal phim, clapperboard và footer tiếp tục dùng token tối, không chịu ảnh hưởng của thay đổi token sáng.
+
+**File liên quan:** `src/index.css`, `src/components/AboutSection.tsx`, `design-system/filmmaker-portfolio/MASTER.md`.
+
+**Kiểm tra:**
+
+- Production build, lint và `git diff --check`: đạt; lint còn cảnh báo có sẵn ở `TimecodeHUD.tsx:13`, không có lỗi.
+- Chrome 375/768/1440px × EN/VI: 35 phần tử tiêu đề/nhấn mạnh được kiểm tra trong mỗi tổ hợp có cùng màu navy; các node chữ vùng sáng đã đo đạt tương phản tối thiểu 6.76:1. Nền section, thẻ, nút, focus, hover và modal tối giữ đúng; không tràn ngang hoặc lỗi JavaScript.
+- Kiểm tra motion bình thường và reduced motion: tiểu sử không còn đổi màu từng từ.
+- Kiểm tra hồi quy font/bố cục ở 320/375/768/1024/1280/1440px × EN/VI: đúng hai font, glyph Việt và chữ nghiêng; Profile/Sứ mệnh khớp mép dưới ở 1280/1440px.
+- Website thật HTTPS trả HTTP 200, CSS/JS mới đã tải. Chrome trực tiếp EN/VI xác nhận tiêu đề/nhấn mạnh/tiểu sử cùng navy; kiểm tra mẫu CSS nhấn mạnh xác nhận `underline` còn nguyên và màu gạch chân cùng navy.
+
+**GitHub và website:** Commit mã nguồn `f14c41281abb1a4519b4a794a21c555d11a76200` — `Unify light-section emphasis in deep navy and preserve underlines`. Build và deploy thành công: https://github.com/Schizophren-ia/Portfolio/actions/runs/39991211549. Đã xác nhận bản mới tại https://xuongphimmuahe.com/ trước khi ghi báo cáo này; đồng bộ báo cáo bằng commit tài liệu riêng `[skip ci]`.
+
 ### [2026-10-23 — Phối nền trắng pha xanh và navy theo phương án đã duyệt]
 
 **Phê duyệt:** Người dùng trả lời “Duyệt” cho phương án xen kẽ nền sáng/navy; triển khai theo workflow 6 bước, xuất bản trước khi viết báo cáo này.
