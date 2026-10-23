@@ -16,6 +16,13 @@ const categories: { id: FilmCategory; label: string; note: string }[] = [
 
 type IndexedFilm = FilmItem & { archiveIndex: number };
 
+const tvcClosingOrder = [
+  'hack-tet-mon-ngon',
+  'hack-tet-truyen-thong',
+  'xmen-24-gio-sach-gau-ep1',
+  'xmen-24-gio-sach-gau-ep2',
+];
+
 const getCategoryFilms = (films: IndexedFilm[], category: FilmCategory | undefined) => {
   const selected = films.filter((film) => film.category === category);
   if (category !== 'short-film' && category !== 'tvc') return selected;
@@ -24,8 +31,9 @@ const getCategoryFilms = (films: IndexedFilm[], category: FilmCategory | undefin
     if (category === 'short-film') {
       return film.id === 'vu-dieu-tinh-yeu' ? 0 : film.id === 'minh-echoes-of-doves-wings' ? 1 : 2;
     }
-    // Keep both Miu Lê campaigns at the end, regardless of their release year.
-    return film.id === 'hack-tet-mon-ngon' || film.id === 'hack-tet-truyen-thong' ? 1 : 0;
+    // Keep the requested closing group together, after the date-sorted TVCs.
+    const closingIndex = tvcClosingOrder.indexOf(film.id);
+    return closingIndex < 0 ? 0 : closingIndex + 1;
   };
 
   // Same-year works retain their existing order; undated works follow dated ones.

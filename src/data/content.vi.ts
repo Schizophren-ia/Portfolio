@@ -18,6 +18,8 @@ const filmLoglines: Record<string, string> = {
   'con-thuyen-cho-ca-uoc-mo': 'Một phim thương hiệu ngắn kể về ước mơ của những người phụ nữ mưu sinh trên biển.',
   'nguoi-nha-viettel-tammi': 'Câu chuyện gia đình về khoảng cách, sự quan tâm thường ngày và việc dành thời gian để kết nối lại với nhau.',
   'fun-sport-live-your-dream-world-cup-2022': 'Phim chiến dịch World Cup 2022 khuyến khích mọi người theo đuổi niềm đam mê bóng đá.',
+  'xmen-24-gio-sach-gau-ep1': 'Tập 1 trong loạt phim quảng cáo X-Men giới thiệu khả năng sạch gàu suốt 24 giờ.',
+  'xmen-24-gio-sach-gau-ep2': 'Tập 2 trong loạt phim quảng cáo X-Men giới thiệu khả năng sạch gàu suốt 24 giờ.',
 };
 
 export function localizeFilm(film: FilmItem): FilmItem {

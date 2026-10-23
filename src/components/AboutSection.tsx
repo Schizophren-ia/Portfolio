@@ -186,15 +186,18 @@ export const AboutSection: React.FC = () => {
                 );
               })}
             </div>
-            <div className="mt-8 grid gap-4 sm:grid-cols-2">
-              <div className="border border-deep-bronze/60 bg-[#112A46] p-5">
-                <p className="font-playfair text-lg font-bold text-hive-delight">{t('My Philosophy')}</p>
-                <p className="mt-2 font-montserrat text-xs leading-relaxed text-wainscot-green text-justify">{t('Connect creativity with honest emotion so every frame carries meaning beyond the screen.')}</p>
-              </div>
-              <div className="border border-deep-bronze/60 bg-[#112A46] p-5">
-                <p className="font-playfair text-lg font-bold text-hive-delight">{t('The Mission')}</p>
-                <p className="mt-2 font-montserrat text-xs leading-relaxed text-wainscot-green text-justify">{t('Transform ideas on paper into vivid films that reach audiences through the language of cinema.')}</p>
-              </div>
+            <div className="mt-8 grid gap-5" data-about-principles>
+              <article id="about-philosophy" className="min-w-0 border border-deep-bronze/60 bg-[#112A46] p-5 sm:p-6" aria-labelledby="about-philosophy-title">
+                <h3 id="about-philosophy-title" className="font-playfair text-lg font-bold text-hive-delight">{t('My Philosophy')}</h3>
+                <div className="mt-3 space-y-3 font-montserrat text-sm leading-relaxed text-wainscot-green [text-wrap:pretty]">
+                  <p>{t('Connect creativity with honest emotion so every frame carries meaning beyond the screen.')} {t('For me, filmmaking begins with listening: to the story, to the people behind it, and to the small details that make an experience feel real. I want each creative decision to serve that emotional connection, from the first idea to the final frame.')}</p>
+                  <p>{t('A meaningful film grows through collaboration. I value clear communication, thoughtful preparation, and respect for every member of the team. When imagination is supported by a practical production process, there is room to explore, solve challenges together, and protect the heart of the story throughout the journey.')}</p>
+                </div>
+              </article>
+              <article id="about-mission" className="min-w-0 border border-deep-bronze/60 bg-[#112A46] p-5 sm:p-6" aria-labelledby="about-mission-title">
+                <h3 id="about-mission-title" className="font-playfair text-lg font-bold text-hive-delight">{t('The Mission')}</h3>
+                <p className="mt-3 font-montserrat text-sm leading-relaxed text-wainscot-green [text-wrap:pretty]">{t('Transform ideas on paper into vivid films that reach audiences through the language of cinema.')} {t('My aim is to bring creative people and thoughtful production together, giving each project the care it needs to become a complete work. Across films, commercials, and new technologies, I keep looking for ways to tell stories with clarity, curiosity, and a human perspective, creating experiences that stay with the audience after the screen goes dark.')}</p>
+              </article>
             </div>
           </div>
         </div>
