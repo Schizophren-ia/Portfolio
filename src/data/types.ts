@@ -69,6 +69,11 @@ export interface FilmmakerContent {
     fullName: string;
     role: string;
     tagline: string;
+    occupations: {
+      category: string;
+      formats?: string;
+      roles: string[];
+    }[];
     location: string;
     availability: string;
     email: string;

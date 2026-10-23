@@ -10,6 +10,21 @@ export const filmmakerContent: FilmmakerContent = {
     lastName: "ĐÀI TRANG",
     fullName: "LÊ ĐẶNG ĐÀI TRANG",
     role: "Film Producer & AI Business Head",
+    occupations: [
+      {
+        category: "Film & Commercial Production",
+        formats: "Feature Films, Short Films, TVCs, Music Videos, Viral Clips",
+        roles: [
+          "Executive Producer / Producer",
+          "Line Producer",
+          "1st Assistant Director (1st AD)"
+        ]
+      },
+      {
+        category: "AI & Technology",
+        roles: ["Business Head", "Production Director"]
+      }
+    ],
     tagline: "Connecting creativity and emotion — transforming paper into living cinema.",
     location: "Ho Chi Minh City, Vietnam",
     availability: "Available for Film Productions & Creative Collaborations",

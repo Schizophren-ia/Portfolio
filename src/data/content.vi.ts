@@ -39,6 +39,12 @@ export const filmmakerContentVi: FilmmakerContent = {
   profile: {
     ...filmmakerContent.profile,
     role: vi(filmmakerContent.profile.role),
+    occupations: filmmakerContent.profile.occupations.map((group) => ({
+      ...group,
+      category: vi(group.category),
+      formats: group.formats ? vi(group.formats) : undefined,
+      roles: group.roles.map(vi),
+    })),
     tagline: vi(filmmakerContent.profile.tagline),
     location: vi(filmmakerContent.profile.location),
     availability: vi(filmmakerContent.profile.availability),

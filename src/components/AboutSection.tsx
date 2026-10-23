@@ -149,11 +149,21 @@ export const AboutSection: React.FC = () => {
                     </dt>
                     <dd className="text-right font-semibold leading-relaxed text-solo">{language === 'vi' ? 'Lê Đặng Đài Trang' : 'Le Dang Dai Trang'}</dd>
                   </div>
-                  <div className="profile-row min-h-8 pt-0.5">
+                  <div className="min-w-0 pt-0.5" data-occupations>
                     <dt className="flex items-center gap-2 text-left uppercase tracking-wider text-wainscot-green">
                       <span className="text-hive-delight">•</span> {t('Occupation:')}
                     </dt>
-                    <dd className="text-right font-semibold leading-relaxed text-solo">{filmmakerContent.profile.role}</dd>
+                    <dd className="mt-3 space-y-5 text-left leading-relaxed text-solo">
+                      {filmmakerContent.profile.occupations.map((group) => (
+                        <div key={group.category}>
+                          <p className="font-semibold text-hive-delight">{group.category}</p>
+                          {group.formats && <p className="mt-1 text-xs text-wainscot-green">({group.formats})</p>}
+                          <ul className="mt-2 space-y-1.5 border-l border-deep-bronze/60 pl-3">
+                            {group.roles.map((role) => <li key={role}>{role}</li>)}
+                          </ul>
+                        </div>
+                      ))}
+                    </dd>
                   </div>
                 </dl>
               </div>
