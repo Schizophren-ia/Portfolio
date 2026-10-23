@@ -33,6 +33,37 @@ Theo yêu cầu được cập nhật ngày 23.10.2026, mọi thay đổi tuân 
 
 ## 3. Nhật Ký Thay Đổi (Changelog)
 
+### [2026-10-23 — Phối nền trắng pha xanh và navy theo phương án đã duyệt]
+
+**Phê duyệt:** Người dùng trả lời “Duyệt” cho phương án xen kẽ nền sáng/navy; triển khai theo workflow 6 bước, xuất bản trước khi viết báo cáo này.
+
+**Thay đổi đã triển khai:**
+
+- About Me và Journey: nền Arctic Haze `#F2F6FB`, tiêu đề navy `#0A1B2E`, nội dung Storm Blue `#34506D`.
+- Profile, Triết lý, Sứ mệnh và hồ sơ sản xuất: thẻ trắng `#FFFFFF`, viền Cloud Blue `#C4D2E1`, bóng nhẹ; giữ mép dưới Profile/Sứ mệnh cân bằng trên desktop.
+- Contact: nền Mist Blue `#E1E8F0`, biểu mẫu và ô nhập trắng; nút gửi navy, hover Ocean Depth `#1B3B5A`. Viền ô nhập và placeholder Blue Slate `#557392`, trạng thái focus bàn phím rõ ràng.
+- Tách footer khỏi vùng nền Contact để giữ một dải navy toàn chiều ngang. Hero, thanh điều hướng, Filmmaking và cửa sổ chi tiết phim tiếp tục dùng giao diện tối.
+- Token màu được giới hạn trong `.section-light`; `.theme-navy` giữ clapperboard và overlay ảnh chân dung tối. Hiệu ứng chữ tiểu sử chuyển Storm Blue → navy ở opacity 1, không còn chữ nhạt mất trên nền sáng.
+- Giữ nguyên nội dung, EN/VI, hai font Cormorant Garamond + Be Vietnam Pro, poster/video, thứ tự kho phim và cơ chế carousel.
+
+**File liên quan:** `src/index.css`, `src/components/AboutSection.tsx`, `src/components/ExperienceSection.tsx`, `src/components/ContactSection.tsx`, `design-system/filmmaker-portfolio/MASTER.md`.
+
+**Kiểm tra:**
+
+- Production build và `git diff --check`: đạt. Lint không có lỗi; còn cảnh báo có sẵn tại `TimecodeHUD.tsx:13`.
+- Chrome: 12 tổ hợp 320/375/768/1024/1280/1440px × EN/VI đạt kiểm tra hai font thực tế, chữ Việt, không tràn ngang; Profile/Sứ mệnh khớp mép dưới ở 1280/1440px.
+- Đo màu và tương phản ở 375/768/1440px × EN/VI: đúng nền section/thẻ/nút; các node chữ đã kiểm tra trong vùng sáng đạt tối thiểu **6.76:1**, không tính ảnh và các vùng navy lồng bên trong. Focus bàn phím và hover nút gửi đạt.
+- Kiểm tra cả reduced motion và hiệu ứng chữ tiểu sử bình thường; cửa sổ phim vẫn dùng bảng màu tối, không phát sinh lỗi JavaScript.
+- Kiểm tra hồi quy 13 TVC, thứ tự bốn video cuối, thumbnail, About xếp dọc; EP1 và nút chuyển EP2 đúng. Không gửi biểu mẫu hay email thật trong quá trình kiểm tra.
+- GitHub Actions: bước lint, kiểm tra lỗ hổng dependency, build và deploy đều thành công.
+- Website công khai HTTPS trả HTTP 200; CSS mới có đủ theme sáng, thẻ trắng, Contact Mist Blue và CTA navy. Kiểm tra Chrome trực tiếp tên miền thật ở EN/VI xác nhận đúng màu và không tràn ngang.
+
+**GitHub và website:**
+
+- Commit mã nguồn: `be425d320f0fba222e70fb854851c90912b7563c` — `Introduce alternating paper-white and navy portfolio sections`.
+- Workflow thành công: https://github.com/Schizophren-ia/Portfolio/actions/runs/39980993083.
+- Đã xuất bản và xác nhận tại https://xuongphimmuahe.com/ trước khi ghi báo cáo này. Báo cáo được đồng bộ bằng commit tài liệu riêng với `[skip ci]`.
+
 ### [2026-10-23 — Áp dụng hai font đã duyệt]
 
 **Phê duyệt:** Người dùng duyệt phương án ưu tiên Cormorant Garamond + Be Vietnam Pro; dùng hai font cố định cho cả tiếng Anh và tiếng Việt.
@@ -61,7 +92,7 @@ Theo yêu cầu được cập nhật ngày 23.10.2026, mọi thay đổi tuân 
 - Workflow build và deploy: thành công — https://github.com/Schizophren-ia/Portfolio/actions/runs/39978751696.
 - Đã xuất bản tại https://xuongphimmuahe.com/ trước khi viết báo cáo này.
 
-**Yêu cầu mới đang chờ duyệt:** Phối nền trắng pha xanh `#F2F6FB` với navy `#0A1B2E`, đề xuất xen kẽ các section. Đây mới là đề xuất, chưa thay đổi màu trên website.
+**Yêu cầu phối màu tiếp theo:** Đã được người dùng duyệt và triển khai trong bản phối nền trắng/navy ghi ở mục nhật ký phía trên.
 
 ### [2026-10-10 - Cập nhật 15]
 - **Sửa Lỗi Khuất Thẻ Danh Hiệu, Căn Chuẩn Lề Thẻ Số Thứ Tự (Filmmaking), Bỏ Mục Scope & Gắn Link Facebook Chính Thức (Contact)**:
