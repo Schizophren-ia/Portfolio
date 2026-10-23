@@ -25,7 +25,7 @@ export const vietnameseText: Record<string, string> = {
   'Feature Films, Short Films, TVCs, Music Videos, Viral Clips': 'Phim điện ảnh, Phim ngắn, TVC, MV, Viral Clip',
   'Executive Producer / Producer': 'Giám đốc sản xuất / Nhà sản xuất',
   'Line Producer': 'Điều hành sản xuất',
-  '1st Assistant Director (1st AD)': 'Trợ lý đạo diễn thứ nhất (1st AD)',
+  '1st Assistant Director (1st AD)': 'Trợ lý đạo diễn',
   'AI & Technology': 'AI & Công nghệ',
   'Business Head': 'Trưởng bộ phận kinh doanh',
   'Production Director': 'Giám đốc sản xuất',
