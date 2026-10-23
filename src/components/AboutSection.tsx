@@ -122,7 +122,7 @@ export const AboutSection: React.FC = () => {
         </div>
 
         {/* Portrait, profile and biography remain one unified block. */}
-        <div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-12 lg:gap-16">
+        <div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-12 lg:items-stretch lg:gap-16">
           <div className="lg:col-span-5 flex flex-col items-center">
             <div className="group relative mx-auto aspect-[4/5] max-h-[500px] w-full max-w-md overflow-hidden border border-deep-bronze/90 bg-black shadow-2xl">
               <img src={filmmakerContent.profile.portraitImage} alt={t('{name} portrait', { name: filmmakerContent.profile.fullName })} className="h-full w-full object-cover object-[center_15%] transition-transform duration-500 ease-out motion-safe:group-hover:scale-[1.025] motion-reduce:transition-none" />
@@ -170,7 +170,7 @@ export const AboutSection: React.FC = () => {
             </div>
           </div>
 
-          <div className="lg:col-span-7">
+          <div className="flex min-w-0 flex-col lg:col-span-7">
             <p className="mb-3 font-montserrat text-[10px] font-semibold uppercase tracking-cinema text-stone-ground">{t('Get to know me')}</p>
             <h2 className="section-heading border-b border-deep-bronze/50 pb-6 font-playfair font-black uppercase leading-tight tracking-tight text-solo">
               {language === 'vi' ? 'VỀ' : 'ABOUT'} <span className="text-hive-delight">{language === 'vi' ? 'TÔI' : 'ME'}</span>
@@ -186,16 +186,16 @@ export const AboutSection: React.FC = () => {
                 );
               })}
             </div>
-            <div className="mt-8 grid gap-5" data-about-principles>
+            <div className="mt-8 grid gap-5 lg:flex-1" data-about-principles>
               <article id="about-philosophy" className="min-w-0 border border-deep-bronze/60 bg-[#112A46] p-5 sm:p-6" aria-labelledby="about-philosophy-title">
-                <h3 id="about-philosophy-title" className="font-playfair text-lg font-bold text-hive-delight">{t('My Philosophy')}</h3>
+                <h3 id="about-philosophy-title" className="font-playfair text-2xl font-bold text-hive-delight">{t('My Philosophy')}</h3>
                 <div className="mt-3 space-y-3 font-montserrat text-sm leading-relaxed text-wainscot-green [text-wrap:pretty]">
                   <p>{t('Connect creativity with honest emotion so every frame carries meaning beyond the screen.')} {t('Filmmaking begins with listening to stories, people, and the details that make an experience feel real. Each creative decision should nurture that connection, from the first idea to the final frame.')}</p>
                   <p>{t('I value close collaboration, clear communication, and respect for every member of the team. Careful preparation creates space for ideas to grow, while thoughtful production helps us respond to challenges together. By bringing creative and practical perspectives into the same conversation, we can preserve the heart of the story from the first discussion to the final frame.')}</p>
                 </div>
               </article>
               <article id="about-mission" className="min-w-0 border border-deep-bronze/60 bg-[#112A46] p-5 sm:p-6" aria-labelledby="about-mission-title">
-                <h3 id="about-mission-title" className="font-playfair text-lg font-bold text-hive-delight">{t('The Mission')}</h3>
+                <h3 id="about-mission-title" className="font-playfair text-2xl font-bold text-hive-delight">{t('The Mission')}</h3>
                 <p className="mt-3 font-montserrat text-sm leading-relaxed text-wainscot-green [text-wrap:pretty]">{t('Transform ideas on paper into vivid films that reach audiences through the language of cinema.')} {t('I bring creative people and thoughtful production together to turn each project into a complete work. Across cinema, commercials, and new technologies, I seek clear, human stories that stay with the audience.')}</p>
               </article>
             </div>

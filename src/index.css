@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "./fonts.css";
 
 @theme {
   --color-noble-black: #0A1B2E;
@@ -9,14 +10,16 @@
   --color-olivia: #557392;
   --color-deep-bronze: #34506D;
 
-  /* Match the reference's passport/production labels across every text style. */
-  --font-portfolio: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
-  --font-playfair: var(--font-portfolio);
-  --font-montserrat: var(--font-portfolio);
-  --font-editorial: var(--font-portfolio);
-  --font-serif: var(--font-portfolio);
-  --font-sans: var(--font-portfolio);
-  --font-mono: var(--font-portfolio);
+  /* Two approved families; legacy utility names share these semantic tokens. */
+  --font-heading: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --font-body: 'Be Vietnam Pro', Arial, sans-serif;
+  --font-portfolio: var(--font-body);
+  --font-playfair: var(--font-heading);
+  --font-montserrat: var(--font-body);
+  --font-editorial: var(--font-heading);
+  --font-serif: var(--font-heading);
+  --font-sans: var(--font-body);
+  --font-mono: var(--font-body);
 }
 
 @layer utilities {
@@ -82,6 +85,7 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
     text-wrap: balance;
     word-break: normal;
     hyphens: none;
@@ -270,8 +274,8 @@ a,
 }
 
 .archive-title {
-  font-size: 1rem;
-  font-size: clamp(0.9375rem, 4.5cqi, 1.125rem);
+  font-size: 1.25rem;
+  font-size: clamp(1.125rem, 5.5cqi, 1.375rem);
   letter-spacing: -0.025em;
   text-wrap: pretty;
 }

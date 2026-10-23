@@ -40,14 +40,17 @@
 
 ### Typography
 
-- **User override (2026-10-19):** Use the reference's passport/production-label monospace for all website text, replacing the previous two-font pairing.
-- **Heading and Body Font:** Native UI monospace (Consolas on Windows; platform monospace fallbacks elsewhere).
-- **Mood:** precise, minimal, cinematic production dossier.
-- **Loading:** System fonts only; no external font requests.
+- **User approval (2026-10-23):** Use exactly two font families for both English and Vietnamese.
+- **Heading Font:** Cormorant Garamond, including italic for existing editorial quotes.
+- **Body and UI Font:** Be Vietnam Pro for paragraphs, navigation, labels, forms, email and timecodes.
+- **Mood:** cinematic, editorial headings with clear, readable supporting text.
+- **Loading:** Self-hosted WOFF2 subsets (Latin, Latin Extended, Vietnamese), `font-display: swap`; OFL licenses included. No third-party font requests at runtime.
 
 **Shared CSS token:**
 ```css
---font-portfolio: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+--font-heading: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+--font-body: 'Be Vietnam Pro', Arial, sans-serif;
+--font-portfolio: var(--font-body);
 ```
 
 ### Spacing Variables

@@ -99,7 +99,7 @@ export const ContactSection: React.FC = () => {
               <div className="contact-email-row flex min-w-0 flex-wrap items-center gap-3">
                 <a
                   href={`mailto:${profile.email}`}
-                  className="contact-email min-w-0 font-playfair font-bold text-solo hover:text-hive-delight transition-colors"
+                  className="contact-email min-w-0 font-montserrat font-bold text-solo hover:text-hive-delight transition-colors"
                 >
                   {profile.email}
                 </a>

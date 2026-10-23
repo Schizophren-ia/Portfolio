@@ -1,4 +1,5 @@
-const portfolioFont = ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', '"Liberation Mono"', '"Courier New"', 'monospace'];
+const bodyFont = ['"Be Vietnam Pro"', 'Arial', 'sans-serif'];
+const headingFont = ['"Cormorant Garamond"', 'Georgia', '"Times New Roman"', 'serif'];
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -18,12 +19,12 @@ export default {
         'deep-bronze': '#34506D',
       },
       fontFamily: {
-        sans: portfolioFont,
-        serif: portfolioFont,
-        mono: portfolioFont,
-        playfair: portfolioFont,
-        montserrat: portfolioFont,
-        editorial: portfolioFont,
+        sans: bodyFont,
+        serif: headingFont,
+        mono: bodyFont,
+        playfair: headingFont,
+        montserrat: bodyFont,
+        editorial: headingFont,
       },
       letterSpacing: {
         'cinema': '0.25em',
