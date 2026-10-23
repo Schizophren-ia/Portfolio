@@ -7,17 +7,14 @@
 
 ## 1. Quy Trình Làm Việc Chuẩn (Workflow)
 
-Mọi thay đổi từ thời điểm này sẽ tuân thủ nghiêm ngặt theo 4 bước sau:
+Theo yêu cầu được cập nhật ngày 23.10.2026, mọi thay đổi tuân thủ 6 bước:
 
-1. **Bước 1 — Tiếp nhận ý tưởng**: Bạn (User) nêu ý tưởng, yêu cầu tính năng hoặc thay đổi giao diện.
-2. **Bước 2 — Đề xuất giải pháp**: Antigravity trình bày chi tiết:
-   - Ý tưởng thiết kế & bố cục UI/UX.
-   - Cách áp dụng hiệu ứng (animations, tương tác, transition).
-   - Tác động tới mã nguồn & các thành phần liên quan.
-3. **Bước 3 — Chờ duyệt (Approval Gate)**: Antigravity **dừng lại và chờ bạn xác nhận/đồng ý** trước khi viết hay sửa bất kỳ dòng mã nào.
-4. **Bước 4 — Triển khai & Cập nhật**: Sau khi được duyệt:
-   - Tiến hành code và kiểm thử (build test, snapshot preview).
-   - Trình bày kết quả trực quan và cập nhật lịch sử thay đổi vào file `plan.md`.
+1. **Ý tưởng**: Người dùng nêu yêu cầu hoặc ý tưởng.
+2. **Đề xuất**: Trợ lý trình bày phương án, cách làm, phạm vi và ảnh hưởng tới giao diện/mã nguồn.
+3. **Duyệt**: Chờ người dùng duyệt phương án trước khi triển khai. Yêu cầu đề xuất mới chưa được duyệt chỉ được ghi nhận, không tự áp dụng vào website.
+4. **Thực hiện**: Triển khai và kiểm tra phương án đã được duyệt.
+5. **Cập nhật GitHub và website**: Commit, push và xác nhận triển khai thành công trên website công khai.
+6. **Báo cáo**: Sau khi triển khai, ghi thay đổi, file liên quan, kết quả kiểm tra, mã commit và trạng thái xuất bản vào `plan.md`; đồng bộ báo cáo lên GitHub.
 
 ---
 
@@ -35,6 +32,36 @@ Mọi thay đổi từ thời điểm này sẽ tuân thủ nghiêm ngặt theo 
 ---
 
 ## 3. Nhật Ký Thay Đổi (Changelog)
+
+### [2026-10-23 — Áp dụng hai font đã duyệt]
+
+**Phê duyệt:** Người dùng duyệt phương án ưu tiên Cormorant Garamond + Be Vietnam Pro; dùng hai font cố định cho cả tiếng Anh và tiếng Việt.
+
+**Thay đổi đã triển khai:**
+
+- Cormorant Garamond cho tên ở Hero, tiêu đề, tên phim và các đoạn trích dẫn có sẵn; Be Vietnam Pro cho nội dung, menu, biểu mẫu, email và các nhãn thông tin.
+- Tự lưu 21 file WOFF2 chính thức, gồm Latin, Latin Extended và Vietnamese; Cormorant có kiểu thường/nghiêng và Be Vietnam Pro có các độ đậm 300–700. Kèm đủ hai giấy phép SIL OFL 1.1.
+- Dùng `font-display: swap`, preload bốn file font quan trọng. Website không gọi Google Fonts khi hiển thị.
+- Các utility font cũ được ánh xạ về đúng hai họ font mới; không thêm họ monospace thứ ba.
+- Tăng cỡ tiêu đề nhỏ và tên phim cho phù hợp nét chữ Cormorant; giữ bố cục hai ô Triết lý/Sứ mệnh xếp dọc. Ở desktop 1280/1440px, mép dưới Sứ mệnh và Profile khớp nhau trong cả hai ngôn ngữ.
+
+**File liên quan:** `src/fonts.css`, `public/fonts/` (font và giấy phép), `src/index.css`, `tailwind.config.js`, `index.html`, `src/components/AboutSection.tsx`, `src/components/ContactSection.tsx`, `design-system/filmmaker-portfolio/MASTER.md`.
+
+**Kiểm tra:**
+
+- Production build: đạt. Lint: không có lỗi; còn một cảnh báo có sẵn ở `TimecodeHUD.tsx:13`.
+- Chrome: đạt 12 tổ hợp 320, 375, 768, 1024, 1280, 1440px × EN/VI; không tràn ngang hoặc cắt chữ ở các vùng kiểm tra.
+- Kiểm tra font thực tế bằng trình duyệt: Hero dùng Cormorant; đoạn văn và email dùng Be Vietnam Pro; các glyph có dấu Việt và chữ nghiêng dùng font tải về, không rơi về font hệ thống.
+- Cửa sổ chi tiết phim: tiêu đề dùng đúng font; không có lỗi JavaScript khi kiểm tra.
+- Kiểm tra website công khai sau triển khai: CSS chứa đúng hai font; năm file WOFF2 đại diện cho Latin, Vietnamese và chữ nghiêng trả HTTP 200, đúng định dạng WOFF2 qua HTTPS.
+
+**GitHub và website:**
+
+- Commit mã nguồn: `2d92eaa6fd6e245635dc1315a052c33e615a6254` — `Apply self-hosted Cormorant Garamond and Be Vietnam Pro typography`.
+- Workflow build và deploy: thành công — https://github.com/Schizophren-ia/Portfolio/actions/runs/39978751696.
+- Đã xuất bản tại https://xuongphimmuahe.com/ trước khi viết báo cáo này.
+
+**Yêu cầu mới đang chờ duyệt:** Phối nền trắng pha xanh `#F2F6FB` với navy `#0A1B2E`, đề xuất xen kẽ các section. Đây mới là đề xuất, chưa thay đổi màu trên website.
 
 ### [2026-10-10 - Cập nhật 15]
 - **Sửa Lỗi Khuất Thẻ Danh Hiệu, Căn Chuẩn Lề Thẻ Số Thứ Tự (Filmmaking), Bỏ Mục Scope & Gắn Link Facebook Chính Thức (Contact)**:
