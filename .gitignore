@@ -12,6 +12,13 @@ dist
 dist-ssr
 *.local
 
+# Local secrets must never be committed. VITE_* values are public in the build.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
