@@ -45,7 +45,9 @@
 | Profile, Philosophy, Mission, production dossier | `#FFFFFF` | Cloud Blue `#C4D2E1` borders, subtle navy shadows |
 | Contact | `#E1E8F0` | White form, navy CTA, Blue Slate `#557392` input borders/placeholders |
 
-Implementation: `.section-light` scopes the legacy utility color tokens to light surfaces; `.theme-navy` restores dark tokens for the physical clapperboard and portrait overlay. Film dialogs, navigation and archive do not inherit light tokens. Biography scroll colors remain readable throughout (`#34506D` to `#0A1B2E`, opacity 1). Keyboard focus uses a visible dark outline on light surfaces.
+Implementation: `.section-light` scopes the legacy utility color tokens to light surfaces; `.theme-navy` restores dark tokens for the physical clapperboard and portrait overlay. Film dialogs, navigation and archive do not inherit light tokens. Biography uses uniform navy text at opacity 1, without scroll-driven color changes. Keyboard focus uses a visible dark outline on light surfaces.
+
+**Emphasis refinement (approved 2026-10-23):** Names, headings and emphasized text on all light surfaces use the same Deep Navy `#0A1B2E`; do not use a lighter blue highlight. The scoped emphasis token matches the primary text token. Preserve existing underlines and font weights. All biography words stay the same navy during scrolling; emphasis underlines inherit that color. Other body copy, backgrounds and all dark sections remain unchanged.
 
 ### Typography
 

@@ -64,7 +64,6 @@ const StatCounter: React.FC<{ targetValue: number; index: number }> = ({ targetV
 export const AboutSection: React.FC = () => {
   const { content: filmmakerContent, language, t } = useLanguage();
   const sectionRef = useRef<HTMLElement>(null);
-  const bioRef = useRef<HTMLDivElement>(null);
   const dossierRef = useRef<HTMLDivElement>(null);
   const clapRef = useRef<HTMLDivElement>(null);
   const lastSoundTimeRef = useRef(0);
@@ -80,17 +79,6 @@ export const AboutSection: React.FC = () => {
     if (!clapRef.current || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     gsap.timeline().to(clapRef.current, { rotate: -8, duration: 0.18, ease: 'power2.out' }).to(clapRef.current, { rotate: 0, duration: 0.24, ease: 'bounce.out' });
   };
-
-  useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || !bioRef.current) return;
-    const ctx = gsap.context(() => {
-      gsap.fromTo(bioRef.current!.querySelectorAll('.bio-word'), { color: '#34506D', opacity: 1 }, {
-        color: '#0A1B2E', opacity: 1, stagger: 0.025,
-        scrollTrigger: { trigger: bioRef.current, start: 'top 78%', end: 'bottom 45%', scrub: 0.5 },
-      });
-    }, bioRef);
-    return () => ctx.revert();
-  }, [filmmakerContent.bio.paragraphs]);
 
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -175,12 +163,12 @@ export const AboutSection: React.FC = () => {
             <h2 className="section-heading border-b border-deep-bronze/50 pb-6 font-playfair font-black uppercase leading-tight tracking-tight text-solo">
               {language === 'vi' ? 'VỀ' : 'ABOUT'} <span className="text-hive-delight">{language === 'vi' ? 'TÔI' : 'ME'}</span>
             </h2>
-            <div ref={bioRef} className="about-bio-copy mt-8 font-montserrat text-base font-light leading-relaxed sm:text-lg">
+            <div className="about-bio-copy mt-8 font-montserrat text-base font-light leading-relaxed text-solo sm:text-lg">
               {bioWords.map((word, index) => {
                 const highlighted = filmmakerContent.bio.highlightWords.some((item) => word.toLowerCase().includes(item.toLowerCase()));
                 return (
                   <React.Fragment key={index}>
-                    <span className={`bio-word ${highlighted ? 'font-normal text-hive-delight underline decoration-stone-ground/50' : ''}`}>{word}</span>
+                    <span className={`bio-word ${highlighted ? 'bio-emphasis font-normal text-solo underline decoration-current' : ''}`}>{word}</span>
                     {index < bioWords.length - 1 ? ' ' : ''}
                   </React.Fragment>
                 );
