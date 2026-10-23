@@ -55,9 +55,10 @@ export const ContactSection: React.FC = () => {
   };
 
   return (
+    <>
     <section
       id="contact"
-      className="relative pt-28 sm:pt-36 pb-16 px-6 sm:px-10 lg:px-16 bg-noble-black border-t border-deep-bronze/40 overflow-hidden flex flex-col justify-between"
+      className="section-light section-mist relative pt-28 sm:pt-36 px-6 sm:px-10 lg:px-16 border-t border-deep-bronze/40 overflow-hidden flex flex-col justify-between"
       aria-label={t('Ending Credits and Contact')}
     >
       <div className="max-w-7xl mx-auto w-full">
@@ -73,7 +74,7 @@ export const ContactSection: React.FC = () => {
         <div className="mb-20 sm:mb-24 text-center max-w-4xl mx-auto">
           <h2 className="contact-heading font-playfair font-black uppercase tracking-tight text-solo leading-tight">
             {t("LET'S MAKE SOMETHING")}{' '}
-            <span className="text-hive-delight text-glow">
+            <span className="text-hive-delight">
               {t('UNFORGETTABLE')}
             </span>
           </h2>
@@ -106,11 +107,11 @@ export const ContactSection: React.FC = () => {
                 <button
                   type="button"
                   onClick={handleCopyEmail}
-                  className="p-2 rounded border border-deep-bronze/80 text-solo hover:text-hive-delight hover:border-hive-delight transition-colors shrink-0"
+                  className="min-h-11 min-w-11 inline-flex items-center justify-center p-2 rounded border border-olivia text-solo hover:text-hive-delight hover:border-hive-delight transition-colors shrink-0"
                   aria-label={t('Copy email address')}
                   title={t('Copy email')}
                 >
-                  {copied ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4" />}
+                  {copied ? <Check className="w-4 h-4 text-hive-delight" /> : <Copy className="w-4 h-4" />}
                 </button>
               </div>
             </div>
@@ -156,7 +157,7 @@ export const ContactSection: React.FC = () => {
                     href={social.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group px-3.5 py-1.5 rounded-sm bg-deep-bronze/40 border border-deep-bronze text-solo hover:text-hive-delight hover:border-hive-delight/80 text-xs font-montserrat tracking-wider flex items-center gap-1.5 transition-all duration-200"
+                    className="group min-h-11 px-3.5 py-1.5 rounded-sm bg-noble-black border border-olivia text-solo hover:text-hive-delight hover:border-hive-delight text-xs font-montserrat tracking-wider flex items-center gap-1.5 transition-all duration-200"
                   >
                     <span>{social.name}</span>
                     <ArrowUpRight className="w-3 h-3 text-wainscot-green group-hover:text-hive-delight group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
@@ -166,8 +167,8 @@ export const ContactSection: React.FC = () => {
             </div>
           </div>
 
-          {/* Contact Form with Deep Bronze inputs, Solo text, Hive Delight focus (7 cols) */}
-          <div className="contact-form-panel min-w-0 lg:col-span-7 p-5 sm:p-8 rounded-sm border border-deep-bronze/80 bg-deep-bronze/20 shadow-bronze-surface">
+          {/* White form surface on the Mist Blue contact section. */}
+          <div className="contact-form-panel paper-card min-w-0 lg:col-span-7 p-5 sm:p-8 rounded-sm border">
             <h3 className="contact-form-title font-playfair font-black text-solo uppercase tracking-tight mb-2">
               {t('INITIATE COLLABORATION')}
             </h3>
@@ -188,7 +189,7 @@ export const ContactSection: React.FC = () => {
                     value={formState.name}
                     onChange={(e) => setFormState({ ...formState, name: e.target.value })}
                     placeholder={t('Jane Doe')}
-                    className="w-full px-4 py-3 rounded-sm border border-deep-bronze bg-noble-black text-solo text-sm focus:outline-none focus:border-hive-delight focus:ring-1 focus:ring-hive-delight transition-colors placeholder:text-wainscot-green/50"
+                    className="contact-field w-full px-4 py-3 rounded-sm border text-sm focus:border-hive-delight transition-colors"
                   />
                 </div>
 
@@ -203,7 +204,7 @@ export const ContactSection: React.FC = () => {
                     value={formState.email}
                     onChange={(e) => setFormState({ ...formState, email: e.target.value })}
                     placeholder="producer@studio.com"
-                    className="w-full px-4 py-3 rounded-sm border border-deep-bronze bg-noble-black text-solo text-sm focus:outline-none focus:border-hive-delight focus:ring-1 focus:ring-hive-delight transition-colors placeholder:text-wainscot-green/50"
+                    className="contact-field w-full px-4 py-3 rounded-sm border text-sm focus:border-hive-delight transition-colors"
                   />
                 </div>
               </div>
@@ -219,7 +220,7 @@ export const ContactSection: React.FC = () => {
                   value={formState.message}
                   onChange={(e) => setFormState({ ...formState, message: e.target.value })}
                   placeholder={t('Outline the vision, timeline, production locations, or envisioned aesthetic...')}
-                  className="w-full px-4 py-3 rounded-sm border border-deep-bronze bg-noble-black text-solo text-sm focus:outline-none focus:border-hive-delight focus:ring-1 focus:ring-hive-delight transition-colors resize-none placeholder:text-wainscot-green/50"
+                  className="contact-field w-full px-4 py-3 rounded-sm border text-sm focus:border-hive-delight transition-colors resize-none"
                 />
               </div>
 
@@ -235,7 +236,7 @@ export const ContactSection: React.FC = () => {
                   type="submit"
                   onMouseMove={handleMagneticMove}
                   onMouseLeave={handleMagneticLeave}
-                  className="relative px-8 py-3.5 bg-hive-delight text-noble-black font-montserrat font-bold text-xs tracking-widest uppercase rounded-sm hover:bg-stone-ground transition-all duration-200 shadow-gold-glow flex items-center gap-2 select-none"
+                  className="contact-submit relative px-8 py-3.5 font-montserrat font-bold text-xs tracking-widest uppercase rounded-sm transition-all duration-200 flex items-center gap-2 select-none"
                 >
                   <Send className="w-3.5 h-3.5" />
                   <span>{t('SEND MESSAGE')}</span>
@@ -251,8 +252,12 @@ export const ContactSection: React.FC = () => {
           </div>
         </div>
 
-        {/* Footer: Film End Credits Style */}
-        <div className="pt-16 border-t border-deep-bronze/40 flex flex-col md:flex-row items-center justify-between gap-6 text-xs font-montserrat text-wainscot-green">
+      </div>
+    </section>
+
+    {/* Keep the ending credits navy, independent of the light contact surface. */}
+    <footer className="theme-navy bg-noble-black px-6 sm:px-10 lg:px-16 py-16 border-t border-deep-bronze/40">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 text-xs font-montserrat text-wainscot-green">
           {/* Copyright */}
           <div className="flex flex-wrap items-center justify-center gap-3 text-center md:justify-start md:text-left">
             <span className="font-playfair font-bold text-solo text-sm">
@@ -281,7 +286,7 @@ export const ContactSection: React.FC = () => {
             <ArrowUp className="w-3.5 h-3.5 text-stone-ground group-hover:-translate-y-1 transition-transform" />
           </button>
         </div>
-      </div>
-    </section>
+    </footer>
+    </>
   );
 };

@@ -30,7 +30,7 @@ export const ExperienceSection: React.FC = () => {
     <section
       id="experiences"
       ref={sectionRef}
-      className="relative overflow-hidden border-t border-deep-bronze/30 bg-noble-black py-20 sm:py-28"
+      className="section-light relative overflow-hidden border-t border-deep-bronze/30 py-20 sm:py-28"
       aria-label={t('Journey through the years')}
     >
       <div className="portfolio-container">
@@ -80,7 +80,7 @@ export const ExperienceSection: React.FC = () => {
                       height={photo.height}
                       loading="lazy"
                       decoding="async"
-                      className="block h-auto w-full rounded-sm shadow-[0_16px_48px_rgba(0,0,0,0.25)]"
+                      className="block h-auto w-full rounded-sm border border-deep-bronze shadow-[0_12px_36px_rgba(10,27,46,0.10)]"
                     />
                   </figure>
                 ))}

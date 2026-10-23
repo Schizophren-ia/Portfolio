@@ -1,6 +1,59 @@
 @import "tailwindcss";
 @import "./fonts.css";
 
+/* Scoped light surfaces reuse the existing utility vocabulary without changing
+   the cinematic archive, navigation or film-detail dialogs. */
+@layer components {
+  .section-light {
+    --color-noble-black: #FFFFFF;
+    --color-solo: #0A1B2E;
+    --color-hive-delight: #34506D;
+    --color-wainscot-green: #34506D;
+    --color-stone-ground: #34506D;
+    --color-olivia: #557392;
+    --color-deep-bronze: #C4D2E1;
+    color: #0A1B2E;
+    background-color: #F2F6FB;
+  }
+
+  .section-light.section-mist { background-color: #E1E8F0; }
+
+  .theme-navy {
+    --color-noble-black: #0A1B2E;
+    --color-solo: #F2F6FB;
+    --color-hive-delight: #E1E8F0;
+    --color-wainscot-green: #A1B2C4;
+    --color-stone-ground: #7A8CA6;
+    --color-olivia: #557392;
+    --color-deep-bronze: #34506D;
+    color: #F2F6FB;
+  }
+
+  .paper-card {
+    background-color: #FFFFFF;
+    border-color: #C4D2E1;
+    box-shadow: 0 8px 28px rgb(10 27 46 / 5%);
+  }
+
+  .contact-field {
+    background-color: #FFFFFF;
+    border-color: #557392;
+    color: #0A1B2E;
+  }
+  .contact-field::placeholder { color: #557392; opacity: 1; }
+  .contact-field:focus-visible {
+    outline: 2px solid #0A1B2E;
+    outline-offset: 3px;
+  }
+  .section-light :where(a, button):focus-visible {
+    outline: 2px solid #34506D;
+    outline-offset: 4px;
+  }
+  .section-light .theme-navy:focus-visible { outline-color: #34506D; }
+  .contact-submit { background-color: #0A1B2E; color: #FFFFFF; }
+  .contact-submit:hover { background-color: #1B3B5A; }
+}
+
 @theme {
   --color-noble-black: #0A1B2E;
   --color-solo: #F2F6FB;

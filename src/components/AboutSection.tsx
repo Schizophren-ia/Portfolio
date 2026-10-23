@@ -84,8 +84,8 @@ export const AboutSection: React.FC = () => {
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || !bioRef.current) return;
     const ctx = gsap.context(() => {
-      gsap.fromTo(bioRef.current!.querySelectorAll('.bio-word'), { color: '#7A8CA6', opacity: 0.42 }, {
-        color: '#F2F6FB', opacity: 1, stagger: 0.025,
+      gsap.fromTo(bioRef.current!.querySelectorAll('.bio-word'), { color: '#34506D', opacity: 1 }, {
+        color: '#0A1B2E', opacity: 1, stagger: 0.025,
         scrollTrigger: { trigger: bioRef.current, start: 'top 78%', end: 'bottom 45%', scrub: 0.5 },
       });
     }, bioRef);
@@ -114,7 +114,7 @@ export const AboutSection: React.FC = () => {
   }, []);
 
   return (
-    <section id="about" ref={sectionRef} className="relative overflow-hidden border-t border-deep-bronze/30 bg-noble-black py-20 sm:py-28" aria-label={t('About the Filmmaker')}>
+    <section id="about" ref={sectionRef} className="section-light relative overflow-hidden border-t border-deep-bronze/30 py-20 sm:py-28" aria-label={t('About the Filmmaker')}>
       <div className="portfolio-container">
         <div className="mb-8 flex items-center gap-3">
           <span className="font-montserrat text-xs font-semibold uppercase tracking-cinema text-wainscot-green">{filmmakerContent.bio.actLabel}</span>
@@ -124,7 +124,7 @@ export const AboutSection: React.FC = () => {
         {/* Portrait, profile and biography remain one unified block. */}
         <div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-12 lg:items-stretch lg:gap-16">
           <div className="lg:col-span-5 flex flex-col items-center">
-            <div className="group relative mx-auto aspect-[4/5] max-h-[500px] w-full max-w-md overflow-hidden border border-deep-bronze/90 bg-black shadow-2xl">
+            <div className="theme-navy group relative mx-auto aspect-[4/5] max-h-[500px] w-full max-w-md overflow-hidden border border-deep-bronze/90 bg-black shadow-2xl">
               <img src={filmmakerContent.profile.portraitImage} alt={t('{name} portrait', { name: filmmakerContent.profile.fullName })} className="h-full w-full object-cover object-[center_15%] transition-transform duration-500 ease-out motion-safe:group-hover:scale-[1.025] motion-reduce:transition-none" />
               <div className="absolute inset-0 bg-gradient-to-t from-noble-black/80 via-transparent to-noble-black/10" />
               <div className="absolute inset-4 border border-solo/15" />
@@ -141,7 +141,7 @@ export const AboutSection: React.FC = () => {
                 <span className="h-1.5 w-1.5 rounded-full bg-hive-delight" />
               </div>
 
-              <div className="profile-details w-full rounded border border-deep-bronze/60 bg-[#112A46]/35 p-5 shadow-lg backdrop-blur-sm sm:p-6">
+              <div className="profile-details paper-card w-full rounded border p-5 sm:p-6">
                 <dl className="space-y-4 font-montserrat text-xs sm:text-sm">
                   <div className="profile-row min-h-8 border-b border-deep-bronze/40 pb-4">
                     <dt className="flex items-center gap-2 text-left uppercase tracking-wider text-wainscot-green">
@@ -187,14 +187,14 @@ export const AboutSection: React.FC = () => {
               })}
             </div>
             <div className="mt-8 grid gap-5 lg:flex-1" data-about-principles>
-              <article id="about-philosophy" className="min-w-0 border border-deep-bronze/60 bg-[#112A46] p-5 sm:p-6" aria-labelledby="about-philosophy-title">
+              <article id="about-philosophy" className="paper-card min-w-0 border p-5 sm:p-6" aria-labelledby="about-philosophy-title">
                 <h3 id="about-philosophy-title" className="font-playfair text-2xl font-bold text-hive-delight">{t('My Philosophy')}</h3>
                 <div className="mt-3 space-y-3 font-montserrat text-sm leading-relaxed text-wainscot-green [text-wrap:pretty]">
                   <p>{t('Connect creativity with honest emotion so every frame carries meaning beyond the screen.')} {t('Filmmaking begins with listening to stories, people, and the details that make an experience feel real. Each creative decision should nurture that connection, from the first idea to the final frame.')}</p>
                   <p>{t('I value close collaboration, clear communication, and respect for every member of the team. Careful preparation creates space for ideas to grow, while thoughtful production helps us respond to challenges together. By bringing creative and practical perspectives into the same conversation, we can preserve the heart of the story from the first discussion to the final frame.')}</p>
                 </div>
               </article>
-              <article id="about-mission" className="min-w-0 border border-deep-bronze/60 bg-[#112A46] p-5 sm:p-6" aria-labelledby="about-mission-title">
+              <article id="about-mission" className="paper-card min-w-0 border p-5 sm:p-6" aria-labelledby="about-mission-title">
                 <h3 id="about-mission-title" className="font-playfair text-2xl font-bold text-hive-delight">{t('The Mission')}</h3>
                 <p className="mt-3 font-montserrat text-sm leading-relaxed text-wainscot-green [text-wrap:pretty]">{t('Transform ideas on paper into vivid films that reach audiences through the language of cinema.')} {t('I bring creative people and thoughtful production together to turn each project into a complete work. Across cinema, commercials, and new technologies, I seek clear, human stories that stay with the audience.')}</p>
               </article>
@@ -203,8 +203,7 @@ export const AboutSection: React.FC = () => {
         </div>
 
         {/* Former slide 2: clapperboard, statistics and dossier now live together. */}
-        <div ref={dossierRef} className="relative mt-20 overflow-hidden border border-deep-bronze/60 bg-[#112A46] p-5 shadow-2xl sm:p-8 lg:mt-28 lg:p-10">
-          <div aria-hidden="true" className="absolute inset-0 opacity-20 [background:radial-gradient(circle_at_28%_32%,rgba(241,195,76,0.18),transparent_38%)]" />
+        <div ref={dossierRef} className="paper-card relative mt-20 overflow-hidden border p-5 sm:p-8 lg:mt-28 lg:p-10">
           <div className="dossier-reveal relative mb-8 flex flex-col gap-3 border-b border-deep-bronze/50 pb-6 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <p className="font-montserrat text-[10px] uppercase tracking-cinema text-stone-ground">{t('Production dossier')}</p>
@@ -215,7 +214,7 @@ export const AboutSection: React.FC = () => {
 
           <div className="relative grid grid-cols-1 gap-7 lg:grid-cols-12 lg:gap-9">
             <div className="dossier-reveal lg:col-span-5">
-              <button type="button" onClick={playClap} className="group block w-full text-left" aria-label={t('Animate clapperboard')} aria-describedby="clapperboard-quote">
+              <button type="button" onClick={playClap} className="theme-navy group block w-full text-left" aria-label={t('Animate clapperboard')} aria-describedby="clapperboard-quote">
                 <div ref={clapRef} className="clapper-top origin-bottom-left border-2 border-solo/80 bg-solo p-2 shadow-xl">
                   <div className="h-12 border border-noble-black/40 bg-[repeating-linear-gradient(135deg,#1e2524_0,#1e2524_38px,#ccd4d0_38px,#ccd4d0_72px)] transition-transform group-hover:-translate-y-0.5" />
                 </div>
@@ -241,7 +240,7 @@ export const AboutSection: React.FC = () => {
 
               <div className="mt-5 grid grid-cols-2 gap-px bg-deep-bronze/60">
                 {filmmakerContent.stats.map((stat, index) => (
-                  <div key={index} data-stat={stat.label} className={`bg-[#0A1B2E] p-4 sm:p-5 ${index === filmmakerContent.stats.length - 1 && filmmakerContent.stats.length % 2 !== 0 ? 'col-span-2' : ''}`}>
+                  <div key={index} data-stat={stat.label} className={`bg-noble-black p-4 sm:p-5 ${index === filmmakerContent.stats.length - 1 && filmmakerContent.stats.length % 2 !== 0 ? 'col-span-2' : ''}`}>
                     <div className="font-playfair text-3xl font-black text-hive-delight sm:text-4xl"><StatCounter targetValue={stat.value} index={index} /><span className="text-stone-ground">{stat.suffix}</span></div>
                     <p className="mt-1 font-montserrat text-[10px] font-semibold uppercase tracking-wider text-solo">{stat.label}</p>
                     <p className="mt-1 text-[9px] text-wainscot-green">{stat.description}</p>
@@ -265,7 +264,7 @@ export const AboutSection: React.FC = () => {
                 </article>
                 <article className="dossier-reveal border border-deep-bronze/70 bg-noble-black/80 p-5">
                   <h4 className="flex items-center gap-2 font-montserrat text-xs font-bold uppercase tracking-widest text-hive-delight"><Languages className="h-4 w-4" />{t('Languages')}</h4>
-                  <div className="mt-4 flex flex-wrap gap-2">{filmmakerContent.aboutMeDetails.languages.map((item) => <span key={item} className="border border-deep-bronze bg-[#0A1B2E] px-3 py-1.5 font-montserrat text-xs text-solo">{item}</span>)}</div>
+                  <div className="mt-4 flex flex-wrap gap-2">{filmmakerContent.aboutMeDetails.languages.map((item) => <span key={item} className="border border-deep-bronze bg-noble-black px-3 py-1.5 font-montserrat text-xs text-solo">{item}</span>)}</div>
                 </article>
               </div>
 

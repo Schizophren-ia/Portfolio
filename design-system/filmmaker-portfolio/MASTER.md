@@ -36,7 +36,16 @@
 | On Destructive | `#FFFFFF` | `--color-on-destructive` |
 | Ring | `#C4D2E1` | `--color-ring` |
 
-**Color Notes:** User-supplied Deep Navy palette. Deep Navy is the dominant background; pale blues provide accessible hierarchy without introducing unrelated accent hues.
+**Color Notes (approved 2026-10-23):** Alternate cinematic navy with light editorial sections using the user's blue palette. Keep content, typography and interactions unchanged.
+
+| Section | Background | Text / surfaces |
+|---------|------------|-----------------|
+| Hero, navigation, Filmmaking, footer | `#0A1B2E` | Existing pale-blue text and dark cards |
+| About Me, Journey | `#F2F6FB` | Navy `#0A1B2E` headings, Storm Blue `#34506D` copy |
+| Profile, Philosophy, Mission, production dossier | `#FFFFFF` | Cloud Blue `#C4D2E1` borders, subtle navy shadows |
+| Contact | `#E1E8F0` | White form, navy CTA, Blue Slate `#557392` input borders/placeholders |
+
+Implementation: `.section-light` scopes the legacy utility color tokens to light surfaces; `.theme-navy` restores dark tokens for the physical clapperboard and portrait overlay. Film dialogs, navigation and archive do not inherit light tokens. Biography scroll colors remain readable throughout (`#34506D` to `#0A1B2E`, opacity 1). Keyboard focus uses a visible dark outline on light surfaces.
 
 ### Typography
 
