@@ -528,7 +528,7 @@ a,
   min-height: 0;
 }
 
-/* Center incomplete TVC and House Rule rows without enlarging their cards. */
+/* Center incomplete Short Film, TVC and House Rule rows without enlarging cards. */
 .archive-grid.archive-centered-gallery {
   display: flex;
   flex-wrap: wrap;

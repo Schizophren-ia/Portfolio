@@ -128,6 +128,8 @@ Implementation: `.navigation-light` alone scopes legacy utility tokens to the li
 
 ### Cards
 
+**Short Film alignment (approved 2026-10-24):** Reuse the centered, wrapping archive gallery already used for TVC/House Rule for Short Film videos only. Center the final pair on the three-column desktop layout, preserving card widths, 24px gaps, data order and the two leading poster cards. Keep two columns on tablet and one column on phone; center any incomplete row without stretching its cards.
+
 ```css
 .card {
   background: #112A46;

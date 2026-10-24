@@ -354,7 +354,7 @@ export const FilmmakingSection: React.FC = () => {
                       films={videos}
                       onOpen={setActiveFilmIndex}
                       portrait={category.id === 'ai-film'}
-                      className={category.id === 'ai-film' ? 'archive-ai-film-gallery' : category.id === 'tvc' || category.id === 'house-rule' ? `archive-centered-gallery archive-${category.id}-gallery` : ''}
+                      className={category.id === 'ai-film' ? 'archive-ai-film-gallery' : category.id === 'short-film' || category.id === 'tvc' || category.id === 'house-rule' ? `archive-centered-gallery archive-${category.id}-gallery` : ''}
                       startIndex={posters.length}
                       total={categoryFilms.length}
                     />
