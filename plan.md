@@ -33,6 +33,31 @@ Theo yêu cầu được cập nhật ngày 23.10.2026, mọi thay đổi tuân 
 
 ## 3. Nhật Ký Thay Đổi (Changelog)
 
+### [2026-10-24 — Sửa cắt dấu tiếng Việt trong tên Hero]
+
+**Phê duyệt:** Người dùng duyệt phương án nới chiều cao dòng và khoảng đệm của khung Hero, giữ nguyên Lora, cỡ chữ và hiệu ứng.
+
+**Nguyên nhân đã xác nhận:** Khung reveal dùng `overflow-hidden`, `leading-none` và padding dọc cố định 4px. Ở desktop 1288–1920px, nét dấu Lora vượt khung khoảng 5–7px phía trên và 0.6–2px phía dưới. Kiểm tra tràn ngang trước đó không phát hiện được lỗi cắt nét dọc.
+
+**Thay đổi đã triển khai:**
+
+- Đặt chiều cao dòng của `.hero-title` là 1.2; thay mask dùng padding cố định bằng `.hero-title-mask` với padding dọc `0.16em`, ngang `0.08em` để vùng an toàn tăng cùng cỡ font.
+- Giữ `overflow: hidden` phục vụ hiệu ứng chữ xuất hiện; không đổi GSAP timeline, font Lora, độ đậm, biểu thức cỡ chữ responsive hay quy tắc một dòng.
+- Chỉ nới khung và khoảng đệm của tiêu đề Hero; giữ nội dung, màu sắc và các section khác. Cập nhật quy tắc kiểm tra glyph trong design-system.
+
+**File liên quan:** `src/components/HeroSection.tsx`, `src/index.css`, `design-system/filmmaker-portfolio/MASTER.md`.
+
+**Kiểm tra:**
+
+- Production build, lint và `git diff --check`: đạt. Lint còn cảnh báo có sẵn tại `TimecodeHUD.tsx:13`.
+- Đo baseline DOM và giới hạn nét chữ thực tế bằng Canvas TextMetrics, có tính chữ hoa, độ đậm và tracking; đối chiếu cả bốn mép mask, vùng Hero và viewport, không chỉ dùng `scrollWidth`.
+- Đạt 36 tổ hợp: 320×740, 375×667, 768×1024, 1024×768, 1288×900, 1440×900, 1920×1080, 2560×1440, 844×390 × EN/VI × reduced motion/chuyển động bình thường sau khi entrance kết thúc. Bao gồm màn hình mật độ 2x và điện thoại xoay ngang.
+- Dấu Việt nằm trọn khung: tại cỡ chữ 24px còn khoảng 1.83px trên / 5.63px dưới; tại cỡ chữ 104px còn khoảng 15.63px trên / 21.42px dưới. Cỡ chữ giữ đúng biểu thức cũ, tên vẫn một dòng và không tràn ngang.
+- Kiểm tra hồi quy font/bố cục ở 6 độ rộng × EN/VI: đúng Lora + Be Vietnam Pro, glyph Việt/chữ nghiêng và modal đúng; Profile/Sứ mệnh vẫn khớp mép dưới ở desktop 1280/1440px.
+- Sau triển khai, HTTPS và CSS mới trả HTTP 200; chạy lại đầy đủ 36 tổ hợp trên tên miền thật đều đạt, không có lỗi JavaScript.
+
+**GitHub và website:** Commit mã nguồn `d8b8903a907283fee8bd5fa18e2cfff766123830` — `Prevent Vietnamese Lora accents clipping in hero reveal mask`. Build/deploy thành công: https://github.com/Schizophren-ia/Portfolio/actions/runs/40087439331. Đã xác nhận bản sửa tại https://xuongphimmuahe.com/ trước khi ghi báo cáo này; đồng bộ báo cáo bằng commit tài liệu riêng `[skip ci]`.
+
 ### [2026-10-24 — Chốt và áp dụng Lora + Be Vietnam Pro]
 
 **Phê duyệt:** Sau khi xem bản so sánh Playfair Display, Lora và Fraunces bằng font thật, người dùng chọn “Chốt Lora”. Áp dụng Lora cho hệ tiêu đề, giữ Be Vietnam Pro cho nội dung/giao diện; tiếp tục đúng hai font cho cả EN/VI.
