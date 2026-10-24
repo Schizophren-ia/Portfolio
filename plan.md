@@ -33,6 +33,18 @@ Theo yêu cầu được cập nhật ngày 23.10.2026, mọi thay đổi tuân 
 
 ## 3. Nhật Ký Thay Đổi (Changelog)
 
+### [2026-10-24 — Căn giữa hai video cuối Short Film]
+
+**Phê duyệt:** Người dùng duyệt căn giữa cặp “Chẳng cần như ai, chỉ cần như ý” / “Cùng con khám phá mọi ước mơ”, giữ kích thước, khoảng cách, thứ tự và nội dung; điện thoại vẫn một cột.
+
+**Thay đổi:** Cho riêng gallery video Short Film dùng lại `archive-centered-gallery` đã có ở TVC/House Rule. Hàng cuối desktop ba cột nay đặt hai video đối xứng giữa vùng nội dung; không kéo giãn thẻ hoặc đổi gap 24px. Giữ hai cột tablet, một cột điện thoại; hàng thiếu thẻ tự căn giữa. Không đổi hai poster đầu, dữ liệu, video, font, màu sắc hoặc logic cuộn. Cập nhật chú thích CSS và quy tắc design-system. Checklist responsive của skill `ui-ux-pro-max` hỗ trợ việc giữ nguyên breakpoint/kích thước và tránh tràn ngang.
+
+**File liên quan:** `src/components/FilmmakingSection.tsx`, `src/index.css` (chú thích), `design-system/filmmaker-portfolio/MASTER.md`.
+
+**Kiểm tra:** Build, lint và `git diff --check` đạt; lint chỉ còn cảnh báo có sẵn tại `TimecodeHUD.tsx:13`. Chrome đạt 12 tổ hợp 375/640/768/1024/1440/1920px × EN/VI: cặp cuối giữa hàng ở desktop, đúng chiều rộng thẻ/gap, tablet/mobile đúng số cột, không tràn ngang. Hai poster đầu, 11 video Short Film, thứ tự cuối, căn giữa TVC/House Rule giữ nguyên. Hai video mở/đóng modal được và vẫn dùng nguồn YouTube `9Sy3Nb7At-g` / `OqYap_DSxNc`; không có lỗi JavaScript. Đã xem ảnh chụp desktop và chạy lại kiểm tra tên miền thật ở 375/1440px × EN/VI, cả bốn tổ hợp đạt.
+
+**GitHub và website:** Commit mã nguồn `90bbe892d9ccc8e01d471a1a391d87301bca4072` — `Center incomplete Short Film video rows without resizing cards`. Build/deploy thành công: https://github.com/Schizophren-ia/Portfolio/actions/runs/40106625565. Đã xác nhận tại https://xuongphimmuahe.com/ trước khi ghi báo cáo; đồng bộ tài liệu bằng commit riêng `[skip ci]`.
+
 ### [2026-10-24 — Tinh chỉnh menu Mist Blue, sửa nhận diện mục và tối ưu cuộn]
 
 **Phê duyệt:** Người dùng duyệt phương án đã điều chỉnh: giữ menu Mist Blue, tăng chữ 2px, bỏ nhãn đếm Works/Selected Works và khung EN/VI; sửa menu bị đứng ở Giới thiệu/Liên hệ, tối ưu cuộn nhưng giữ nội dung, bố cục và phong cách.
