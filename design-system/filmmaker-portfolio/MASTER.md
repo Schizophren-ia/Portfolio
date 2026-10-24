@@ -49,6 +49,8 @@ Implementation: `.navigation-light` alone scopes legacy utility tokens to the li
 
 **Navigation refinement (approved 2026-10-24):** Keep Mist Blue `#E1E8F0`, not Cloud Blue. Increase existing header UI text by 2px (desktop links 14px, drawer links 16px). Active links are semibold with a 2px navy underline and `aria-current="location"`; reserve the bold label width to avoid layout movement. EN/VI is text-only with no persistent border/background, retaining the active-language underline, a 44px-high hit area and keyboard-only focus indicator. Remove archive/category aggregate `Selected Works`/`Works` count labels in both languages; keep individual film indices and carousel accessibility labels.
 
+**Stable header (approved 2026-10-24):** Keep a constant 73px header (the previous compact height) at the top and throughout scrolling, with no padding/height/position animation or scroll-threshold collapse state. Use a constant subtle shadow. Reserve a non-shrinking, single-line tabular-number timecode slot (10ch mobile, 11ch desktop) so digit changes cannot move adjacent controls. Preserve colors, fonts, active underline, responsive drawer and section detection; update the anchor offset only when the measured header height actually changes.
+
 **Emphasis:** Preserve existing underlines and font weights. Biography words use a uniform pale color on navy and do not change color on scroll. Do not introduce isolated light content sections; light UI controls and original photographic artwork are not section backgrounds.
 
 ### Typography
@@ -206,7 +208,7 @@ Implementation: `.navigation-light` alone scopes legacy utility tokens to the li
 
 ## Motion
 
-**Scroll/navigation performance (approved 2026-10-24):** Use one Lenis interpolation loop synchronized with GSAP; no competing CSS smooth scrolling. Keep native touch momentum and honor live reduced-motion preferences. Header/hero anchor actions use the shared scroll controller. Determine the current section from cached section starts and a reading line below the actual fixed-header height, independent of section length. Re-measure on section/header resize (including EN/VI reflow); use one scheduled animation frame for scroll updates. Update progress with `scaleX`, timecode directly at no more than 24Hz, and React state only when the selected section/collapsed state changes. Do not rerender the archive on each scroll event.
+**Scroll/navigation performance (approved 2026-10-24):** Use one Lenis interpolation loop synchronized with GSAP; no competing CSS smooth scrolling. Keep native touch momentum and honor live reduced-motion preferences. Header/hero anchor actions use the shared scroll controller. Determine the current section from cached section starts and a reading line below the actual fixed-header height, independent of section length. Re-measure on section/header resize (including EN/VI reflow); use one scheduled animation frame for scroll updates. Update progress with `scaleX`, timecode directly at no more than 24Hz, and React state only when the selected section/menu state changes. Do not rerender the archive on each scroll event.
 
 **Stagger List** (Standard) — Trigger: load or scroll | Duration: 300-450ms | Easing: `back.out(1.4)`
 

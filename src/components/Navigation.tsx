@@ -7,7 +7,6 @@ import { scrollToSection as navigateToSection } from '../utils/smoothScroll';
 
 export const Navigation: React.FC = () => {
   const { t } = useLanguage();
-  const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('hero');
   const headerRef = useRef<HTMLElement>(null);
@@ -31,9 +30,8 @@ export const Navigation: React.FC = () => {
     let measureNeeded = true;
     let starts: { id: string; top: number }[] = [];
     let maxScroll = 0;
-    let headerHeight = 72;
+    let headerHeight = 73;
     let lastActive = 'hero';
-    let lastScrolled = false;
     let lastTimecode = '';
     let lastTimecodeUpdate = -Infinity;
 
@@ -42,10 +40,13 @@ export const Navigation: React.FC = () => {
       const y = Math.max(0, window.scrollY);
       // Cache geometry on layout changes, not on every scroll event.
       if (measureNeeded) {
-        headerHeight = headerRef.current?.getBoundingClientRect().height ?? 72;
+        headerHeight = headerRef.current?.getBoundingClientRect().height ?? 73;
         starts = sections.map((section) => ({ id: section.id, top: section.getBoundingClientRect().top + y }));
         maxScroll = Math.max(0, root.scrollHeight - window.innerHeight);
-        root.style.setProperty('--header-height', `${headerHeight}px`);
+        const heightValue = `${headerHeight}px`;
+        if (root.style.getPropertyValue('--header-height') !== heightValue) {
+          root.style.setProperty('--header-height', heightValue);
+        }
         measureNeeded = false;
       }
       const progress = maxScroll > 0 ? Math.min(1, y / maxScroll) : 0;
@@ -59,11 +60,6 @@ export const Navigation: React.FC = () => {
       if (active !== lastActive) {
         lastActive = active;
         setActiveSection(active);
-      }
-      const nextScrolled = y > 60;
-      if (nextScrolled !== lastScrolled) {
-        lastScrolled = nextScrolled;
-        setScrolled(nextScrolled);
       }
       // Compositor-friendly progress; React only renders on section/menu changes.
       if (progressRef.current) progressRef.current.style.transform = `scaleX(${progress})`;
@@ -120,13 +116,9 @@ export const Navigation: React.FC = () => {
 
       <header
         ref={headerRef}
-        className={`navigation-light fixed top-0 left-0 right-0 z-50 border-b border-deep-bronze transition-[padding,box-shadow] duration-300 motion-reduce:transition-none ${
-          scrolled
-            ? 'py-3.5 shadow-[0_6px_24px_rgba(10,27,46,0.12)]'
-            : 'py-5 sm:py-6'
-        }`}
+        className="navigation-light fixed top-0 left-0 right-0 z-50 flex items-center border-b border-deep-bronze shadow-[0_6px_24px_rgba(10,27,46,0.12)]"
       >
-        <div className="max-w-7xl mx-auto px-4 min-[400px]:px-6 sm:px-8 flex items-center gap-2 lg:gap-6">
+        <div className="w-full max-w-7xl mx-auto px-4 min-[400px]:px-6 sm:px-8 flex items-center gap-2 lg:gap-6">
           {/* Brand link: "Portfolio" */}
           <a
             href="#hero"
@@ -170,21 +162,21 @@ export const Navigation: React.FC = () => {
 
             {/* Timecode counter display in nav bar */}
             <div
-              className="flex items-center gap-2 px-3 py-1.5 rounded-sm bg-deep-bronze/40 border border-deep-bronze/70 text-[13px] font-mono select-none"
+              className="flex shrink-0 items-center gap-2 px-3 py-1.5 rounded-sm bg-deep-bronze/40 border border-deep-bronze/70 text-[13px] font-mono select-none"
               title={t('Current Film Playhead Timecode')}
             >
               <span className="w-2 h-2 rounded-full bg-red-600 animate-pulse shadow-[0_0_8px_rgba(220,38,38,0.8)]" />
               <span className="text-wainscot-green text-xs uppercase font-montserrat tracking-widest">TC</span>
-              <span ref={desktopTimecodeRef} className="text-hive-delight font-semibold tracking-wider">00:00:00:00</span>
+              <span ref={desktopTimecodeRef} className="navigation-timecode-value text-hive-delight font-semibold tracking-wider">00:00:00:00</span>
             </div>
             <LanguageSwitch className="inline-flex" />
           </div>
 
           {/* Mobile Right Controls: Timecode + Hamburger */}
           <div className="ml-auto lg:hidden flex items-center gap-1.5 sm:gap-3">
-            <div className="flex items-center gap-1.5 px-2 py-1 rounded bg-deep-bronze/50 border border-deep-bronze text-xs font-mono text-hive-delight">
+            <div className="flex shrink-0 items-center gap-1.5 px-2 py-1 rounded bg-deep-bronze/50 border border-deep-bronze text-xs font-mono text-hive-delight">
               <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
-              <span ref={mobileTimecodeRef}>00:00:00:00</span>
+              <span ref={mobileTimecodeRef} className="navigation-timecode-value">00:00:00:00</span>
             </div>
 
             <LanguageSwitch className="hidden min-[375px]:inline-flex" />

@@ -14,11 +14,22 @@
     --color-deep-bronze: #C4D2E1;
     color: #0A1B2E;
     background-color: #E1E8F0;
+    height: 73px;
   }
 
   .navigation-drawer { background-color: #E1E8F0; }
   .navigation-progress { background-color: #C4D2E1; }
   .navigation-progress-fill { background-color: #34506D; }
+  .navigation-timecode-value {
+    display: inline-block;
+    flex-shrink: 0;
+    width: 10ch;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+  @media (min-width: 1024px) {
+    .navigation-timecode-value { width: 11ch; }
+  }
 
   .theme-navy {
     --color-noble-black: #0A1B2E;
@@ -100,7 +111,7 @@
     --stone-ground: #7A8CA6;
     --olivia: #557392;
     --deep-bronze: #34506D;
-    --header-height: 72px;
+    --header-height: 73px;
   }
 
   * {
