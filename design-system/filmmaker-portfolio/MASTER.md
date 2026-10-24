@@ -51,15 +51,15 @@ Implementation: `.section-light` scopes the legacy utility color tokens to light
 
 ### Typography
 
-- **User approval (2026-10-23):** Use exactly two font families for both English and Vietnamese.
-- **Heading Font:** Cormorant Garamond, including italic for existing editorial quotes.
+- **User approval (2026-10-24):** After comparing three actual-font previews, the user chose Lora. Continue using exactly two font families for both English and Vietnamese.
+- **Heading Font:** Lora (variable weights 400–700), including italic for existing editorial quotes. Replaces Cormorant Garamond; no color, content or layout redesign.
 - **Body and UI Font:** Be Vietnam Pro for paragraphs, navigation, labels, forms, email and timecodes.
 - **Mood:** cinematic, editorial headings with clear, readable supporting text.
 - **Loading:** Self-hosted WOFF2 subsets (Latin, Latin Extended, Vietnamese), `font-display: swap`; OFL licenses included. No third-party font requests at runtime.
 
 **Shared CSS token:**
 ```css
---font-heading: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+--font-heading: 'Lora', Georgia, 'Times New Roman', serif;
 --font-body: 'Be Vietnam Pro', Arial, sans-serif;
 --font-portfolio: var(--font-body);
 ```

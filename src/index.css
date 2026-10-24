@@ -64,7 +64,7 @@
   --color-deep-bronze: #34506D;
 
   /* Two approved families; legacy utility names share these semantic tokens. */
-  --font-heading: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --font-heading: 'Lora', Georgia, 'Times New Roman', serif;
   --font-body: 'Be Vietnam Pro', Arial, sans-serif;
   --font-portfolio: var(--font-body);
   --font-playfair: var(--font-heading);

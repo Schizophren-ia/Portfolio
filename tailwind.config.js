@@ -1,5 +1,5 @@
 const bodyFont = ['"Be Vietnam Pro"', 'Arial', 'sans-serif'];
-const headingFont = ['"Cormorant Garamond"', 'Georgia', '"Times New Roman"', 'serif'];
+const headingFont = ['"Lora"', 'Georgia', '"Times New Roman"', 'serif'];
 
 /** @type {import('tailwindcss').Config} */
 export default {
