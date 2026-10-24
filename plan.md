@@ -33,6 +33,30 @@ Theo yêu cầu được cập nhật ngày 23.10.2026, mọi thay đổi tuân 
 
 ## 3. Nhật Ký Thay Đổi (Changelog)
 
+### [2026-10-24 — Menu sáng, nền navy đồng bộ và chuyển hai phim sang Short Film]
+
+**Phê duyệt:** Người dùng duyệt menu sáng theo palette, toàn bộ phần bên dưới trở về navy; đồng thời duyệt chuyển “Gói nỗi nhớ vào những cuộc gọi” và “Con thuyền chở cả ước mơ” từ TVC sang Short Film, giữ nguyên media/thông tin và xếp theo năm dưới hai poster đầu mục.
+
+**Thay đổi đã triển khai:**
+
+- Menu desktop và ngăn điều hướng mobile dùng Mist Blue `#E1E8F0`, chữ/icon Deep Navy `#0A1B2E`; trạng thái ngôn ngữ được gạch chân, focus bàn phím có viền navy rõ ràng. Thanh tiến trình dùng Cloud Blue/Storm Blue.
+- Hero, About, Filmmaking, Journey, Contact và footer đồng bộ Deep Navy `#0A1B2E`; thẻ nội dung Midnight Blue `#112A46`, chữ sáng. Bỏ các hook section sáng/thẻ trắng cũ, giới hạn token sáng trong điều hướng.
+- Form liên hệ dùng ô nhập navy, chữ sáng, placeholder Foggy Blue và viền Dusk Blue đủ tương phản; nút gửi Mist Blue, hover Cloud Blue. Không đổi xử lý form hoặc gửi email trong quá trình kiểm tra.
+- Hai phim được đổi category/genre trong dữ liệu dùng chung EN/VI. Kết quả: 13 Short Film, 11 TVC, tổng tác phẩm vẫn 36. Giữ nguyên năm, ảnh, video YouTube, thời lượng và mô tả; Short Film tiếp tục sắp mới tới cũ dưới hai poster đầu mục. Bốn TVC cuối vẫn là hai Hack Tết rồi hai X-Men; Next Reel của phim đã chuyển nằm trong Short Film.
+- Giữ nguyên Lora + Be Vietnam Pro, nội dung, bố cục, hiệu ứng và sửa lỗi cắt dấu Hero. Cập nhật design-system theo palette được duyệt. Skill `ui-ux-pro-max` hỗ trợ kiểm tra tương phản, focus, responsive và tính nhất quán màu.
+
+**File liên quan:** `src/index.css`, `src/components/Navigation.tsx`, `src/components/LanguageSwitch.tsx`, `src/components/AboutSection.tsx`, `src/components/ExperienceSection.tsx`, `src/components/ContactSection.tsx`, `src/data/archiveData.ts`, `design-system/filmmaker-portfolio/MASTER.md`.
+
+**Kiểm tra:**
+
+- Production build, lint và `git diff --check`: đạt; lint chỉ còn cảnh báo có sẵn tại `TimecodeHUD.tsx:13`.
+- Chrome local: 12 tổ hợp 320/375/768/1024/1280/1440px × EN/VI đạt về màu menu/section/thẻ/form, mobile drawer, focus, không tràn ngang và thứ tự/category phim. Các node chữ được đo ở menu/About/Journey/Contact đạt tương phản tối thiểu 5.07:1.
+- Kiểm tra font/bố cục và menu/form ở 12 tổ hợp: đúng hai font, glyph Việt/nghiêng, các nút trong khung; Profile/Sứ mệnh khớp mép dưới ở desktop; nhập liệu giữ nguyên khi chuyển ngôn ngữ. Không thực hiện gửi form.
+- Hồi quy Hero: 36 tổ hợp kích thước × EN/VI × reduced/normal motion đạt kiểm tra giới hạn nét chữ; không cắt dấu hoặc phát sinh lỗi JavaScript.
+- Sau deploy, kiểm tra trực tiếp website tại 375/1440px × EN/VI: cả bốn tổ hợp đạt; xác nhận 13 Short Film/11 TVC, đúng thứ tự cuối, media gốc và Next Reel; không có lỗi runtime.
+
+**GitHub và website:** Commit mã nguồn `423e9262e90cd1677768cc903de1484c0960a708` — `Use light navigation over navy sections and reclassify two short films`. Build/deploy thành công: https://github.com/Schizophren-ia/Portfolio/actions/runs/40099515296. Đã xác nhận bản mới trên https://xuongphimmuahe.com/ trước khi ghi báo cáo này; đồng bộ báo cáo bằng commit tài liệu riêng `[skip ci]`.
+
 ### [2026-10-24 — Sửa cắt dấu tiếng Việt trong tên Hero]
 
 **Phê duyệt:** Người dùng duyệt phương án nới chiều cao dòng và khoảng đệm của khung Hero, giữ nguyên Lora, cỡ chữ và hiệu ứng.
