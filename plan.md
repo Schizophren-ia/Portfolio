@@ -33,6 +33,34 @@ Theo yêu cầu được cập nhật ngày 23.10.2026, mọi thay đổi tuân 
 
 ## 3. Nhật Ký Thay Đổi (Changelog)
 
+### [2026-10-24 — Chốt và áp dụng Lora + Be Vietnam Pro]
+
+**Phê duyệt:** Sau khi xem bản so sánh Playfair Display, Lora và Fraunces bằng font thật, người dùng chọn “Chốt Lora”. Áp dụng Lora cho hệ tiêu đề, giữ Be Vietnam Pro cho nội dung/giao diện; tiếp tục đúng hai font cho cả EN/VI.
+
+**Thay đổi đã triển khai:**
+
+- Thay Cormorant Garamond bằng Lora ở token heading, serif, editorial và các utility tiêu đề cũ; áp dụng cho tên tác giả, tiêu đề section, tên phim, quote và cửa sổ chi tiết phim.
+- Tự lưu 6 file Lora WOFF2, gồm thường/nghiêng với độ đậm biến thiên 400–700 và ba bộ Latin, Latin Extended, Vietnamese; kèm giấy phép SIL OFL. Giữ `font-display: swap`.
+- Preload Lora thường Latin/Vietnamese thay font tiêu đề cũ; giữ hai preload Be Vietnam Pro. Không gọi Google Fonts khi mở website.
+- Không đổi nội dung, màu navy thống nhất, gạch chân, nền sáng/tối, bố cục, video, thứ tự tác phẩm hay carousel.
+- Cập nhật design-system theo lựa chọn Lora. Các asset Cormorant cũ không bị xóa nhưng không còn khai báo, preload hoặc được trình duyệt yêu cầu.
+
+**File liên quan:** `src/fonts.css`, `src/index.css`, `tailwind.config.js`, `index.html`, `public/fonts/lora-400-700-*.woff2`, `public/fonts/Lora-OFL.txt`, `design-system/filmmaker-portfolio/MASTER.md`.
+
+**Kiểm tra:**
+
+- Production build, lint và `git diff --check`: đạt; chỉ còn cảnh báo có sẵn tại `TimecodeHUD.tsx:13`.
+- Chrome: đạt 12 tổ hợp 320/375/768/1024/1280/1440px × EN/VI. Xác nhận glyph thực tế dùng Lora cho Hero, Be Vietnam Pro cho nội dung; chữ nghiêng và dải ký tự có dấu Việt dùng font tự lưu, không fallback sang font hệ thống.
+- Không tràn ngang ở các vùng kiểm tra. Profile/Sứ mệnh khớp mép dưới ở desktop 1280/1440px; tiêu đề modal dùng đúng Lora.
+- Hồi quy màu ở 375/768/1440px × EN/VI: tiêu đề/nhấn mạnh vẫn navy đồng nhất, các node chữ vùng sáng đã đo đạt tối thiểu 6.76:1; focus/hover, nền section/thẻ/nút và modal tối giữ đúng. Không phát sinh lỗi JavaScript.
+- Tất cả 6 asset font mới có chữ ký WOFF2 hợp lệ. Chrome trên tên miền thật ở 375/1440px × EN/VI xác nhận Lora được render thực tế; cả 6 file font trả HTTP 200 qua HTTPS. Không có request Cormorant, Google Fonts hoặc font bên thứ ba.
+
+**GitHub và website:**
+
+- Commit mã nguồn: `c800a600fb178be7be98383f5d422eb8e0a5c227` — `Apply approved self-hosted Lora heading typography`.
+- Workflow build/deploy thành công: https://github.com/Schizophren-ia/Portfolio/actions/runs/40085936344.
+- Đã xác nhận xuất bản tại https://xuongphimmuahe.com/ trước khi ghi báo cáo này. Đồng bộ báo cáo bằng commit tài liệu riêng `[skip ci]`.
+
 ### [2026-10-23 — Đồng bộ chữ nhấn mạnh navy, giữ nguyên gạch chân]
 
 **Phê duyệt:** Người dùng duyệt phương án dùng navy đậm `#0A1B2E` cho tên, tiêu đề và chữ nhấn mạnh trên nền sáng; sau đó làm rõ chỉ bỏ highlight bằng màu chữ khác, không bỏ gạch chân.
