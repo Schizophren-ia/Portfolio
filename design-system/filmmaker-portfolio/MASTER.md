@@ -36,18 +36,18 @@
 | On Destructive | `#FFFFFF` | `--color-on-destructive` |
 | Ring | `#C4D2E1` | `--color-ring` |
 
-**Color Notes (approved 2026-10-23):** Alternate cinematic navy with light editorial sections using the user's blue palette. Keep content, typography and interactions unchanged.
+**Color Notes (approved 2026-10-24):** Use a light Mist Blue navigation bar above a uniformly navy portfolio. This replaces the alternating light/dark section scheme at the user's request. Preserve typography, layout and interactions.
 
 | Section | Background | Text / surfaces |
 |---------|------------|-----------------|
-| Hero, navigation, Filmmaking, footer | `#0A1B2E` | Existing pale-blue text and dark cards |
-| About Me, Journey | `#F2F6FB` | Navy `#0A1B2E` headings, Storm Blue `#34506D` copy |
-| Profile, Philosophy, Mission, production dossier | `#FFFFFF` | Cloud Blue `#C4D2E1` borders, subtle navy shadows |
-| Contact | `#E1E8F0` | White form, navy CTA, Blue Slate `#557392` input borders/placeholders |
+| Navigation and mobile menu | `#E1E8F0` | Deep Navy `#0A1B2E` text/icons, Blue Slate control borders |
+| Hero, About Me, Filmmaking, Journey, Contact, footer | `#0A1B2E` | Pale text `#F2F6FB`, supporting text `#A1B2C4` |
+| Profile, Philosophy, Mission, production dossier, contact form | `#112A46` | Pale text, Storm Blue `#34506D` borders |
+| Contact inputs | `#0A1B2E` | Pale text, Foggy Blue placeholder, Dusk Blue border, Cloud Blue focus |
 
-Implementation: `.section-light` scopes the legacy utility color tokens to light surfaces; `.theme-navy` restores dark tokens for the physical clapperboard and portrait overlay. Film dialogs, navigation and archive do not inherit light tokens. Biography uses uniform navy text at opacity 1, without scroll-driven color changes. Keyboard focus uses a visible dark outline on light surfaces.
+Implementation: `.navigation-light` alone scopes legacy utility tokens to the light header and drawer; remove the former `.section-light` and white-card styles. `.navy-card` supplies Midnight Blue card surfaces; all main sections inherit the global dark palette. The navigation stays solid Mist Blue at the top and after scrolling. Active navigation uses an underline; the current EN/VI language is underlined so its state does not rely on a different text color. Keyboard focus is navy on the light header and Cloud Blue on dark inputs.
 
-**Emphasis refinement (approved 2026-10-23):** Names, headings and emphasized text on all light surfaces use the same Deep Navy `#0A1B2E`; do not use a lighter blue highlight. The scoped emphasis token matches the primary text token. Preserve existing underlines and font weights. All biography words stay the same navy during scrolling; emphasis underlines inherit that color. Other body copy, backgrounds and all dark sections remain unchanged.
+**Emphasis:** Preserve existing underlines and font weights. Biography words use a uniform pale color on navy and do not change color on scroll. Do not introduce isolated light content sections; light UI controls and original photographic artwork are not section backgrounds.
 
 ### Typography
 

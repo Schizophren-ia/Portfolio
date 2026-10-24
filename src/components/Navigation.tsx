@@ -48,22 +48,22 @@ export const Navigation: React.FC<NavigationProps> = ({ activeSection }) => {
 
   return (
     <>
-      {/* Top Thin Hive Delight Scroll-Progress Bar */}
+      {/* Blue scroll-progress line above the light navigation. */}
       <div
-        className="fixed top-0 left-0 right-0 h-[2.5px] z-[60] bg-noble-black/40 pointer-events-none"
+        className="navigation-progress fixed top-0 left-0 right-0 h-[2.5px] z-[60] pointer-events-none"
         aria-hidden="true"
       >
         <div
-          className="h-full bg-gradient-to-r from-stone-ground via-hive-delight to-hive-delight transition-all duration-75 ease-out shadow-[0_0_10px_rgba(241,195,76,0.8)]"
+          className="navigation-progress-fill h-full transition-all duration-75 ease-out"
           style={{ width: `${Math.min(100, Math.max(0, scrollProgress * 100))}%` }}
         />
       </div>
 
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        className={`navigation-light fixed top-0 left-0 right-0 z-50 border-b border-deep-bronze transition-all duration-500 ${
           scrolled
-            ? 'bg-noble-black/90 backdrop-blur-md border-b border-deep-bronze/60 py-3.5 shadow-bronze-surface'
-            : 'bg-gradient-to-b from-noble-black/80 via-noble-black/30 to-transparent py-5 sm:py-6'
+            ? 'py-3.5 shadow-[0_6px_24px_rgba(10,27,46,0.12)]'
+            : 'py-5 sm:py-6'
         }`}
       >
         <div className="max-w-7xl mx-auto px-6 sm:px-8 flex items-center gap-4 lg:gap-6">
@@ -139,7 +139,7 @@ export const Navigation: React.FC<NavigationProps> = ({ activeSection }) => {
 
         {/* Mobile Drawer Menu */}
         {mobileMenuOpen && (
-          <div className="lg:hidden absolute inset-x-0 top-full max-h-[calc(100dvh-5rem)] overflow-y-auto bg-noble-black/98 border-b border-deep-bronze/80 backdrop-blur-xl px-6 py-8 flex flex-col gap-6 shadow-2xl animate-in slide-in-from-top-4 duration-300">
+          <div className="navigation-drawer lg:hidden absolute inset-x-0 top-full max-h-[calc(100dvh-5rem)] overflow-y-auto border-b border-deep-bronze/80 px-6 py-8 flex flex-col gap-6 shadow-2xl animate-in slide-in-from-top-4 duration-300">
             <div className="flex items-center justify-between gap-4">
               <span className="text-xs uppercase tracking-widest text-wainscot-green">{t('Language')}</span>
               <LanguageSwitch className="inline-flex" />

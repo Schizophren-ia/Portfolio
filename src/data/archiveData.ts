@@ -46,18 +46,18 @@ const seeds: ArchiveSeed[] = [
     },
   },
 
-  // FE CREDIT projects are presented in TVC as requested by the portfolio owner.
+  // FE CREDIT stories belong in Short Film per the owner's latest approval.
   {
     id: 'goi-noi-nho-vao-nhung-cuoc-goi',
     title: 'GÓI NỖI NHỚ VÀO NHỮNG CUỘC GỌI',
-    category: 'tvc',
+    category: 'short-film',
     sourceUrl: 'https://www.youtube.com/watch?v=pFWxcBzKaJU',
     youtubeId: 'pFWxcBzKaJU',
     image: 'short-goi-noi-nho-cuoc-goi.jpg',
     year: '2022',
     author: 'QA Production · FE CREDIT',
     duration: '1 Min 56 Sec',
-    genre: 'Commercial Film',
+    genre: 'Short Film',
     details: {
       director: 'To be updated',
       cast: 'See official credits',
@@ -68,14 +68,14 @@ const seeds: ArchiveSeed[] = [
   {
     id: 'con-thuyen-cho-ca-uoc-mo',
     title: 'CON THUYỀN CHỞ CẢ ƯỚC MƠ',
-    category: 'tvc',
+    category: 'short-film',
     sourceUrl: 'https://www.youtube.com/watch?v=txXKJtxJA_Y',
     youtubeId: 'txXKJtxJA_Y',
     image: 'short-con-thuyen-cho-ca-uoc-mo.jpg',
     year: '2022',
     author: 'QA Production · FE CREDIT',
     duration: '2 Min 5 Sec',
-    genre: 'Commercial Film',
+    genre: 'Short Film',
     details: {
       director: 'To be updated',
       cast: 'Ms. Mùi · See official credits',

@@ -58,7 +58,7 @@ export const ContactSection: React.FC = () => {
     <>
     <section
       id="contact"
-      className="section-light section-mist relative pt-28 sm:pt-36 px-6 sm:px-10 lg:px-16 border-t border-deep-bronze/40 overflow-hidden flex flex-col justify-between"
+      className="relative pt-28 sm:pt-36 px-6 sm:px-10 lg:px-16 bg-noble-black border-t border-deep-bronze/40 overflow-hidden flex flex-col justify-between"
       aria-label={t('Ending Credits and Contact')}
     >
       <div className="max-w-7xl mx-auto w-full">
@@ -167,8 +167,8 @@ export const ContactSection: React.FC = () => {
             </div>
           </div>
 
-          {/* White form surface on the Mist Blue contact section. */}
-          <div className="contact-form-panel paper-card min-w-0 lg:col-span-7 p-5 sm:p-8 rounded-sm border">
+          {/* Midnight Blue form surface within the unified navy page. */}
+          <div className="contact-form-panel navy-card min-w-0 lg:col-span-7 p-5 sm:p-8 rounded-sm border">
             <h3 className="contact-form-title font-playfair font-black text-solo uppercase tracking-tight mb-2">
               {t('INITIATE COLLABORATION')}
             </h3>
@@ -255,7 +255,7 @@ export const ContactSection: React.FC = () => {
       </div>
     </section>
 
-    {/* Keep the ending credits navy, independent of the light contact surface. */}
+    {/* Ending credits continue the unified navy page. */}
     <footer className="theme-navy bg-noble-black px-6 sm:px-10 lg:px-16 py-16 border-t border-deep-bronze/40">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 text-xs font-montserrat text-wainscot-green">
           {/* Copyright */}

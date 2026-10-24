@@ -30,7 +30,7 @@ export const ExperienceSection: React.FC = () => {
     <section
       id="experiences"
       ref={sectionRef}
-      className="section-light relative overflow-hidden border-t border-deep-bronze/30 py-20 sm:py-28"
+      className="relative overflow-hidden border-t border-deep-bronze/30 bg-noble-black py-20 sm:py-28"
       aria-label={t('Journey through the years')}
     >
       <div className="portfolio-container">

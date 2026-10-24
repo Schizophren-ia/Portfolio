@@ -102,7 +102,7 @@ export const AboutSection: React.FC = () => {
   }, []);
 
   return (
-    <section id="about" ref={sectionRef} className="section-light relative overflow-hidden border-t border-deep-bronze/30 py-20 sm:py-28" aria-label={t('About the Filmmaker')}>
+    <section id="about" ref={sectionRef} className="relative overflow-hidden border-t border-deep-bronze/30 bg-noble-black py-20 sm:py-28" aria-label={t('About the Filmmaker')}>
       <div className="portfolio-container">
         <div className="mb-8 flex items-center gap-3">
           <span className="font-montserrat text-xs font-semibold uppercase tracking-cinema text-wainscot-green">{filmmakerContent.bio.actLabel}</span>
@@ -129,7 +129,7 @@ export const AboutSection: React.FC = () => {
                 <span className="h-1.5 w-1.5 rounded-full bg-hive-delight" />
               </div>
 
-              <div className="profile-details paper-card w-full rounded border p-5 sm:p-6">
+              <div className="profile-details navy-card w-full rounded border p-5 sm:p-6">
                 <dl className="space-y-4 font-montserrat text-xs sm:text-sm">
                   <div className="profile-row min-h-8 border-b border-deep-bronze/40 pb-4">
                     <dt className="flex items-center gap-2 text-left uppercase tracking-wider text-wainscot-green">
@@ -175,14 +175,14 @@ export const AboutSection: React.FC = () => {
               })}
             </div>
             <div className="mt-8 grid gap-5 lg:flex-1" data-about-principles>
-              <article id="about-philosophy" className="paper-card min-w-0 border p-5 sm:p-6" aria-labelledby="about-philosophy-title">
+              <article id="about-philosophy" className="navy-card min-w-0 border p-5 sm:p-6" aria-labelledby="about-philosophy-title">
                 <h3 id="about-philosophy-title" className="font-playfair text-2xl font-bold text-hive-delight">{t('My Philosophy')}</h3>
                 <div className="mt-3 space-y-3 font-montserrat text-sm leading-relaxed text-wainscot-green [text-wrap:pretty]">
                   <p>{t('Connect creativity with honest emotion so every frame carries meaning beyond the screen.')} {t('Filmmaking begins with listening to stories, people, and the details that make an experience feel real. Each creative decision should nurture that connection, from the first idea to the final frame.')}</p>
                   <p>{t('I value close collaboration, clear communication, and respect for every member of the team. Careful preparation creates space for ideas to grow, while thoughtful production helps us respond to challenges together. By bringing creative and practical perspectives into the same conversation, we can preserve the heart of the story from the first discussion to the final frame.')}</p>
                 </div>
               </article>
-              <article id="about-mission" className="paper-card min-w-0 border p-5 sm:p-6" aria-labelledby="about-mission-title">
+              <article id="about-mission" className="navy-card min-w-0 border p-5 sm:p-6" aria-labelledby="about-mission-title">
                 <h3 id="about-mission-title" className="font-playfair text-2xl font-bold text-hive-delight">{t('The Mission')}</h3>
                 <p className="mt-3 font-montserrat text-sm leading-relaxed text-wainscot-green [text-wrap:pretty]">{t('Transform ideas on paper into vivid films that reach audiences through the language of cinema.')} {t('I bring creative people and thoughtful production together to turn each project into a complete work. Across cinema, commercials, and new technologies, I seek clear, human stories that stay with the audience.')}</p>
               </article>
@@ -191,7 +191,7 @@ export const AboutSection: React.FC = () => {
         </div>
 
         {/* Former slide 2: clapperboard, statistics and dossier now live together. */}
-        <div ref={dossierRef} className="paper-card relative mt-20 overflow-hidden border p-5 sm:p-8 lg:mt-28 lg:p-10">
+        <div ref={dossierRef} className="navy-card relative mt-20 overflow-hidden border p-5 sm:p-8 lg:mt-28 lg:p-10">
           <div className="dossier-reveal relative mb-8 flex flex-col gap-3 border-b border-deep-bronze/50 pb-6 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <p className="font-montserrat text-[10px] uppercase tracking-cinema text-stone-ground">{t('Production dossier')}</p>
