@@ -267,6 +267,17 @@ a,
   line-height: 1.2;
 }
 
+/* Lora's Vietnamese accents extend beyond a 1em line box. Keep the reveal
+   mask, but scale its safe area with the type rather than a fixed 4px pad. */
+.hero-title {
+  line-height: 1.2;
+}
+
+.hero-title-mask {
+  overflow: hidden;
+  padding: 0.16em 0.08em;
+}
+
 .hero-story {
   max-width: 100%;
   text-wrap: pretty;

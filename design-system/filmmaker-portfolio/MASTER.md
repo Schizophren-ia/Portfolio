@@ -56,6 +56,7 @@ Implementation: `.section-light` scopes the legacy utility color tokens to light
 - **Body and UI Font:** Be Vietnam Pro for paragraphs, navigation, labels, forms, email and timecodes.
 - **Mood:** cinematic, editorial headings with clear, readable supporting text.
 - **Loading:** Self-hosted WOFF2 subsets (Latin, Latin Extended, Vietnamese), `font-display: swap`; OFL licenses included. No third-party font requests at runtime.
+- **Hero glyph safety (approved 2026-10-24):** Retain Lora, the responsive font size and masked entrance animation. Use a 1.2 line-height with a font-relative reveal-mask padding of `0.16em` vertically and `0.08em` horizontally; avoid `leading-none` plus fixed `4px` padding, which clipped Vietnamese accents at desktop sizes. Verify actual glyph-ink bounds inside the mask after animation, not just horizontal overflow.
 
 **Shared CSS token:**
 ```css
