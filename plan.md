@@ -33,6 +33,33 @@ Theo yêu cầu được cập nhật ngày 23.10.2026, mọi thay đổi tuân 
 
 ## 3. Nhật Ký Thay Đổi (Changelog)
 
+### [2026-10-24 — Tinh chỉnh menu Mist Blue, sửa nhận diện mục và tối ưu cuộn]
+
+**Phê duyệt:** Người dùng duyệt phương án đã điều chỉnh: giữ menu Mist Blue, tăng chữ 2px, bỏ nhãn đếm Works/Selected Works và khung EN/VI; sửa menu bị đứng ở Giới thiệu/Liên hệ, tối ưu cuộn nhưng giữ nội dung, bố cục và phong cách.
+
+**Thay đổi đã triển khai:**
+
+- Giữ nền menu/drawer Mist Blue `#E1E8F0` và chữ navy. Link desktop tăng 12→14px, link drawer 14→16px; các chữ header khác tăng 2px tương ứng. Điều chỉnh gutter/gap ở điện thoại nhỏ để nút không tràn khung.
+- Mục đang xem dùng chữ semibold, gạch chân navy rõ hơn và `aria-current="location"`. Dành sẵn chiều rộng chữ đậm để link không xê dịch khi chuyển trạng thái. EN/VI bỏ viền/nền thường trực; giữ gạch chân ngôn ngữ đang chọn, vùng bấm cao 44px và viền focus chỉ khi dùng bàn phím.
+- Bỏ badge tổng Selected Works và nhãn Works của cả sáu nhóm trong Filmmaking, áp dụng EN/VI. Không xóa tác phẩm, chỉ số trên thẻ hoặc nhãn trợ năng của carousel; tổng vẫn 36, Short Film 13/TVC 11, thứ tự và media giữ nguyên.
+- Sửa nguyên nhân menu đứng: bỏ IntersectionObserver yêu cầu 25% chiều cao toàn section (không phù hợp section Tác phẩm rất dài). Dùng vị trí bắt đầu các section và đường đọc dưới header; đo lại khi section/header đổi kích thước, gồm đổi ngôn ngữ, resize, font/ảnh reflow. Theo dõi đúng khi cuộn xuống/lên và tại cuối trang.
+- Chuyển trạng thái mục vào Navigation để không render lại toàn bộ App/archive khi đổi mục. Gộp scroll event vào một requestAnimationFrame, cache phép đo layout, dùng `scaleX` cho thanh tiến trình và cập nhật text timecode trực tiếp tối đa 24Hz thay vì React state mỗi sự kiện cuộn. React chỉ cập nhật khi mục/trạng thái thu gọn/menu thay đổi.
+- Đồng bộ menu và hai nút Hero qua cùng tiện ích Lenis, dùng lerp 0.12, nhập CSS hỗ trợ chính thức của phiên bản đang cài và bỏ CSS smooth toàn trang. Giữ vuốt/quán tính native trên điện thoại; hỗ trợ đổi reduced-motion trực tiếp. Drawer có vùng cuộn riêng không truyền wheel/touch sang Lenis nền; modal tiếp tục khóa và khôi phục cuộn.
+- Giữ Lora + Be Vietnam Pro, sửa cắt dấu Hero, nội dung, màu navy phần dưới, video và carousel. Cập nhật design-system. Dùng checklist điều hướng/hiệu năng/focus của skill `ui-ux-pro-max`; công cụ tra cứu Python không khả dụng nên không sử dụng kết quả tra cứu chưa xác minh.
+
+**File liên quan:** `src/App.tsx`, `src/components/Navigation.tsx`, `src/components/LanguageSwitch.tsx`, `src/components/FilmmakingSection.tsx`, `src/components/HeroSection.tsx`, `src/utils/smoothScroll.ts`, `src/index.css`, `design-system/filmmaker-portfolio/MASTER.md`.
+
+**Kiểm tra:**
+
+- Production build, lint, `git diff --check`: đạt; lint chỉ còn cảnh báo có sẵn tại `TimecodeHUD.tsx:13`. Build/deploy CI, bao gồm kiểm tra dependency, thành công.
+- Chrome: 14 tổ hợp 320×740, 375×812, 768×1024, 1024×768, 1280×900, 1440×900, 844×390 × EN/VI đạt về màu Mist Blue, cỡ chữ, EN/VI không viền/nền, focus và không tràn điều khiển. Nhãn đếm đã bỏ; menu theo đúng mọi mục cả hai chiều và tại 20/50/80% section Filmmaking.
+- Đạt cuộn wheel thực, bấm chuyển mục liên tiếp có thể ngắt, offset header, mobile drawer, hai nút Hero, modal khóa nền/đóng Escape/khôi phục wheel, reduced-motion thay đổi trực tiếp và endpoint thanh tiến trình/timecode. Chuỗi touch trên chế độ điện thoại cuộn native 465px, không bị preventDefault; không thay thế kiểm thử trên thiết bị vật lý.
+- Hồi quy màu/category ở 375/1440px × EN/VI đạt; các node chữ được đo ở menu/About/Journey/Contact vẫn đạt tối thiểu 5.07:1. Media gốc, thứ tự cuối TVC và Next Reel Short Film giữ đúng. 12 tổ hợp kiểm tra font/bố cục và 12 tổ hợp header/form đạt; không gửi email.
+- Đối chiếu bản cũ/mới cùng chạy local bằng cùng chuỗi 30 wheel event, lặp lại sau lượt làm nóng: LayoutCount About 131→49, Filmmaking 133→54; LayoutDuration tương ứng 50.93→21.76ms và 31.42→23.35ms. Frame interval p95 headless About 16.8→16.8ms, Filmmaking 33.3→16.8ms. Tổng thời gian tác vụ còn dao động giữa các lượt; các số đo này chỉ xác nhận giảm công việc layout trong kịch bản thử, không phải cam kết FPS/CPU trên mọi thiết bị.
+- Sau triển khai, chạy lại trực tiếp tên miền thật ở 375×812 và 1440×900 × EN/VI: cả bốn tổ hợp đạt cùng kiểm tra wheel, chuyển mục liên tiếp, modal và reduced-motion; không có lỗi JavaScript.
+
+**GitHub và website:** Commit mã nguồn `8909e2781f76571f7c32c930ac92c4960ce65614` — `Refine Mist Blue navigation and fix scroll tracking and smoothness`. Build/deploy thành công: https://github.com/Schizophren-ia/Portfolio/actions/runs/40105105302. Đã xác nhận bản mới tại https://xuongphimmuahe.com/ trước khi ghi báo cáo này; đồng bộ báo cáo bằng commit tài liệu riêng `[skip ci]`.
+
 ### [2026-10-24 — Menu sáng, nền navy đồng bộ và chuyển hai phim sang Short Film]
 
 **Phê duyệt:** Người dùng duyệt menu sáng theo palette, toàn bộ phần bên dưới trở về navy; đồng thời duyệt chuyển “Gói nỗi nhớ vào những cuộc gọi” và “Con thuyền chở cả ước mơ” từ TVC sang Short Film, giữ nguyên media/thông tin và xếp theo năm dưới hai poster đầu mục.
