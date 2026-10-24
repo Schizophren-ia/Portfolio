@@ -47,6 +47,8 @@
 
 Implementation: `.navigation-light` alone scopes legacy utility tokens to the light header and drawer; remove the former `.section-light` and white-card styles. `.navy-card` supplies Midnight Blue card surfaces; all main sections inherit the global dark palette. The navigation stays solid Mist Blue at the top and after scrolling. Active navigation uses an underline; the current EN/VI language is underlined so its state does not rely on a different text color. Keyboard focus is navy on the light header and Cloud Blue on dark inputs.
 
+**Navigation refinement (approved 2026-10-24):** Keep Mist Blue `#E1E8F0`, not Cloud Blue. Increase existing header UI text by 2px (desktop links 14px, drawer links 16px). Active links are semibold with a 2px navy underline and `aria-current="location"`; reserve the bold label width to avoid layout movement. EN/VI is text-only with no persistent border/background, retaining the active-language underline, a 44px-high hit area and keyboard-only focus indicator. Remove archive/category aggregate `Selected Works`/`Works` count labels in both languages; keep individual film indices and carousel accessibility labels.
+
 **Emphasis:** Preserve existing underlines and font weights. Biography words use a uniform pale color on navy and do not change color on scroll. Do not introduce isolated light content sections; light UI controls and original photographic artwork are not section backgrounds.
 
 ### Typography
@@ -201,6 +203,8 @@ Implementation: `.navigation-light` alone scopes legacy utility tokens to the li
 ---
 
 ## Motion
+
+**Scroll/navigation performance (approved 2026-10-24):** Use one Lenis interpolation loop synchronized with GSAP; no competing CSS smooth scrolling. Keep native touch momentum and honor live reduced-motion preferences. Header/hero anchor actions use the shared scroll controller. Determine the current section from cached section starts and a reading line below the actual fixed-header height, independent of section length. Re-measure on section/header resize (including EN/VI reflow); use one scheduled animation frame for scroll updates. Update progress with `scaleX`, timecode directly at no more than 24Hz, and React state only when the selected section/collapsed state changes. Do not rerender the archive on each scroll event.
 
 **Stagger List** (Standard) — Trigger: load or scroll | Duration: 300-450ms | Easing: `back.out(1.4)`
 

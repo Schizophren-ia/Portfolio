@@ -16,18 +16,15 @@ gsap.registerPlugin(ScrollTrigger);
 
 export function App() {
   const [loadingComplete, setLoadingComplete] = useState(false);
-  const [activeSection, setActiveSection] = useState<string>('hero');
 
   // Setup Lenis Smooth Scroll integrated cleanly with GSAP ScrollTrigger
   useEffect(() => {
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReducedMotion) return;
-
     const lenis = new Lenis({
-      duration: 1.15,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      // One interpolation loop; Lenis also honors live reduced-motion changes.
+      lerp: 0.12,
       orientation: 'vertical',
       smoothWheel: true,
+      syncTouch: false, // Preserve native touch scrolling and momentum.
     });
 
     const unregisterSmoothScroll = registerSmoothScroll(lenis);
@@ -48,35 +45,6 @@ export function App() {
     };
   }, []);
 
-  // Track active section for top navigation
-  useEffect(() => {
-    const sections = ['hero', 'about', 'filmmaking', 'experiences', 'contact'];
-    const observers: IntersectionObserver[] = [];
-
-    sections.forEach((id) => {
-      const el = document.getElementById(id);
-      if (!el) return;
-
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              setActiveSection(id);
-            }
-          });
-        },
-        { threshold: 0.25 }
-      );
-
-      observer.observe(el);
-      observers.push(observer);
-    });
-
-    return () => {
-      observers.forEach((obs) => obs.disconnect());
-    };
-  }, []);
-
   return (
     <div className="relative min-h-screen bg-noble-black text-solo overflow-x-hidden selection:bg-stone-ground/30 selection:text-hive-delight">
       {/* 0. Cinematic Preloader with letterbox bars and 0->100 count */}
@@ -88,7 +56,7 @@ export function App() {
       <div className="film-grain" aria-hidden="true" />
 
       {/* Top Fixed Navigation & Timecode Tracker */}
-      <Navigation activeSection={activeSection} />
+      <Navigation />
 
       {/* Main Single Page Narrative Stream */}
       <main>

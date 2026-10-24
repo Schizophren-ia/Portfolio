@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { ArrowUpRight, ChevronLeft, ChevronRight, Film, Image as ImageIcon, Pause, Play, Sparkles } from 'lucide-react';
+import { ArrowUpRight, ChevronLeft, ChevronRight, Image as ImageIcon, Pause, Play, Sparkles } from 'lucide-react';
 import { useLanguage } from '../i18n/useLanguage';
 import type { FilmCategory, FilmItem } from '../data/types';
 import { FilmModal } from './FilmModal';
@@ -307,10 +307,6 @@ export const FilmmakingSection: React.FC = () => {
                 {t('FILMMAKING')} <span className="text-hive-delight">{t('ARCHIVE')}</span>
               </h2>
             </div>
-            <div className="flex w-fit max-w-full items-center gap-3 border border-deep-bronze/70 bg-deep-bronze/20 px-4 py-2 font-montserrat text-xs uppercase tracking-widest text-wainscot-green">
-              <Film className="h-4 w-4 shrink-0 text-hive-delight" aria-hidden="true" />
-              <span>{t('{count} selected works', { count: allFilms.length })}</span>
-            </div>
           </div>
           <p className="mt-5 max-w-2xl font-montserrat text-sm leading-relaxed text-wainscot-green text-justify">
             {t('A curated collection of feature films, short-form storytelling, commercials and music videos. Explore every selected work below.')}
@@ -333,7 +329,6 @@ export const FilmmakingSection: React.FC = () => {
                       <p className="mt-1 font-montserrat text-[10px] uppercase tracking-widest text-wainscot-green">{t(category.note)}</p>
                     </div>
                   </div>
-                  <span className="shrink-0 whitespace-nowrap text-right font-mono text-xs text-hive-delight">{String(categoryFilms.length).padStart(2, '0')} {t('WORKS')}</span>
                 </div>
 
                 <div className="portfolio-container">

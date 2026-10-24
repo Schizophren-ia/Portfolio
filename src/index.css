@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "./fonts.css";
+@import "lenis/dist/lenis.css";
 
 /* Only navigation is light; all portfolio sections share the navy theme. */
 @layer components {
@@ -110,7 +111,8 @@
     background-color: #0A1B2E;
     color: #F2F6FB;
     font-family: var(--font-portfolio);
-    scroll-behavior: smooth;
+    /* Lenis owns smooth interpolation; native touch/keyboard stays responsive. */
+    scroll-behavior: auto;
     scroll-padding-top: var(--header-height);
     overflow-x: hidden;
   }

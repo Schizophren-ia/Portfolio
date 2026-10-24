@@ -3,6 +3,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Play } from 'lucide-react';
 import { useLanguage } from '../i18n/useLanguage';
+import { scrollToSection } from '../utils/smoothScroll';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -173,6 +174,7 @@ export const HeroSection: React.FC = () => {
         >
           <a
             href="#filmmaking"
+            onClick={(event) => { event.preventDefault(); scrollToSection('#filmmaking'); }}
             className="px-8 py-3.5 bg-hive-delight text-noble-black font-montserrat font-bold text-xs tracking-widest uppercase rounded-sm hover:bg-stone-ground transition-all duration-300 shadow-gold-glow hover:shadow-gold-glow-lg flex items-center gap-2"
           >
             <Play className="w-3.5 h-3.5 fill-current" />
@@ -181,6 +183,7 @@ export const HeroSection: React.FC = () => {
 
           <a
             href="#contact"
+            onClick={(event) => { event.preventDefault(); scrollToSection('#contact'); }}
             className="px-8 py-3.5 border border-solo text-solo font-montserrat font-medium text-xs tracking-widest uppercase rounded-sm hover:border-stone-ground hover:bg-stone-ground hover:text-noble-black transition-all duration-300 backdrop-blur-sm"
           >
             {t('GET IN TOUCH')}

@@ -1,18 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Menu, X } from 'lucide-react';
 import { formatSMPTETimecode } from '../utils/timecode';
 import { useLanguage } from '../i18n/useLanguage';
 import { LanguageSwitch } from './LanguageSwitch';
+import { scrollToSection as navigateToSection } from '../utils/smoothScroll';
 
-interface NavigationProps {
-  activeSection: string;
-}
-
-export const Navigation: React.FC<NavigationProps> = ({ activeSection }) => {
+export const Navigation: React.FC = () => {
   const { t } = useLanguage();
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [scrollProgress, setScrollProgress] = useState(0);
+  const [activeSection, setActiveSection] = useState('hero');
+  const headerRef = useRef<HTMLElement>(null);
+  const progressRef = useRef<HTMLDivElement>(null);
+  const desktopTimecodeRef = useRef<HTMLSpanElement>(null);
+  const mobileTimecodeRef = useRef<HTMLSpanElement>(null);
 
   const navLinks = [
     { label: 'ABOUT', href: '#about', act: 'ACT I' },
@@ -22,29 +23,86 @@ export const Navigation: React.FC<NavigationProps> = ({ activeSection }) => {
   ];
 
   useEffect(() => {
-    const handleScroll = () => {
-      const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
-      const currentScroll = window.scrollY;
-      const progress = totalScroll > 0 ? currentScroll / totalScroll : 0;
-      setScrollProgress(progress);
-      setScrolled(currentScroll > 60);
-    };
+    const root = document.documentElement;
+    const sections = ['hero', 'about', 'filmmaking', 'experiences', 'contact']
+      .map((id) => document.getElementById(id))
+      .filter((section): section is HTMLElement => Boolean(section));
+    let frame = 0;
+    let measureNeeded = true;
+    let starts: { id: string; top: number }[] = [];
+    let maxScroll = 0;
+    let headerHeight = 72;
+    let lastActive = 'hero';
+    let lastScrolled = false;
+    let lastTimecode = '';
+    let lastTimecodeUpdate = -Infinity;
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
-    return () => window.removeEventListener('scroll', handleScroll);
+    const update = (time: number) => {
+      frame = 0;
+      const y = Math.max(0, window.scrollY);
+      // Cache geometry on layout changes, not on every scroll event.
+      if (measureNeeded) {
+        headerHeight = headerRef.current?.getBoundingClientRect().height ?? 72;
+        starts = sections.map((section) => ({ id: section.id, top: section.getBoundingClientRect().top + y }));
+        maxScroll = Math.max(0, root.scrollHeight - window.innerHeight);
+        root.style.setProperty('--header-height', `${headerHeight}px`);
+        measureNeeded = false;
+      }
+      const progress = maxScroll > 0 ? Math.min(1, y / maxScroll) : 0;
+      let active = starts[0]?.id ?? 'hero';
+      // A reading line under the fixed header works for sections of any length.
+      for (const section of starts) {
+        if (section.top <= y + headerHeight + 24) active = section.id;
+        else break;
+      }
+      if (maxScroll > 0 && y >= maxScroll - 2) active = starts.at(-1)?.id ?? active;
+      if (active !== lastActive) {
+        lastActive = active;
+        setActiveSection(active);
+      }
+      const nextScrolled = y > 60;
+      if (nextScrolled !== lastScrolled) {
+        lastScrolled = nextScrolled;
+        setScrolled(nextScrolled);
+      }
+      // Compositor-friendly progress; React only renders on section/menu changes.
+      if (progressRef.current) progressRef.current.style.transform = `scaleX(${progress})`;
+      if (time - lastTimecodeUpdate >= 1000 / 24 || y === 0 || y >= maxScroll - 2) {
+        const timecode = formatSMPTETimecode(progress);
+        if (timecode !== lastTimecode) {
+          if (desktopTimecodeRef.current) desktopTimecodeRef.current.textContent = timecode;
+          if (mobileTimecodeRef.current) mobileTimecodeRef.current.textContent = timecode;
+          lastTimecode = timecode;
+        }
+        lastTimecodeUpdate = time;
+      } else {
+        schedule(); // Flush the final timecode even if scrolling just stopped.
+      }
+    };
+    const schedule = () => {
+      if (!frame) frame = window.requestAnimationFrame(update);
+    };
+    const invalidate = () => { measureNeeded = true; schedule(); };
+    const resizeObserver = new ResizeObserver(invalidate);
+    sections.forEach((section) => resizeObserver.observe(section));
+    if (headerRef.current) resizeObserver.observe(headerRef.current);
+    window.addEventListener('scroll', schedule, { passive: true });
+    window.addEventListener('resize', invalidate, { passive: true });
+    schedule();
+    return () => {
+      window.cancelAnimationFrame(frame);
+      resizeObserver.disconnect();
+      window.removeEventListener('scroll', schedule);
+      window.removeEventListener('resize', invalidate);
+      root.style.removeProperty('--header-height');
+    };
   }, []);
 
   const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
     setMobileMenuOpen(false);
-    const target = document.querySelector(href);
-    if (target) {
-      target.scrollIntoView({ behavior: 'smooth' });
-    }
+    navigateToSection(href);
   };
-
-  const currentTimecode = formatSMPTETimecode(scrollProgress);
 
   return (
     <>
@@ -54,24 +112,26 @@ export const Navigation: React.FC<NavigationProps> = ({ activeSection }) => {
         aria-hidden="true"
       >
         <div
-          className="navigation-progress-fill h-full transition-all duration-75 ease-out"
-          style={{ width: `${Math.min(100, Math.max(0, scrollProgress * 100))}%` }}
+          ref={progressRef}
+          className="navigation-progress-fill h-full origin-left"
+          style={{ transform: 'scaleX(0)' }}
         />
       </div>
 
       <header
-        className={`navigation-light fixed top-0 left-0 right-0 z-50 border-b border-deep-bronze transition-all duration-500 ${
+        ref={headerRef}
+        className={`navigation-light fixed top-0 left-0 right-0 z-50 border-b border-deep-bronze transition-[padding,box-shadow] duration-300 motion-reduce:transition-none ${
           scrolled
             ? 'py-3.5 shadow-[0_6px_24px_rgba(10,27,46,0.12)]'
             : 'py-5 sm:py-6'
         }`}
       >
-        <div className="max-w-7xl mx-auto px-6 sm:px-8 flex items-center gap-4 lg:gap-6">
+        <div className="max-w-7xl mx-auto px-4 min-[400px]:px-6 sm:px-8 flex items-center gap-2 lg:gap-6">
           {/* Brand link: "Portfolio" */}
           <a
             href="#hero"
             onClick={(e) => scrollToSection(e, '#hero')}
-            className="inline-flex shrink-0 items-center font-playfair font-black tracking-[0.22em] text-sm sm:text-base uppercase text-solo hover:text-hive-delight transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-hive-delight"
+            className="inline-flex shrink-0 items-center font-playfair font-black tracking-[0.22em] text-base sm:text-lg uppercase text-solo hover:text-hive-delight transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-hive-delight"
             aria-label="Portfolio"
           >
             Portfolio
@@ -86,18 +146,21 @@ export const Navigation: React.FC<NavigationProps> = ({ activeSection }) => {
                   <a
                     key={link.href}
                     href={link.href}
+                    aria-current={isActive ? 'location' : undefined}
                     onClick={(e) => scrollToSection(e, link.href)}
-                    className={`relative inline-flex items-center justify-center py-1 font-montserrat text-xs tracking-widest uppercase transition-colors focus:outline-none focus-visible:ring-1 focus-visible:ring-hive-delight group ${
+                    className={`relative inline-grid items-center justify-center py-1 font-montserrat text-sm tracking-widest uppercase transition-colors focus:outline-none focus-visible:ring-1 focus-visible:ring-hive-delight group ${
                       isActive
-                        ? 'text-hive-delight font-medium'
+                        ? 'text-hive-delight font-semibold'
                         : 'text-wainscot-green hover:text-solo'
                     }`}
                   >
-                    <span>{t(link.label)}</span>
-                    {/* Animated Hive Delight underline on hover & active */}
+                    {/* Reserve the bold label's width so active changes do not shift links. */}
+                    <span aria-hidden="true" className="invisible col-start-1 row-start-1 font-semibold">{t(link.label)}</span>
+                    <span className="col-start-1 row-start-1">{t(link.label)}</span>
                     <span
-                      className={`absolute bottom-0 left-0 h-[1.5px] bg-gradient-to-r from-stone-ground to-hive-delight transition-all duration-300 ease-out ${
-                        isActive ? 'w-full' : 'w-0 group-hover:w-full'
+                      aria-hidden="true"
+                      className={`absolute bottom-0 left-0 h-[2px] w-full origin-left bg-hive-delight transition-transform duration-200 motion-reduce:transition-none ${
+                        isActive ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
                       }`}
                     />
                   </a>
@@ -107,21 +170,21 @@ export const Navigation: React.FC<NavigationProps> = ({ activeSection }) => {
 
             {/* Timecode counter display in nav bar */}
             <div
-              className="flex items-center gap-2 px-3 py-1.5 rounded-sm bg-deep-bronze/40 border border-deep-bronze/70 text-[11px] font-mono select-none"
+              className="flex items-center gap-2 px-3 py-1.5 rounded-sm bg-deep-bronze/40 border border-deep-bronze/70 text-[13px] font-mono select-none"
               title={t('Current Film Playhead Timecode')}
             >
               <span className="w-2 h-2 rounded-full bg-red-600 animate-pulse shadow-[0_0_8px_rgba(220,38,38,0.8)]" />
-              <span className="text-wainscot-green text-[10px] uppercase font-montserrat tracking-widest">TC</span>
-              <span className="text-hive-delight font-semibold tracking-wider">{currentTimecode}</span>
+              <span className="text-wainscot-green text-xs uppercase font-montserrat tracking-widest">TC</span>
+              <span ref={desktopTimecodeRef} className="text-hive-delight font-semibold tracking-wider">00:00:00:00</span>
             </div>
             <LanguageSwitch className="inline-flex" />
           </div>
 
           {/* Mobile Right Controls: Timecode + Hamburger */}
           <div className="ml-auto lg:hidden flex items-center gap-1.5 sm:gap-3">
-            <div className="flex items-center gap-1.5 px-2 py-1 rounded bg-deep-bronze/50 border border-deep-bronze text-[10px] font-mono text-hive-delight">
+            <div className="flex items-center gap-1.5 px-2 py-1 rounded bg-deep-bronze/50 border border-deep-bronze text-xs font-mono text-hive-delight">
               <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
-              <span>{currentTimecode}</span>
+              <span ref={mobileTimecodeRef}>00:00:00:00</span>
             </div>
 
             <LanguageSwitch className="hidden min-[375px]:inline-flex" />
@@ -139,9 +202,9 @@ export const Navigation: React.FC<NavigationProps> = ({ activeSection }) => {
 
         {/* Mobile Drawer Menu */}
         {mobileMenuOpen && (
-          <div className="navigation-drawer lg:hidden absolute inset-x-0 top-full max-h-[calc(100dvh-5rem)] overflow-y-auto border-b border-deep-bronze/80 px-6 py-8 flex flex-col gap-6 shadow-2xl animate-in slide-in-from-top-4 duration-300">
+          <div data-lenis-prevent className="navigation-drawer lg:hidden absolute inset-x-0 top-full max-h-[calc(100dvh-var(--header-height))] overflow-y-auto border-b border-deep-bronze/80 px-6 py-8 flex flex-col gap-6 shadow-2xl animate-in slide-in-from-top-4 duration-300">
             <div className="flex items-center justify-between gap-4">
-              <span className="text-xs uppercase tracking-widest text-wainscot-green">{t('Language')}</span>
+              <span className="text-sm uppercase tracking-widest text-wainscot-green">{t('Language')}</span>
               <LanguageSwitch className="inline-flex" />
             </div>
             <div className="flex flex-col gap-4">
@@ -151,13 +214,14 @@ export const Navigation: React.FC<NavigationProps> = ({ activeSection }) => {
                   <a
                     key={link.href}
                     href={link.href}
+                    aria-current={isActive ? 'location' : undefined}
                     onClick={(e) => scrollToSection(e, link.href)}
-                    className={`flex items-baseline justify-between py-2 border-b border-deep-bronze/40 font-montserrat text-sm tracking-widest ${
-                      isActive ? 'text-hive-delight font-semibold' : 'text-solo'
+                    className={`flex items-baseline justify-between py-2 border-b border-deep-bronze/40 font-montserrat text-base tracking-widest ${
+                      isActive ? 'text-hive-delight font-semibold underline underline-offset-4' : 'text-solo'
                     }`}
                   >
                     <span>{t(link.label)}</span>
-                    <span className="text-[10px] text-wainscot-green tracking-widest">{t(link.act)}</span>
+                    <span className="text-xs text-wainscot-green tracking-widest">{t(link.act)}</span>
                   </a>
                 );
               })}
@@ -166,7 +230,7 @@ export const Navigation: React.FC<NavigationProps> = ({ activeSection }) => {
             <a
               href="#contact"
               onClick={(e) => scrollToSection(e, '#contact')}
-              className="w-full text-center py-3 bg-hive-delight text-noble-black font-montserrat font-semibold text-xs tracking-widest uppercase rounded-sm shadow-gold-glow"
+              className="w-full text-center py-3 bg-hive-delight text-noble-black font-montserrat font-semibold text-sm tracking-widest uppercase rounded-sm shadow-gold-glow"
             >
               {t("LET'S COLLABORATE")}
             </a>
