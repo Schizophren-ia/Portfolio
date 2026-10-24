@@ -33,6 +33,20 @@ Theo yêu cầu được cập nhật ngày 23.10.2026, mọi thay đổi tuân 
 
 ## 3. Nhật Ký Thay Đổi (Changelog)
 
+### [2026-10-24 — Sửa rung thanh điều hướng khi cuộn đổi chiều]
+
+**Phê duyệt:** Người dùng duyệt cố định chiều cao/vị trí thanh, bỏ hiệu ứng co giãn và cố định chiều rộng timecode; giữ Mist Blue, cỡ chữ và gạch chân mục đang xem.
+
+**Nguyên nhân đã đo:** Bản cũ chuyển padding qua ngưỡng scroll 60px, làm chiều cao header đổi liên tục khi cuộn qua lại. Trong kịch bản đổi chiều nhanh, chiều cao dao động 4.13px ở 375px / 6.16px ở 1440px, các điều khiển dịch tới khoảng 7.19px. Timecode còn có chiều rộng phụ thuộc chuỗi số: các mẫu thử dao động khoảng 50.75–75.20px trên mobile và 66.36–91.56px trên desktop, gây xê dịch ngang của cụm menu.
+
+**Thay đổi:** Cố định header 73px (bằng chiều cao gọn cũ), căn giữa hàng điều khiển trong container toàn chiều rộng và giữ bóng đổ nhẹ cố định. Bỏ `scrolled`, ngưỡng thu gọn và transition padding/height. Dành slot timecode không co lại, một dòng: 10ch mobile / 11ch desktop; giữ font/cỡ chữ và yêu cầu tabular-nums. Đồng bộ offset neo 73px; chỉ ghi lại biến chiều cao khi giá trị thực sự đổi. Giữ theo dõi mục, menu mobile, EN/VI không khung, màu navy và toàn bộ nội dung/video. Áp dụng nguyên tắc tránh chuyển động gây layout shift và dành sẵn không gian từ checklist skill `ui-ux-pro-max`.
+
+**File liên quan:** `src/components/Navigation.tsx`, `src/index.css`, `design-system/filmmaker-portfolio/MASTER.md`.
+
+**Kiểm tra:** Build, lint, `git diff --check` đạt; lint chỉ còn cảnh báo có sẵn tại `TimecodeHUD.tsx:13`. Chrome theo dõi hình học từng frame khi cuộn qua lại nhiều lần quanh ngưỡng cũ: 12 tổ hợp 320/375/768/1024/1440/844px × EN/VI đều đạt, header/điều khiển dịch chuyển 0px; header luôn cao 73px, không tràn nút và timecode không cắt chữ số. Slot giữ nguyên khoảng 81.11px mobile / 98.95px desktop qua năm mẫu số khác nhau. Wheel đổi chiều ở DPR 2x cũng đạt. Hồi quy tám tổ hợp điều hướng ở 320/375/1024/1440px × EN/VI đạt: theo mục hai chiều, bấm liên tiếp, drawer, modal khóa/khôi phục cuộn, reduced-motion trực tiếp và endpoint progress/timecode. Bốn tổ hợp Short Film 375/1440px × EN/VI giữ đúng cặp cuối căn giữa và nguồn phát. Không có lỗi JavaScript.
+
+**GitHub và website:** Commit mã nguồn `7617764f6e9bea1538664bd5be06c4687a644453` — `Stop navigation jitter with fixed header and timecode dimensions`. Build/deploy thành công: https://github.com/Schizophren-ia/Portfolio/actions/runs/40111733919. Sau triển khai, đo lại trực tiếp https://xuongphimmuahe.com/ ở 375/1440px × EN/VI: cả bốn tổ hợp có độ dịch chuyển 0px, timecode cố định, không cắt/tràn; wheel 2x DPR và toàn bộ kiểm tra điều hướng/modal/reduced-motion đều đạt. Ghi báo cáo sau khi xác nhận website, đồng bộ tài liệu bằng commit riêng `[skip ci]`. Số đo trên là kiểm tra Chrome tự động, không thay thế kiểm thử mọi thiết bị vật lý.
+
 ### [2026-10-24 — Căn giữa hai video cuối Short Film]
 
 **Phê duyệt:** Người dùng duyệt căn giữa cặp “Chẳng cần như ai, chỉ cần như ý” / “Cùng con khám phá mọi ước mơ”, giữ kích thước, khoảng cách, thứ tự và nội dung; điện thoại vẫn một cột.
