@@ -33,6 +33,31 @@ Theo yêu cầu được cập nhật ngày 23.10.2026, mọi thay đổi tuân 
 
 ## 3. Nhật Ký Thay Đổi (Changelog)
 
+### [2026-10-28 — Movie trượt nguyên thẻ gồm poster và khung thông tin]
+
+**Phê duyệt:** Người dùng duyệt ghép poster, năm/thể loại và tên phim thành một thẻ chuyển động; hai thẻ bên mờ đồng bộ cả ảnh và thông tin. Giữ kích thước, nút trái/phải và tự chuyển mỗi 1,5 giây khi Movie hiện đủ trong vùng nhìn; sau đó yêu cầu tiếp tục hoàn tất cập nhật.
+
+**Thay đổi đã triển khai:**
+
+- Thay lớp sáu poster trang trí chạy riêng và một FilmCard đổi nội dung cố định bằng sáu thẻ có key ổn định. Mỗi thẻ chứa đúng poster, năm/thể loại và tên phim của nó; translate/scale/opacity áp dụng lên cả wrapper, không thay caption giữa các phim.
+- Giữ chuyển động transform 900ms, opacity 700ms, tự chuyển 1500ms và nút desktop ở 1/4–3/4 trang. Dùng grid chồng các thẻ có chiều cao tự nhiên để vùng carousel không nhảy giữa phim; không kéo giãn caption hoặc thêm footer trống trong thẻ. Giữ tỷ lệ poster và quy tắc phủ kín khung của Đợi gì, mơ đi / Trái tim quái vật.
+- Chỉ thẻ giữa được tương tác; thẻ bên dùng inert/aria-hidden và không nhận Tab/click. Bổ sung tùy chọn tương tác của FilmCard, mặc định giữ nguyên cho các mục khác. Khi chuyển bằng phím mũi tên từ thẻ đang focus, focus chuyển theo thẻ đến; modal đóng sẽ trả focus đúng.
+- Giữ điều kiện autoplay theo vùng poster cũ bằng marker không hiển thị; vẫn dừng khi focus, pause, mở modal, rời vùng nhìn, tab ẩn hoặc reduced-motion. Không đổi cài đặt Windows, nội dung, thứ tự, nguồn video, hai font, palette, thanh điều hướng hay các nhóm tác phẩm khác.
+- Cập nhật design-system. Checklist skill `ui-ux-pro-max` được áp dụng cho tính liên tục chuyển động, giữ DOM ổn định, tránh layout shift, focus và reduced-motion.
+
+**File liên quan:** `src/components/FilmmakingSection.tsx`, `src/index.css`, `design-system/filmmaker-portfolio/MASTER.md`.
+
+**Kiểm tra:**
+
+- Production build, lint, `git diff --check`: đạt; lint chỉ còn cảnh báo có sẵn ở `TimecodeHUD.tsx:13`. Build/deploy CI thành công.
+- Chrome local: 14 tổ hợp 320/375/768/1024/1440/1920/2560px × EN/VI, duyệt cả sáu phim: ảnh/caption chung khung, stage giữ chiều cao, đúng tỷ lệ và phủ poster, không tràn ngang, nút đủ 44px và đúng vị trí. Sáu thẻ/ảnh/caption giữ nguyên DOM; chỉ một thẻ tương tác, hàng xóm inert; tổng vẫn 36 tác phẩm.
+- Đo 65 frame lúc chuyển động: poster và caption gốc luôn sát nhau, không thay node hoặc tên phim tại chỗ; có vị trí nội suy giữa đầu/cuối. Chuyển ngược, vòng đầu/cuối, tám lần bấm nhanh, phím mũi tên, focus theo thẻ, mở/đóng modal và trả focus đều đạt.
+- Autoplay local đi hết vòng với khoảng cách đo được 1505–1513ms; chưa tự chạy khi chỉ thấy 20% poster, dừng/tiếp tục đúng khi pause/play, focus, modal, rời mục và đổi reduced-motion trực tiếp. Reduced-motion bỏ transition và autoplay nhưng nút trái/phải vẫn dùng được. Không có lỗi runtime.
+- Hồi quy 375/1440px × EN/VI: hai video cuối Short Film vẫn căn giữa, đúng nguồn phát; thanh điều hướng/điều khiển vẫn dịch chuyển 0px khi cuộn đổi chiều, kể cả wheel DPR 2x.
+- Đã xem ảnh desktop/mobile. Sau deploy, chạy lại trực tiếp tên miền thật ở 375/1440px × EN/VI: cả bốn tổ hợp, 65 frame nội suy, vòng lặp/bấm nhanh/keyboard/modal đều đạt. Autoplay trên web thật đo được 1505–1532ms; các kiểm tra dừng/tiếp tục và reduced-motion đều đạt, không có lỗi JavaScript.
+
+**GitHub và website:** Commit mã nguồn `01ef2cf564d94e5f342716823efa945c898e420d` — `Move Movie posters and captions together as persistent carousel cards`. Build/deploy thành công: https://github.com/Schizophren-ia/Portfolio/actions/runs/40686000489. Đã xác nhận bản mới tại https://xuongphimmuahe.com/ trước khi ghi báo cáo; đồng bộ tài liệu bằng commit riêng `[skip ci]`.
+
 ### [2026-10-24 — Sửa rung thanh điều hướng khi cuộn đổi chiều]
 
 **Phê duyệt:** Người dùng duyệt cố định chiều cao/vị trí thanh, bỏ hiệu ứng co giãn và cố định chiều rộng timecode; giữ Mist Blue, cỡ chữ và gạch chân mục đang xem.
