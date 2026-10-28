@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { ArrowUpRight, ChevronLeft, ChevronRight, Image as ImageIcon, Pause, Play, Sparkles } from 'lucide-react';
 import { useLanguage } from '../i18n/useLanguage';
 import type { FilmCategory, FilmItem } from '../data/types';
@@ -48,32 +48,33 @@ const FilmCard: React.FC<{
   onOpen: () => void;
   className?: string;
   posterPreview?: boolean;
-  renderThumbnail?: boolean;
-}> = ({ film, onOpen, className = '', posterPreview = false, renderThumbnail = true }) => {
+  interactive?: boolean;
+}> = ({ film, onOpen, className = '', posterPreview = false, interactive = true }) => {
   const { t } = useLanguage();
   return (
   <article
     data-film-id={film.id}
-    onClick={onOpen}
+    onClick={interactive ? onOpen : undefined}
     onKeyDown={(event) => {
+      if (!interactive) return;
       if (event.key === 'Enter' || event.key === ' ') {
         event.preventDefault();
         onOpen();
       }
     }}
-    role="button"
-    tabIndex={0}
-    aria-label={t('View {title}', { title: film.title })}
+    role={interactive ? 'button' : undefined}
+    tabIndex={interactive ? 0 : -1}
+    aria-label={interactive ? t('View {title}', { title: film.title }) : undefined}
     style={{ '--archive-aspect': posterPreview ? 2 / 3 : previewAspectRatio(film) } as React.CSSProperties}
     className={`archive-card group relative min-w-0 cursor-pointer overflow-hidden border border-deep-bronze/60 bg-[#112A46] shadow-xl transition-colors duration-300 hover:border-hive-delight/80 focus-visible:border-hive-delight motion-reduce:transition-none ${className}`}
   >
     <div className="archive-card-media relative overflow-hidden bg-black">
-      {renderThumbnail && <FilmThumbnail
+      <FilmThumbnail
         key={film.id}
         film={posterPreview ? { ...film, thumbnail: film.posterImage ?? film.thumbnail, thumbnailScale: undefined } : film}
         loading={posterPreview ? 'eager' : 'lazy'}
         className={`absolute inset-0 block h-full w-full ${posterPreview || film.mediaType === 'poster' ? 'object-contain' : 'object-cover'}`}
-      />}
+      />
       {!posterPreview && film.mediaType !== 'poster' && film.category !== 'ai-film' && <div className="absolute inset-0 bg-gradient-to-t from-noble-black via-noble-black/15 to-transparent" />}
       <span className="absolute left-2.5 top-2.5 border border-deep-bronze/80 bg-noble-black/90 px-2 py-1 font-mono text-[10px] text-hive-delight">
         {film.index}
@@ -108,7 +109,8 @@ const MovieCarousel: React.FC<{
 }> = ({ films, onOpen, isModalOpen }) => {
   const { t } = useLanguage();
   const carouselRef = useRef<HTMLDivElement>(null);
-  const postersRef = useRef<HTMLDivElement>(null);
+  const visibilityRef = useRef<HTMLDivElement>(null);
+  const focusAfterMoveRef = useRef(false);
   const [position, setPosition] = useState(0);
   const [paused, setPaused] = useState(false);
   const [focused, setFocused] = useState(false);
@@ -125,7 +127,7 @@ const MovieCarousel: React.FC<{
     const observer = new IntersectionObserver(([entry]) => {
       setVisible(entry.isIntersecting && entry.intersectionRatio >= 0.45);
     }, { threshold: [0, 0.45], rootMargin: '-80px 0px -5% 0px' });
-    if (postersRef.current) observer.observe(postersRef.current);
+    if (visibilityRef.current) observer.observe(visibilityRef.current);
     preference.addEventListener('change', updateMotion);
     document.addEventListener('visibilitychange', updateVisibility);
     return () => {
@@ -142,6 +144,12 @@ const MovieCarousel: React.FC<{
   }, [position, autoplayAllowed, films.length]);
 
   const current = films.length ? position % films.length : 0;
+  useLayoutEffect(() => {
+    if (!focusAfterMoveRef.current) return;
+    focusAfterMoveRef.current = false;
+    carouselRef.current?.querySelector<HTMLElement>('.movie-carousel-current .archive-card')?.focus({ preventScroll: true });
+  }, [current]);
+
   const film = films[current];
   if (!film) return null;
   const move = (step: number) => setPosition((index) => (index + step + films.length) % films.length);
@@ -161,44 +169,48 @@ const MovieCarousel: React.FC<{
         if (event.altKey || event.ctrlKey || event.metaKey) return;
         if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
           event.preventDefault();
+          // Keep keyboard focus with the incoming card when the old one becomes inert.
+          focusAfterMoveRef.current = event.target instanceof HTMLElement
+            && Boolean(event.target.closest('.movie-carousel-current .archive-card'));
           move(event.key === 'ArrowLeft' ? -1 : 1);
         }
       }}
     >
       <div className="movie-carousel-stage relative isolate overflow-hidden">
-        <div ref={postersRef} className="movie-carousel-posters" aria-hidden="true">
-          {films.map((poster, index) => {
-            let offset = (index - current + films.length) % films.length;
-            if (offset > films.length / 2) offset -= films.length;
-            return (
-              <div
-                key={poster.id}
-                data-poster-id={poster.id}
-                data-position={offset}
-                className="movie-carousel-poster"
-                style={{
-                  transform: `translate3d(${-50 + offset * 65}%, 0, 0) scale(${offset === 0 ? 1 : 0.82})`,
-                  opacity: offset === 0 ? 1 : Math.abs(offset) === 1 ? 0.35 : 0,
-                  zIndex: offset === 0 ? 3 : Math.abs(offset) === 1 ? 2 : 0,
-                }}
-              >
-                <FilmThumbnail
-                  film={{ ...poster, thumbnail: poster.posterImage ?? poster.thumbnail, thumbnailScale: undefined }}
-                  decorative
-                  className="block h-full w-full object-contain"
-                />
-              </div>
-            );
-          })}
-        </div>
-        <div id="movie-carousel-slide" className="movie-carousel-current relative z-20 mx-auto" role="group" aria-roledescription={t('slide')} aria-label={t('{current} of {total}: {title}', { current: current + 1, total: films.length, title: film.title })}>
-          <FilmCard
-            film={{ ...film, index: `${String(current + 1).padStart(2, '0')}/${String(films.length).padStart(2, '0')}` }}
-            onOpen={() => onOpen(film.archiveIndex)}
-            posterPreview
-            renderThumbnail={false}
-          />
-        </div>
+        {/* Nonvisual poster-sized viewport keeps the existing autoplay threshold. */}
+        <div ref={visibilityRef} className="movie-carousel-visibility" aria-hidden="true" />
+        {films.map((slide, index) => {
+          let offset = (index - current + films.length) % films.length;
+          if (offset > films.length / 2) offset -= films.length;
+          const isCurrent = offset === 0;
+          return (
+            <div
+              key={slide.id}
+              id={isCurrent ? 'movie-carousel-slide' : undefined}
+              data-poster-id={slide.id}
+              data-position={offset}
+              className={`movie-carousel-item${isCurrent ? ' movie-carousel-current' : ''}`}
+              role="group"
+              aria-roledescription={t('slide')}
+              aria-label={t('{current} of {total}: {title}', { current: index + 1, total: films.length, title: slide.title })}
+              inert={!isCurrent}
+              aria-hidden={!isCurrent}
+              style={{
+                transform: `translate3d(${offset * 65}%, 0, 0) scale(${isCurrent ? 1 : 0.82})`,
+                opacity: isCurrent ? 1 : Math.abs(offset) === 1 ? 0.35 : 0,
+                zIndex: isCurrent ? 3 : Math.abs(offset) === 1 ? 2 : 0,
+                pointerEvents: isCurrent ? 'auto' : 'none',
+              }}
+            >
+              <FilmCard
+                film={{ ...slide, index: `${String(index + 1).padStart(2, '0')}/${String(films.length).padStart(2, '0')}` }}
+                onOpen={() => onOpen(slide.archiveIndex)}
+                posterPreview
+                interactive={isCurrent}
+              />
+            </div>
+          );
+        })}
       </div>
       {films.length > 1 && (
         <div className="movie-carousel-controls pointer-events-none absolute left-1/2 top-0 z-30 aspect-[2/3] -translate-x-1/2">

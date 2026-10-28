@@ -208,6 +208,8 @@ Implementation: `.navigation-light` alone scopes legacy utility tokens to the li
 
 ## Motion
 
+**Unified Movie cards (approved 2026-10-28):** Each persistent keyed slide contains its own poster, year/genre and compact title caption inside one FilmCard. Apply translate/scale/opacity to the entire wrapper, never a separate poster layer plus a swapping fixed caption. Neighbors fade as complete cards; only the centered card is interactive/accessibility-exposed, and inactive wrappers are inert. Preserve 900ms transform/700ms opacity transitions, 1500ms viewport-gated autoplay, quarter-page desktop arrows, focus/modal/offscreen pauses and reduced-motion behavior. Overlap natural-height cards in a grid to keep the stage stable without adding empty space inside captions. Keep keyboard focus on the incoming card after arrow-key navigation. Use a nonvisual poster-sized viewport marker for the existing autoplay visibility threshold.
+
 **Scroll/navigation performance (approved 2026-10-24):** Use one Lenis interpolation loop synchronized with GSAP; no competing CSS smooth scrolling. Keep native touch momentum and honor live reduced-motion preferences. Header/hero anchor actions use the shared scroll controller. Determine the current section from cached section starts and a reading line below the actual fixed-header height, independent of section length. Re-measure on section/header resize (including EN/VI reflow); use one scheduled animation frame for scroll updates. Update progress with `scaleX`, timecode directly at no more than 24Hz, and React state only when the selected section/menu state changes. Do not rerender the archive on each scroll event.
 
 **Stagger List** (Standard) — Trigger: load or scroll | Duration: 300-450ms | Easing: `back.out(1.4)`

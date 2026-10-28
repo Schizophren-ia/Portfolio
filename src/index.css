@@ -453,18 +453,18 @@ a,
   justify-content: center;
 }
 
-/* One central poster with two decorative, softened neighboring posters. */
+/* One complete film card moves as a unit, with two softened neighboring cards. */
 .movie-carousel {
   --movie-card-width: min(26rem, 72%);
 }
 
-.movie-carousel-current,
-.movie-carousel-posters,
+.movie-carousel-item,
+.movie-carousel-visibility,
 .movie-carousel-controls {
   width: var(--movie-card-width);
 }
 
-.movie-carousel-posters {
+.movie-carousel-visibility {
   pointer-events: none;
   position: absolute;
   top: 0;
@@ -473,32 +473,30 @@ a,
   transform: translateX(-50%);
 }
 
-/* Stable image nodes glide between slots instead of being replaced each cycle. */
-.movie-carousel-poster {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  width: 100%;
-  height: 100%;
-  border: 1px solid var(--color-deep-bronze);
-  background: #000;
+/* Overlapping grid items reserve the tallest natural card without stretching captions. */
+.movie-carousel-stage {
+  display: grid;
+  align-items: start;
+}
+
+/* Persistent wrappers keep poster, metadata and title on the same transform/opacity. */
+.movie-carousel-item {
+  position: relative;
+  grid-area: 1 / 1;
+  justify-self: center;
+  min-width: 0;
   will-change: transform, opacity;
   transition: transform 900ms cubic-bezier(0.22, 0.61, 0.36, 1), opacity 700ms ease;
 }
 
-.movie-carousel-current .archive-card,
-.movie-carousel-current .archive-card-media {
-  background: transparent;
-}
-
-.movie-carousel-current .archive-card > div:last-child {
+.movie-carousel-item .archive-caption {
   background: #112A46;
 }
 
 /* Fill the fixed poster frames without letterboxing or stretching the artwork. */
 .archive-short-film-posters [data-film-id="vu-dieu-tinh-yeu"] .archive-card-media img,
-.movie-carousel-poster[data-poster-id="doi-gi-mo-di"] img,
-.movie-carousel-poster[data-poster-id="trai-tim-quai-vat"] img {
+.movie-carousel-item[data-poster-id="doi-gi-mo-di"] img,
+.movie-carousel-item[data-poster-id="trai-tim-quai-vat"] img {
   object-fit: cover;
   object-position: center;
 }
@@ -527,7 +525,7 @@ a,
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .movie-carousel-poster {
+  .movie-carousel-item {
     transition: none;
     will-change: auto;
   }
